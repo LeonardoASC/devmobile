@@ -6,6 +6,7 @@ import { Inbox } from "../pages/inbox";
 import { Profile } from "../pages/profile";
 import { Servico } from "../pages/servico";
 import { SubServico } from "../pages/subservico";
+import { Agendado } from "../pages/agendado";
 
 const Stack = createStackNavigator();
 
@@ -26,6 +27,7 @@ export function Routes() {
       <Stack.Screen name="Profile" component={Profile} />
       <Stack.Screen name="Servico" component={Servico} />
       <Stack.Screen name="SubServico" component={SubServico} />
+      <Stack.Screen name="Agendado" component={Agendado} />
     </Stack.Navigator>
   );
 }

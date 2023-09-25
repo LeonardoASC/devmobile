@@ -21,7 +21,7 @@ export function Servico({ navigation }) {
       },
       {
         text: "Confirmar",
-        onPress: () => navigation.navigate("SubServico", { serviceId: selectedItemId }),
+        onPress: () => navigation.navigate("SubServico", { serviceId: selectedItemId, serviceName: servico  }),
       },
     ]);
   };

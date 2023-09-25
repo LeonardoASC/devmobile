@@ -8,27 +8,12 @@ import {
 } from "react-native";
 import React, { Component, useState } from "react";
 
-// export function SubServico({ navigation }) {
-//     const subServices = [
-//         { id: "1.1", serviceId: "1", name: "Corte Rápido" },
-//         { id: "1.2", serviceId: "1", name: "Corte Detalhado" },
-//         { id: "2.1", serviceId: "2", name: "Barba Simples" },
-//         { id: "2.2", serviceId: "2", name: "Barba Completa" },
-//         // ... outros sub-serviços
-//     ];
-//     return (
-//         <SafeAreaView>
-//             <View >
-//                 <Text>Profile</Text>
-//             </View>
-//         </SafeAreaView>
-//     )
-// }
 
-export function SubServico({ route }) {
+export function SubServico({ route, navigation }) {
     // Obtenha o serviceId do parâmetro da rota
     const { serviceId } = route.params;
-
+    const serviceName = route.params?.serviceName;
+    
     const subServices = [
                 { id: "1.1", serviceId: "1", name: "Corte Rápido" },
                 { id: "1.2", serviceId: "1", name: "Corte Detalhado" },
@@ -74,9 +59,9 @@ export function SubServico({ route }) {
         <View className="w-full items-center justify-center">
           <TouchableOpacity
             className="bg-white rounded p-3 shadow-md"
-            onPress={() => { /* Aqui você pode navegar para a próxima etapa ou salvar a escolha */ }}
+            onPress={() => navigation.navigate('Agendado', { serviceName: serviceName, subServiceName: selectedSubService })}
           >
-            <Text className="text-cyan-500 font-bold text-lg">Confirmar sub-serviço</Text>
+            <Text className="text-cyan-500 font-bold text-lg">AGENDAR</Text>
           </TouchableOpacity>
         </View>
       </SafeAreaView>
