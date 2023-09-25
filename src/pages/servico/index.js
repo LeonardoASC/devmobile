@@ -21,52 +21,46 @@ export function Servico({ navigation }) {
       },
       {
         text: "Confirmar",
-        onPress: () => navigation.navigate("SubServico"),
+        onPress: () => navigation.navigate("SubServico", { serviceId: selectedItemId }),
       },
     ]);
   };
 
   const services = [
-    { id: "1", name: "Corte de Cabelo", price: "R$ 50,00" },
-    { id: "2", name: "Barba", price: "R$ 30,00" },
-    { id: "3", name: "Barba", price: "R$ 30,00" },
-    { id: "4", name: "Barba", price: "R$ 30,00" },
-    { id: "5", name: "Barba", price: "R$ 30,00" },
-    { id: "6", name: "Barba", price: "R$ 30,00" },
-    { id: "7", name: "Barba", price: "R$ 30,00" },
-    { id: "8", name: "Barba", price: "R$ 30,00" },
-    { id: "9", name: "Barba", price: "R$ 30,00" },
-    { id: "10", name: "Barba", price: "R$ 30,00" },
-    { id: "11", name: "Barba", price: "R$ 30,00" },
-    { id: "12", name: "Barba", price: "R$ 30,00" },
-    { id: "13", name: "Barba", price: "R$ 30,00" },
-    { id: "14", name: "Barba", price: "R$ 30,00" },
-    // ... outros serviços
+    { id: "1", name: "Corte Masculino" },
+    { id: "2", name: "Corte Barba" },
+    { id: "3", name: "Tintura em cabelo" },
+    { id: "4", name: "Limpeza de pele" },
+
   ];
 
   const ServiceItem = ({ item }) => (
     <TouchableOpacity
-      
+
     >
       <Text
-      onPress={() => {
-        setServico(item.name);
-        setSelectedItemId(item.id);
-      }}
+        onPress={() => {
+          setServico(item.name);
+          setSelectedItemId(item.id);
+        }}
         className={
           item.id === selectedItemId
-            ? "text-white bg-black justify-center items-center border rounded-xl p-2 border-white my-3 "
-            : "text-white bg-cyan-300 justify-center items-center border rounded-xl p-2 border-white my-3"
+            ? "text-cyan-500 bg-white justify-center items-center text-center border rounded p-2 border-white my-3 "
+            : "text-cyan-500 bg-gray-200 justify-center items-center text-center border rounded p-2 border-gray-200 my-3"
         }
       >
-        {item.name}: {item.price}
+        {item.name}
       </Text>
     </TouchableOpacity>
   );
 
   return (
-    <SafeAreaView className="flex-1 border rounded-full mt-2">
-      <View className="p-5 flex justify-center items-center border h-5/6 border-rose-500 w-full mt-10">
+    <SafeAreaView className="flex-1">
+      <View className="bg-white h-1/4 rounded-bl-full justify-center  items-center">
+        <Text className="text-cyan-600 text-xl font-bold text-center">Falta pouco para terminar seu agendamento</Text>
+      </View>
+      <View className="p-5 flex justify-center items-center h-2/4 w-full mt-10 rounded-tr-xl ">
+        <Text className="text-white">Escolha qual serviço esta Procurando</Text>
         <FlatList
           data={services}
           renderItem={({ item }) => <ServiceItem item={item} />}
@@ -74,8 +68,15 @@ export function Servico({ navigation }) {
           showsVerticalScrollIndicator={false}
         />
       </View>
-      <View className="w-full items-center justify-center mt-2">
-        <Button title="Escolher o serviço" onPress={handleSubmit} />
+      <View className="w-full items-center justify-center">
+
+        <TouchableOpacity
+          className="bg-white rounded p-3 shadow-md"
+          onPress={handleSubmit}
+        >
+          <Text className="text-cyan-500 font-bold text-lg">Escolher o serviço</Text>
+        </TouchableOpacity>
+
       </View>
     </SafeAreaView>
   );

@@ -1,4 +1,4 @@
-import { View, Text, TextInput, Button, Alert } from "react-native";
+import { View, Text, TextInput, Button, Alert, TouchableOpacity } from "react-native";
 import React, { Component, useState } from "react";
 import SvgComponent from "../../svg/circulo";
 
@@ -51,9 +51,12 @@ export function FirstData({ navigation }) {
         onChangeText={setTime}
         className={"py-2 px-4 border border-gray-300 mb-2 rounded w-full"}
       />
-      <Button className={"p-2 mt-2"} title="Confirmar os dados" onPress={handleSubmit} 
-      
-      />
+      <TouchableOpacity
+          className="bg-white rounded p-3 shadow-md"
+          onPress={handleSubmit}
+        >
+          <Text className="text-cyan-500 font-bold text-lg">Confirmar dados</Text>
+        </TouchableOpacity>
     </View>
   );
 }
