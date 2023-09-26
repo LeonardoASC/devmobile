@@ -9,11 +9,20 @@ import {
 } from "react-native";
 import React, { Component, useState } from "react";
 
-export function Servico({ navigation }) {
+export function Servico({route, navigation }) {
   const [servico, setServico] = useState("");
   const [selectedItemId, setSelectedItemId] = useState(null);
+  
+  const nameProp = route.params?.nameProp;
+  const dateProp = route.params?.dateProp;
+  const timeProp = route.params?.timeProp;
 
   const handleSubmit = () => {
+    if (servico.trim() === '') {
+      Alert.alert('Erro', 'Por favor, informe o serviço desejado.');
+      return;
+    }
+
     Alert.alert("Dados inseridos", `Servico: ${servico}`, [
       {
         text: "Cancelar",
@@ -21,7 +30,14 @@ export function Servico({ navigation }) {
       },
       {
         text: "Confirmar",
-        onPress: () => navigation.navigate("SubServico", { serviceId: selectedItemId, serviceName: servico  }),
+        onPress: () => navigation.navigate("SubServico",
+          {
+            nameProp: nameProp,
+            dateProp: dateProp,
+            timeProp: timeProp,
+            serviceId: selectedItemId,
+            serviceName: servico
+          }),
       },
     ]);
   };
