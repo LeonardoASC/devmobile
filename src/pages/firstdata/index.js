@@ -51,20 +51,20 @@ export function FirstData({ route, navigation }) {
         placeholder="Nome"
         value={name}
         onChangeText={setName}
-        className="py-2 px-4 border border-gray-300 mb-2 rounded w-full text-white"
+        className="py-2 px-4 border border-white mb-2 rounded w-full text-white"
       />
 
       <TextInput
         placeholder="Dia (ex: 23/09/2023)"
         value={date}
         onChangeText={setDate}
-        className={"py-2 px-4 border border-gray-300 mb-2 rounded w-full text-white"}
+        className={"py-2 px-4 border border-white mb-2 rounded w-full text-white"}
       />
       <TextInput
         placeholder="Hora (ex: 15:30)"
         value={time}
         onChangeText={setTime}
-        className={"py-2 px-4 border border-gray-300 mb-2 rounded w-full text-white"}
+        className={"py-2 px-4 border border-white mb-2 rounded w-full text-white"}
       />
       <TouchableOpacity
         className="bg-white rounded p-3 shadow-md"
