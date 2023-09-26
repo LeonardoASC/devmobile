@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, Text, SafeAreaView, TouchableOpacity } from 'react-native';
+import axios from 'axios';
 
 export function Agendado({ route, navigation }) {
   const name = route.params?.nameProp;
@@ -7,6 +8,28 @@ export function Agendado({ route, navigation }) {
   const date = route.params?.dateProp;
   const serviceName = route.params?.serviceName;
   const subServiceName = route.params?.subServiceName;
+
+  const sendData = () => {
+    const dataToSend = {
+      name: name,
+      time: time,
+      date: date,
+      serviceName: serviceName,
+      subServiceName: subServiceName
+    };
+    console.log(dataToSend)
+
+    axios.post('http://localhost:8000/api/agendamento', dataToSend)
+      .then(response => {
+        console.log("Dados enviados com sucesso:", response.data);
+        // Aqui, você pode adicionar lógica adicional após o sucesso. Ex: Mostrar uma mensagem para o usuário.
+        navigation.navigate('Home');
+      })
+      .catch(error => {
+        console.error("Erro ao enviar dados:", error);
+        // Aqui, você pode adicionar lógica para lidar com o erro. Ex: Mostrar uma mensagem de erro para o usuário.
+      });
+  }
 
   return (
 
@@ -27,7 +50,7 @@ export function Agendado({ route, navigation }) {
       <View className="w-full items-center justify-center">
         <TouchableOpacity
           className="bg-white rounded p-3 shadow-md"
-          onPress={() => navigation.navigate('Home')}
+          onPress={sendData}
         >
           <Text className="text-cyan-500 font-bold text-lg">AGENDAR</Text>
         </TouchableOpacity>
