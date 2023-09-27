@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
-import { SafeAreaView, View, Text, TextInput, TouchableOpacity } from 'react-native';
+import { SafeAreaView, View, Text, TextInput, TouchableOpacity, Alert } from 'react-native';
+import axios from 'axios';
+
+
 
 export function Register({ route, navigation }) {
     const [username, setUsername] = useState('');
@@ -8,12 +11,49 @@ export function Register({ route, navigation }) {
     const [confirmPassword, setConfirmPassword] = useState('');
 
     const handleRegister = () => {
-        // Sua lógica de registro aqui
-        if (password !== confirmPassword) {
-            // Mostrar algum erro de que as senhas não são iguais
+        // 1. Verificar se os campos não estão vazios
+        if (!username.trim() || !email.trim() || !password.trim() || !confirmPassword.trim()) {
+            alert('Por favor, preencha todos os campos!');
+            return;
         }
-        // Continuar o processo de registro
+
+        // 2. Verificar se o email tem um formato válido
+        const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
+        if (!emailRegex.test(email)) {
+            alert('Por favor, insira um email válido!');
+            return;
+        }
+
+        // 3. Verificar se a senha e a senha de confirmação são iguais
+        if (password !== confirmPassword) {
+            alert('As senhas não coincidem!');
+            return;
+        }
+
+
+        // 4. Enviar os dados para o servidor utilizando Axios:
+        axios.post('http://10.55.0.101:8000/api/register', {
+            name: username,
+            email: email,
+            password: password
+        })
+            .then(response => {
+                if (response.data) {
+                    // alert('Você foi cadastrado!'+' Hora de agendar seu próximo corte e ficar no estilo.');
+                    Alert.alert("Você foi cadastrado!", "Hora de agendar seu próximo corte e ficar no estilo.");
+                    navigation.navigate('Home');
+                } else {
+                    alert('Erro ao registrar! ' + (response.data.message || ''));
+                }
+            })
+            .catch(error => {
+                console.error("Erro na requisição:", error);
+                alert('Ocorreu um erro. Tente novamente mais tarde.');
+            });
+
     };
+
+
 
     return (
         <SafeAreaView className="flex-1">

@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, SafeAreaView, TouchableOpacity } from 'react-native';
+import { View, Text, SafeAreaView, TouchableOpacity, Alert } from 'react-native';
 import axios from 'axios';
 
 export function Agendado({ route, navigation }) {
@@ -10,25 +10,37 @@ export function Agendado({ route, navigation }) {
   const subServiceName = route.params?.subServiceName;
 
   const sendData = () => {
-    const dataToSend = {
-      name: name,
-      time: time,
-      date: date,
-      serviceName: serviceName,
-      subServiceName: subServiceName
-    };
-    console.log(dataToSend)
 
-    axios.post('http://localhost:8000/api/agendamento', dataToSend)
+    axios.post('http://10.55.0.101:8000/api/agendamento', {
+      nome: name,
+      dia: date,
+      horario: time,
+      tipo_servico: serviceName,
+      servico_especifico: subServiceName
+    })
+      // .then(response => {
+      //   console.log("Dados enviados com sucesso:", response.data);
+      //   // Aqui, você pode adicionar lógica adicional após o sucesso. Ex: Mostrar uma mensagem para o usuário.
+      //   navigation.navigate('Home');
+      // })
+      // .catch(error => {
+      //   console.error("Erro ao enviar dados:", error);
+      //   // Aqui, você pode adicionar lógica para lidar com o erro. Ex: Mostrar uma mensagem de erro para o usuário.
+      // });
       .then(response => {
-        console.log("Dados enviados com sucesso:", response.data);
-        // Aqui, você pode adicionar lógica adicional após o sucesso. Ex: Mostrar uma mensagem para o usuário.
-        navigation.navigate('Home');
+        console.log(response.data.success)
+        if (response.data.success) {
+          Alert.alert("Reserva Realizada!", "Ficamos felizes com seu agendamento! Aguardamos voce.");
+          navigation.navigate('Home');
+        } else {
+          alert('Erro ao registrar! ' + (response.data.message || ''));
+        }
       })
       .catch(error => {
         console.error("Erro ao enviar dados:", error);
         // Aqui, você pode adicionar lógica para lidar com o erro. Ex: Mostrar uma mensagem de erro para o usuário.
       });
+
   }
 
   return (
