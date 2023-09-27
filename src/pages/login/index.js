@@ -6,7 +6,7 @@ export function Login({ route, navigation }) {
   const [password, setPassword] = useState('');
 
   const handleLogin = () => {
-    // Sua lógica de login aqui
+    {() => navigation.navigate("HomePrivate")}
   };
 
   return (
@@ -43,7 +43,8 @@ export function Login({ route, navigation }) {
       <View className="w-full items-center justify-center">
         <TouchableOpacity
           className="bg-white rounded p-3 shadow-md"
-          onPress={handleLogin}
+          // onPress={handleLogin}
+          onPress={() => navigation.navigate("HomePrivate")}
         >
           <Text className="text-cyan-500 font-bold text-lg">Entrar</Text>
         </TouchableOpacity>
