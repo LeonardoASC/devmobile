@@ -6,6 +6,7 @@ import { Ionicons, EvilIcons } from '@expo/vector-icons';
 import SvgComponent from "../../svg/google";
 import SvgComponentX from "../../svg/x";
 import SvgComponentFace from "../../svg/facebook";
+import { Pressable } from 'react-native';
 
 export function Login({ route, navigation }) {
   const [email, setEmail] = useState('');
@@ -194,7 +195,13 @@ export function Login({ route, navigation }) {
             <SvgComponentFace />
           </View>
         </View>
-        <Text className="text-center text-slate-200 mt-5">Novo no aplicativo? Registre</Text>
+        <View className=" flex flex-row justify-center mt-8">
+          <Text className="text-slate-200">Novo no aplicativo? </Text>
+          <Pressable onPress={() => navigation.navigate('Register')}>
+            <Text className="text-slate-200 underline ml-2">Registre</Text>
+          </Pressable>
+        </View>
+
       </View>
     </SafeAreaView>
 

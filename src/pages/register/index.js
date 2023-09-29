@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { SafeAreaView, View, Text, TextInput, TouchableOpacity, Alert } from 'react-native';
 import axios from 'axios';
-
+import { Ionicons, EvilIcons } from '@expo/vector-icons';
+import { Pressable } from 'react-native';
 
 
 export function Register({ route, navigation }) {
@@ -56,60 +57,77 @@ export function Register({ route, navigation }) {
 
 
     return (
+      
         <SafeAreaView className="flex-1">
-            <View className="bg-white h-1/4 rounded-bl-full justify-center items-center">
+            <View className="bg-white flex h-1/4 justify-center items-center rounded-bl-full">
                 <Text className="text-cyan-600 text-xl font-bold text-center">
                     Bem-vindo ao Registro
                 </Text>
             </View>
 
-            <View className="p-5 flex justify-center items-center h-2/4 w-full mt-10 rounded-tr-xl">
-                <Text className="text-white">Por favor, insira suas informações</Text>
+            <View className="flex-1 p-5 mt-2">
+                <Text className="text-white text-3xl font-extrabold self-center">Registrar...</Text>
+                <Text className="text-white text-center mt-4">Por favor, insira suas informações.</Text>
 
                 <View className="mt-5 w-full">
-                    <Text className="text-white mb-2">Nome de usuário:</Text>
-                    <TextInput
-                        value={username}
-                        onChangeText={setUsername}
-                        placeholder="Nome de usuário"
-                        className="bg-white p-2 rounded mb-4"
-                    />
-                    <Text className="text-white mb-2">Email:</Text>
-                    <TextInput
-                        value={email}
-                        onChangeText={setEmail}
-                        placeholder="Email"
-                        className="bg-white p-2 rounded mb-4"
-                    />
+                    <View className="flex-row items-center bg-[#06b6d4] p-2 rounded mb-4 border-b border-zinc-300">
+                        <Ionicons name="person-add-outline" size={20} color="white" />
+                        <TextInput
+                            value={username}
+                            onChangeText={setUsername}
+                            placeholder="Nome de usuário"
+                            className="flex-1 ml-2 text-white"
+                        />
+                    </View>
 
-                    <Text className="text-white mb-2">Senha:</Text>
-                    <TextInput
-                        value={password}
-                        onChangeText={setPassword}
-                        placeholder="Senha"
-                        secureTextEntry={true}
-                        className="bg-white p-2 rounded mb-4"
-                    />
+                    <View className="flex-row items-center bg-[#06b6d4] p-2 rounded mb-4 border-b border-zinc-300">
+                        <Ionicons name="at" size={19} color="white" />
+                        <TextInput
+                            value={email}
+                            onChangeText={setEmail}
+                            placeholder="Email"
+                            className="flex-1 ml-2 text-white"
+                        />
+                    </View>
 
-                    <Text className="text-white mb-2">Confirme a Senha:</Text>
-                    <TextInput
-                        value={confirmPassword}
-                        onChangeText={setConfirmPassword}
-                        placeholder="Confirme a Senha"
-                        secureTextEntry={true}
-                        className="bg-white p-2 rounded mb-4"
-                    />
+                    <View className="flex-row items-center bg-[#06b6d4] py-2 px-1 rounded mb-4 border-b border-zinc-300">
+                        <EvilIcons name="lock" size={26} color="white" />
+                        <TextInput
+                            value={password}
+                            onChangeText={setPassword}
+                            placeholder="Senha"
+                            secureTextEntry={true}
+                            className="flex-1 ml-2 text-white"
+                        />
+                    </View>
+
+                    <View className="flex-row items-center bg-[#06b6d4] py-2 px-1 rounded mb-4 border-b border-zinc-300">
+                        <EvilIcons name="lock" size={26} color="white" />
+                        <TextInput
+                            value={confirmPassword}
+                            onChangeText={setConfirmPassword}
+                            placeholder="Confirme a Senha"
+                            secureTextEntry={true}
+                            className="flex-1 ml-2 text-white"
+                        />
+                    </View>
                 </View>
-            </View>
 
-            <View className="w-full items-center justify-center">
                 <TouchableOpacity
-                    className="bg-white rounded p-3 shadow-md"
+                    className="bg-white w-11/12 rounded-xl p-3 shadow-md py-4 self-center mt-5"
                     onPress={handleRegister}
                 >
-                    <Text className="text-cyan-500 font-bold text-lg">Registrar</Text>
+                    <Text className="text-cyan-500 text-center font-bold text-lg">Registrar</Text>
                 </TouchableOpacity>
+
+                <View className=" flex flex-row justify-center mt-8">
+                    <Text className="text-slate-200">Já tem uma conta?</Text>
+                    <Pressable onPress={() => navigation.navigate('Login')}>
+                        <Text className="text-slate-200 underline ml-2">Entrar</Text>
+                    </Pressable>
+                </View>
             </View>
         </SafeAreaView>
+
     );
 }
