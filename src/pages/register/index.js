@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { SafeAreaView, View, Text, TextInput, TouchableOpacity, Alert } from 'react-native';
-import axios from 'axios';
+import api from "../../services/api"
 import { Ionicons, EvilIcons } from '@expo/vector-icons';
 import { Pressable } from 'react-native';
 
@@ -33,7 +33,7 @@ export function Register({ route, navigation }) {
 
 
         // 4. Enviar os dados para o servidor utilizando Axios:
-        axios.post('http://10.55.0.101:8000/api/register', {
+        api.post('/register', {
             name: username,
             email: email,
             password: password

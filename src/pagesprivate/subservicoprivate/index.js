@@ -62,7 +62,7 @@ export function SubServicoPrivate({ route, navigation }) {
       <View className="w-full items-center justify-center">
         <TouchableOpacity
           className="bg-white rounded p-3 shadow-md"
-          onPress={() => navigation.navigate('Agendado',
+          onPress={() => navigation.navigate('AgendadoPrivate',
             {
               nameProp: nameProp,
               dateProp: dateProp,

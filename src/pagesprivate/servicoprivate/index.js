@@ -26,11 +26,11 @@ export function ServicoPrivate({route, navigation }) {
     Alert.alert("Dados inseridos", `Servico: ${servico}`, [
       {
         text: "Cancelar",
-        onPress: () => navigation.navigate("Servico"),
+        onPress: () => navigation.navigate("ServicoPrivate"),
       },
       {
         text: "Confirmar",
-        onPress: () => navigation.navigate("SubServico",
+        onPress: () => navigation.navigate("SubServicoPrivate",
           {
             nameProp: nameProp,
             dateProp: dateProp,

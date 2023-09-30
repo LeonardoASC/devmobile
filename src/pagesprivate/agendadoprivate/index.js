@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, SafeAreaView, TouchableOpacity, Alert } from 'react-native';
-import axios from 'axios';
+import api from '../../services/api'
 
 export function AgendadoPrivate({ route, navigation }) {
   const name = route.params?.nameProp;
@@ -11,7 +11,7 @@ export function AgendadoPrivate({ route, navigation }) {
 
   const sendData = () => {
 
-    axios.post('http://10.55.0.101:8000/api/agendamento', {
+    api.post('/agendamento', {
       nome: name,
       dia: date,
       horario: time,
@@ -31,7 +31,7 @@ export function AgendadoPrivate({ route, navigation }) {
         console.log(response.data.success)
         if (response.data.success) {
           Alert.alert("Reserva Realizada!", "Ficamos felizes com seu agendamento! Aguardamos voce.");
-          navigation.navigate('Home');
+          navigation.navigate('HomePrivate');
         } else {
           alert('Erro ao registrar! ' + (response.data.message || ''));
         }

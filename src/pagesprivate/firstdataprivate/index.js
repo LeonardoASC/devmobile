@@ -28,11 +28,11 @@ export function FirstDataPrivate({ route, navigation }) {
       [
         {
           text: 'Cancelar',
-          onPress: () => navigation.navigate('FirstData')
+          onPress: () => navigation.navigate('FirstDataPrivate')
         },
         {
           text: 'Confirmar',
-          onPress: () => navigation.navigate('Servico',{nameProp:name, dateProp:date, timeProp:time})
+          onPress: () => navigation.navigate('ServicoPrivate',{nameProp:name, dateProp:date, timeProp:time})
         }
 
       ]
