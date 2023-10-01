@@ -52,24 +52,6 @@ export const AuthProvider = ({ children }) => {
 
     }
 
-    // const isLoggedIn = async () => {
-    //     try {
-    //         setIsLoading(true)
-
-    //         let userInfo = await AsyncStorage.getItem('userInfo');
-    //         let userToken = await AsyncStorage.getItem('userToken');
-    //         userInfo = JSON.parse(userInfo)
-
-    //         if (userInfo) {
-    //             setUserToken(userToken)
-    //             setUserToken(userInfo)
-    //         }
-    //         setUserToken(userToken)
-    //         setIsLoading(false)
-    //     } catch (e) {
-    //         console.log(`error ${e}`);
-    //     }
-    // }
 
     const isLoggedIn = async () => {
         try {
@@ -80,7 +62,7 @@ export const AuthProvider = ({ children }) => {
             
             if (userInfo) {
                 userInfo = JSON.parse(userInfo);
-                setUserInfo(userInfo);  // Supondo que você tenha uma função chamada 'setUserInfo' para definir as informações do usuário.
+                setUserInfo(userInfo); 
             }
             
             if (userToken) {
