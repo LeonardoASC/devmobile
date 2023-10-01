@@ -9,7 +9,10 @@ export function FirstData({ route, navigation }) {
   const [date, setDate] = useState("");
   const [time, setTime] = useState("");
 
-  const handleSubmit = () => {
+  
+
+  const handleSubmit = async () => {
+    
     const fields = {
       nome: name.trim(),
       data: date.trim(),
@@ -23,12 +26,7 @@ export function FirstData({ route, navigation }) {
       Alert.alert('Erro', errorMessage);
       return;
     }
-    verifyExistingAppointment();
     
-
-  };
-
-  const verifyExistingAppointment = async () => {
     try {
       const response = await api.get('/verify', {
         params: {
@@ -42,7 +40,7 @@ export function FirstData({ route, navigation }) {
       } else {
         
         Alert.alert(
-          "Dados inseridos",
+          "Confirmar dados inseridos",
           `Nome: ${name}, Dia: ${date}, Hora: ${time}`,
           [
             {
