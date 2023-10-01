@@ -1,7 +1,8 @@
-import { View, Text, TextInput, Button, Alert, TouchableOpacity } from "react-native";
+import { View, Text, TextInput, Button, Alert, TouchableOpacity, SafeAreaView } from "react-native";
 import React, { Component, useState } from "react";
 import SvgComponent from "../../svg/circulo";
 import { Ionicons, EvilIcons } from '@expo/vector-icons';
+import api from "../../services/api";
 
 export function FirstData({ route, navigation }) {
   const [name, setName] = useState("");
@@ -22,60 +23,53 @@ export function FirstData({ route, navigation }) {
       Alert.alert('Erro', errorMessage);
       return;
     }
+    verifyExistingAppointment();
+    
 
-    Alert.alert(
-      "Dados inseridos",
-      `Nome: ${name}, Dia: ${date}, Hora: ${time}`,
-      [
-        {
-          text: 'Cancelar',
-          onPress: () => navigation.navigate('FirstData')
-        },
-        {
-          text: 'Confirmar',
-          onPress: () => navigation.navigate('Servico', { nameProp: name, dateProp: date, timeProp: time })
+  };
+
+  const verifyExistingAppointment = async () => {
+    try {
+      const response = await api.get('/verify', {
+        params: {
+          dia: date.trim(),
+          horario: time.trim(),
         }
+      });
 
-      ]
-
-    );
+      if (response.data && response.data.exists) {
+        Alert.alert('Erro', 'Já existe um agendamento para esse dia e horário.');
+      } else {
+        
+        Alert.alert(
+          "Dados inseridos",
+          `Nome: ${name}, Dia: ${date}, Hora: ${time}`,
+          [
+            {
+              text: 'Cancelar',
+              onPress: () => navigation.navigate('FirstData')
+            },
+            {
+              text: 'Confirmar',
+              onPress: () => navigation.navigate('Servico', { nameProp: name, dateProp: date, timeProp: time })
+            }
+    
+          ]
+    
+        );
+      }
+    } catch (error) {
+      Alert.alert('Erro', 'Ocorreu um erro ao verificar o agendamento. Tente novamente.');
+    }
   };
 
   return (
-    // <View className={"p-5 items-center bg-cyan-500 h-screen w-full"}>
-    //   <SvgComponent />
-    //   <Text className="text-white text-center ">Agendamento</Text>
-    //   <Text className="text-white text-center">
-    //     Informe seus dados para agendar um horario
-    //   </Text>
-    //   <TextInput
-    //     placeholder="Nome"
-    //     value={name}
-    //     onChangeText={setName}
-    //     className="py-2 px-4 border border-white mb-2 rounded w-full text-white"
-    //   />
-
-    //   <TextInput
-    //     placeholder="Dia (ex: 23/09/2023)"
-    //     value={date}
-    //     onChangeText={setDate}
-    //     className={"py-2 px-4 border border-white mb-2 rounded w-full text-white"}
-    //   />
-    //   <TextInput
-    //     placeholder="Hora (ex: 15:30)"
-    //     value={time}
-    //     onChangeText={setTime}
-    //     className={"py-2 px-4 border border-white mb-2 rounded w-full text-white"}
-    //   />
-    //   <TouchableOpacity
-    //     className="bg-white rounded p-3 shadow-md"
-    //     onPress={handleSubmit}
-    //   >
-    //     <Text className="text-cyan-500 font-bold text-lg">Confirmar dados</Text>
-    //   </TouchableOpacity>
-    // </View>
-    <View className="p-5 items-center bg-cyan-500 h-screen w-full">
+    <SafeAreaView className="flex-1 flex">
+      <View className=" flex items-center">
       <SvgComponent />
+      </View>
+    <View className=" flex p-5 items-center bg-cyan-500 h-screen w-full">
+      
       <Text className="text-white text-center text-3xl font-extrabold">Agendamento</Text>
       <Text className="text-white text-center mt-4">Informe seus dados para agendar um horario</Text>
 
@@ -116,5 +110,6 @@ export function FirstData({ route, navigation }) {
         <Text className="text-cyan-500 text-center font-bold text-lg">Confirmar dados</Text>
       </TouchableOpacity>
     </View>
+    </SafeAreaView>
   );
 }
