@@ -12,7 +12,7 @@ const Stack = createStackNavigator();
 export function Private() {
   return (
     <Stack.Navigator
-    initialRouteName="Home"
+    initialRouteName="HomePrivate"
       screenOptions={{
         cardStyle: {
           backgroundColor: "#06b6d4",

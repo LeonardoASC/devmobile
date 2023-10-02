@@ -20,7 +20,7 @@ export const AuthProvider = ({ children }) => {
             password
         })
             .then(res => {
-                 console.log("Resposta da API:", res);
+                //  console.log("Resposta da API:", res);
                 let userInfo = res.data.userInfo
                 setUserToken(res.data.access_token)
                 AsyncStorage.setItem('userToken', res.data.access_token)
@@ -29,12 +29,12 @@ export const AuthProvider = ({ children }) => {
                 AsyncStorage.setItem('userInfo', JSON.stringify(userInfo))
                 // AsyncStorage.setItem('userInfo', userInfo.name)
 
-                console.log(res.data);
-                console.log('User token: ' + res.data.access_token);
+                // console.log(res.data);
+                // console.log('User token: ' + res.data.access_token);
             })
             .catch(e => {
                 if (e.response && e.response.status === 401) {
-                    console.log("ERRO da API:", e);
+                    // console.log("ERRO da API:", e);
                     alert("Credenciais inválidas. Tente novamente.");
                 } else {
                     alert("Ocorreu um erro ao tentar fazer login. Tente novamente mais tarde.");
@@ -71,7 +71,8 @@ export const AuthProvider = ({ children }) => {
             
             setIsLoading(false);
         } catch (e) {
-            console.log(`error ${e}`);
+            // console.log(`error ${e}`);
+            alert(`error ${e}`);
         }
     }
     

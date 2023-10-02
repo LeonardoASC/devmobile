@@ -28,7 +28,7 @@ export function AgendadoPrivate({ route, navigation }) {
       //   // Aqui, você pode adicionar lógica para lidar com o erro. Ex: Mostrar uma mensagem de erro para o usuário.
       // });
       .then(response => {
-        console.log(response.data.success)
+        // console.log(response.data.success)
         if (response.data.success) {
           Alert.alert("Reserva Realizada!", "Ficamos felizes com seu agendamento! Aguardamos voce.");
           navigation.navigate('HomePrivate');
