@@ -1,8 +1,10 @@
 import { View, Text, TouchableOpacity } from "react-native";
 import SvgComponent from "../../../svg/circulo";
 import { SafeAreaView } from "react-native-safe-area-context";
-
+import { useContext } from "react";
+import {AuthContext} from "../../../context/AuthContext"
 export function Home({ navigation }) {
+  const { logout } = useContext(AuthContext);
   return (
     <SafeAreaView className="flex-1">
       <View className="items-center  ">
@@ -26,7 +28,7 @@ export function Home({ navigation }) {
           </TouchableOpacity>
           <TouchableOpacity
             className="bg-white rounded p-3 shadow-md mb-4"
-            onPress={() => navigation.navigate("FirstData")}
+            onPress={() => navigation.navigate("Servico")}
           >
             <Text className="text-cyan-500 font-bold text-lg text-center px-14 mt">Serviços</Text>
           </TouchableOpacity>
@@ -38,17 +40,11 @@ export function Home({ navigation }) {
           </TouchableOpacity>
           <TouchableOpacity
             className="bg-white rounded p-3 shadow-md mb-4"
-            onPress={() => navigation.navigate("FirstData")}
+            onPress={() => navigation.navigate("Horario")}
           >
             <Text className="text-cyan-500 font-bold text-lg text-center px-14 mt">Horarios</Text>
           </TouchableOpacity>
-
-
-
-
-
         </View>
-
       </View>
     </SafeAreaView>
   );

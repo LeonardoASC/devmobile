@@ -1,9 +1,11 @@
-import { View, Text, TextInput, Button, Alert, TouchableOpacity,Animated } from "react-native";
-import React, { Component, useState, useContext } from "react";
+import { View, Text, TextInput, Button, Alert, TouchableOpacity, Animated, Keyboard } from "react-native";
+import React, { Component, useState, useContext, useEffect } from "react";
 import SvgComponent from "../../svg/circulo";
 import { AuthContext } from "../../context/AuthContext"
 import { Ionicons, EvilIcons } from '@expo/vector-icons';
 import { SafeAreaView } from "react-native-safe-area-context";
+import { ScrollView } from "react-native-gesture-handler";
+
 
 
 
@@ -48,13 +50,13 @@ export function FirstDataPrivate({ route, navigation }) {
     );
   };
 
+
   return (
 
     <SafeAreaView className="flex-1">
-        <View className="p-5 items-center bg-cyan-500 h-screen w-full">
-        
+      <ScrollView>
+        <View className="p-5 items-center justify-center bg-cyan-500 h-screen w-full">
           <SvgComponent />
-        
           <Text className="text-white text-3xl font-extrabold self-center mt-5">Agendamento</Text>
           <Text className="text-white text-center mt-4">
             Informe seus dados para agendar um horário - {userInfo.name}
@@ -68,7 +70,6 @@ export function FirstDataPrivate({ route, navigation }) {
                 value={date}
                 onChangeText={setDate}
                 className="flex-1 ml-2 text-white"
-               
               />
             </View>
 
@@ -79,7 +80,7 @@ export function FirstDataPrivate({ route, navigation }) {
                 value={time}
                 onChangeText={setTime}
                 className="flex-1 ml-2 text-white"
-                
+
               />
             </View>
           </View>
@@ -91,7 +92,8 @@ export function FirstDataPrivate({ route, navigation }) {
             <Text className="text-cyan-500 text-center font-bold text-lg">Confirmar dados</Text>
           </TouchableOpacity>
         </View>
-        </SafeAreaView>
-    
+      </ScrollView>
+    </SafeAreaView>
+
   );
 }
