@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { SafeAreaView, StyleSheet, View, Button, FlatList, Text, TextInput, TouchableOpacity, Alert } from 'react-native';
+import { SafeAreaView, StyleSheet, View, Button, FlatList, Text, TextInput, TouchableOpacity, Alert, ScrollView } from 'react-native';
 import api from "../../../services/api"
+
 
 
 
@@ -25,6 +26,23 @@ export function Horario({ navigation }) {
     }
   };
 
+  const confirmDelete = (id) => {
+    Alert.alert(
+      'Confirmação',
+      'Tem certeza que deseja excluir este registro?',
+      [
+        {
+          text: 'Cancelar',
+          style: 'cancel'
+        },
+        {
+          text: 'Confirmar',
+          onPress: () => deleteHora(id)
+        }
+      ]
+    );
+  };
+
   const deleteHora = async (hora) => {
     try {
       const response = await api.delete(`/horario/${hora}`);
@@ -39,50 +57,51 @@ export function Horario({ navigation }) {
       Alert.alert('Erro!', 'Erro ao deletar horário.');
     }
   };
-  
+
 
   return (
     <SafeAreaView className="flex-1">
-
-      <View className="bg-white flex h-1/4 justify-center items-center rounded-bl-full">
-        <Text className="text-cyan-600 text-xl font-bold text-center">
-          Horários do Barbeiro
-        </Text>
-      </View>
-      <View className="p-5">
-
       
-      <FlatList
-        data={times}
-        keyExtractor={(item) => item.id}
-        renderItem={({ item }) => (
-          <View className="flex-row justify-between items-center mb-4 py-2 px-4 bg-white rounded">
-            <Text className="text-cyan-500 text-lg">{item.hora}</Text>
-            <View className="flex-row">
-              <TouchableOpacity className="bg-cyan-500 p-2 rounded mr-2"
-                onPress={() => navigation.navigate('HorarioEdit')}
-              >
-                <Text className="text-white">Editar</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                className="bg-cyan-500 p-2 rounded"
-                onPress={() => deleteHora(item.id)}
-              >
-                <Text className="text-white">Excluir</Text>
-              </TouchableOpacity>
-            </View>
-          </View>
-        )}
-        contentContainerStyle={{ marginTop: 15 }}
-      />
+        <View className="bg-white flex h-1/4 justify-center items-center rounded-bl-full">
+          <Text className="text-cyan-600 text-xl font-bold text-center">
+            Horários do Barbeiro
+          </Text>
+        </View>
+        <View className="p-5">
+          <FlatList
+            className="h-3/5"
+            data={times}
+            keyExtractor={(item) => item.id}
+            renderItem={({ item }) => (
+              <View className="flex-row justify-between items-center mb-4 py-2 px-4 bg-white rounded">
+                <Text className="text-cyan-700 text-lg">{item.hora}</Text>
+                <View className="flex-row">
+                  <TouchableOpacity className="bg-cyan-500 p-2 rounded mr-2"
+                    onPress={() => navigation.navigate('HorarioEdit', { id: item.id })}
 
-      <TouchableOpacity
-        className="bg-white w-11/12 rounded-xl p-3 shadow-md py-4 self-center mt-5"
-        onPress={() => navigation.navigate('Create')}
-      >
-        <Text className="text-cyan-500 text-center font-bold text-lg">Cadastrar Horário</Text>
-      </TouchableOpacity>
-      </View>
+                  >
+                    <Text className="text-white">Editar</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    className="bg-cyan-500 p-2 rounded"
+                    onPress={() => confirmDelete(item.id)}
+                  >
+                    <Text className="text-white">Excluir</Text>
+                  </TouchableOpacity>
+                </View>
+              </View>
+            )}
+            contentContainerStyle={{ marginTop: 15 }}
+          />
+
+          <TouchableOpacity
+            className="bg-white w-11/12 rounded-xl p-3 shadow-md py-4 self-center mt-5"
+            onPress={() => navigation.navigate('HorarioCreate')}
+          >
+            <Text className="text-cyan-500 text-center font-bold text-lg">Cadastrar Horário</Text>
+          </TouchableOpacity>
+        </View>
+      
     </SafeAreaView>
   );
 };

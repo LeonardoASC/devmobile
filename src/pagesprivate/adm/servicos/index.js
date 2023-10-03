@@ -5,6 +5,13 @@ export function Servico(){
     return(
         <View>
             <Text>Profile</Text>
+            <Text>Profile</Text>
+            <Text>Profile</Text>
+            <Text>Profile</Text>
+            <Text>Profile</Text>
+            <Text>Profile</Text>
+            <Text>Profile</Text>
+            <Text>Profile</Text>
         </View>
     )
 }

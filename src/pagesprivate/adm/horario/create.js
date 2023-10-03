@@ -3,11 +3,8 @@ import { SafeAreaView, View, Text, TouchableOpacity, TextInput, Alert } from 're
 import api from '../../../services/api';
 
 
-export function Create({ navigation }) {
+export function HorarioCreate({ navigation }) {
   const [time, setTime] = useState('');
-
-
- 
 
   const handleSubmit = () => {
     api.post('/horario', { hora: time })
