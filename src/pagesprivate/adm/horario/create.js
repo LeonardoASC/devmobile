@@ -1,44 +1,59 @@
 import React, { useState } from 'react';
-import { SafeAreaView, View, Text, TouchableOpacity, TextInput } from 'react-native';
+import { SafeAreaView, View, Text, TouchableOpacity, TextInput, Alert } from 'react-native';
 import api from '../../../services/api';
 
-export function Create({navigation}) {
+
+export function Create({ navigation }) {
   const [time, setTime] = useState('');
 
+
+ 
+
   const handleSubmit = () => {
-   
-    api.post('/horario/create', {
-        hora: hora,
-    })
-        .then(response => {
-            if (response.data) {
-                // alert('Você foi cadastrado!'+' Hora de agendar seu próximo corte e ficar no estilo.');
-                Alert.alert("horario foi cadastrado!");
-                navigation.navigate('Home');
-            } else {
-                alert('Erro ao registrar! ' + (response.data.message || ''));
+    api.post('/horario', { hora: time })
+      .then(response => {
+        if (response.data && response.data.success) {
+          Alert.alert('Sucesso', 'Horário foi cadastrado!');
+          navigation.navigate('Home');
+        } else {
+          Alert.alert('Erro ao registrar', response.data.message || 'Erro desconhecido.');
+        }
+      })
+      .catch(error => {
+        if (!error.response) {
+          console.error('Erro na conexão:', error);
+          Alert.alert('Erro', 'Problema de conexão. Verifique sua internet e tente novamente.');
+        } else {
+          if (error.response.status === 422) {
+            let errorMessage = 'Ocorreram erros de validação:\n';
+
+            for (let field in error.response.data.errors) {
+              errorMessage += error.response.data.errors[field].join('\n') + '\n';
             }
-        })
-        .catch(error => {
-            console.error("Erro na requisição:", error);
-            alert('Ocorreu um erro. Tente novamente mais tarde.');
-        });
 
-
-    console.log('Horário salvo:', time);
+            Alert.alert('Erro de Validação', errorMessage);
+          } else {
+            console.error('Erro na requisição:', error.response);
+            Alert.alert('Erro', 'Ocorreu um erro. Tente novamente mais tarde.');
+          }
+        }
+      });
   };
 
+
   return (
-    <SafeAreaView className="flex-1 bg-cyan-500 p-5">
-      
-      <View className="bg-white flex h-1/4 justify-center items-center rounded-bl-full">
+    <SafeAreaView className="flex-1 bg-cyan-500 ">
+
+      <View className="bg-white flex h-1/4 justify-center items-center rounded-bl-full ">
         <Text className="text-cyan-600 text-xl font-bold text-center">
           Cadastro de Horário
         </Text>
       </View>
+      
 
-      <View className="mt-4 mb-4">
-        <TextInput 
+      <View className="mt-4 mb-4 p-5">
+        <TextInput
+        type="time"
           placeholder="Insira o horário (ex: 14:00)"
           value={time}
           onChangeText={setTime}
@@ -46,11 +61,11 @@ export function Create({navigation}) {
         />
       </View>
 
-      <TouchableOpacity 
+      <TouchableOpacity
         onPress={handleSubmit}
-        className="bg-cyan-500 p-4 rounded mt-2 self-center"
+        className="bg-white p-4 rounded mt-2 self-center "
       >
-        <Text className="text-white text-center font-bold text-lg">
+        <Text className="text-cyan-500 text-center font-bold text-lg">
           Salvar Horário
         </Text>
       </TouchableOpacity>

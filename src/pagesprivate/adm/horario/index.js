@@ -39,17 +39,19 @@ export function Horario({ navigation }) {
       Alert.alert('Erro!', 'Erro ao deletar horário.');
     }
   };
-
+  
 
   return (
-    <SafeAreaView className="flex-1 bg-cyan-500 p-5">
+    <SafeAreaView className="flex-1">
 
       <View className="bg-white flex h-1/4 justify-center items-center rounded-bl-full">
         <Text className="text-cyan-600 text-xl font-bold text-center">
           Horários do Barbeiro
         </Text>
       </View>
+      <View className="p-5">
 
+      
       <FlatList
         data={times}
         keyExtractor={(item) => item.id}
@@ -80,7 +82,7 @@ export function Horario({ navigation }) {
       >
         <Text className="text-cyan-500 text-center font-bold text-lg">Cadastrar Horário</Text>
       </TouchableOpacity>
-
+      </View>
     </SafeAreaView>
   );
 };
