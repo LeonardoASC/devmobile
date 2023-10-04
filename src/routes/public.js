@@ -14,15 +14,15 @@ const Stack = createStackNavigator();
 export function Public() {
   return (
     <Stack.Navigator
-    initialRouteName="Home"
+      initialRouteName="Home"
       screenOptions={{
         cardStyle: {
           backgroundColor: "#06b6d4",
         },
-        headerShown: false 
+        headerShown: false
       }}
     >
-      
+
       <Stack.Screen name="Home" component={Home} />
       <Stack.Screen name="FirstData" component={FirstData} />
       <Stack.Screen name="Inbox" component={Inbox} />
@@ -32,7 +32,7 @@ export function Public() {
       <Stack.Screen name="Agendado" component={Agendado} />
       <Stack.Screen name="Login" component={Login} />
       <Stack.Screen name="Register" component={Register} />
-      
+
     </Stack.Navigator>
   );
 }

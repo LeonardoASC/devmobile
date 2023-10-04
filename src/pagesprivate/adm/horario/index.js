@@ -3,8 +3,6 @@ import { SafeAreaView, StyleSheet, View, Button, FlatList, Text, TextInput, Touc
 import api from "../../../services/api"
 
 
-
-
 export function Horario({ navigation }) {
 
   const [times, setTimes] = useState([]);
@@ -61,7 +59,6 @@ export function Horario({ navigation }) {
 
   return (
     <SafeAreaView className="flex-1">
-      
         <View className="bg-white flex h-1/4 justify-center items-center rounded-bl-full">
           <Text className="text-cyan-600 text-xl font-bold text-center">
             Horários do Barbeiro
