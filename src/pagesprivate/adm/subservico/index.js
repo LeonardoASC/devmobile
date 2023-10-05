@@ -3,7 +3,7 @@ import { SafeAreaView, StyleSheet, View, Button, FlatList, Text, TextInput, Touc
 import api from "../../../services/api"
 
 
-export function Servico({ navigation }) {
+export function SubServico({ navigation }) {
 
   const [name, setName] = useState([]);
 
