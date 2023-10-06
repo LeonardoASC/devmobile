@@ -8,7 +8,6 @@ export function Servico({ navigation }) {
   const [name, setName] = useState([]);
 
   useEffect(() => {
-    // Chamar a API quando o componente for montado
     fetchTimes();
   }, []);
 
@@ -40,9 +39,9 @@ export function Servico({ navigation }) {
     );
   };
 
-  const deleteServico = async (name) => {
+  const deleteServico = async (id) => {
     try {
-      const response = await api.delete(`/servico/${name}`);
+      const response = await api.delete(`/servico/${id}`);
       if (response.status === 200) {
         Alert.alert('Sucesso!', 'Horário deletado com sucesso.');
         fetchTimes(); // Atualizar a lista após deletar o horário

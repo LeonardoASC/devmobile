@@ -3,6 +3,7 @@ import SvgComponent from "../../../svg/circulo";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useContext } from "react";
 import {AuthContext} from "../../../context/AuthContext"
+
 export function Home({ navigation }) {
   const { logout } = useContext(AuthContext);
   return (
