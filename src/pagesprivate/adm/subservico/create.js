@@ -1,17 +1,19 @@
 import React, { useEffect, useState } from 'react';
-import { SafeAreaView, View, Text, TouchableOpacity, TextInput, Alert } from 'react-native';
+import { SafeAreaView, View, Text, TouchableOpacity, TextInput, Alert, Platform, Button } from 'react-native';
 import api from '../../../services/api';
 import { ScrollView } from 'react-native-gesture-handler';
 import { Picker } from '@react-native-picker/picker';
-
+import TempoPicker from './timerpicker';
+import Duration from './duration'
 
 export function SubServicoCreate({ navigation }) {
   const [name, setName] = useState('');
   const [preco, setPreco] = useState('');
-  const [tempo, setTempo] = useState('');
+  const [tempo, setTempo] = useState(new Date());
   const [imagem, setImage] = useState('');
   const [servicoid, setServicoid] = useState('');
   const [services, setServices] = useState([]);
+
 
   const handleSubmit = () => {
     api.post('/subservico', {
@@ -51,13 +53,15 @@ export function SubServicoCreate({ navigation }) {
       });
   };
 
+
+
   useEffect(() => {
     // Buscar a lista de serviços ao montar o componente
     api.get('/servico')
       .then(response => {
         if (response.data) {
           setServices(response.data);
-          console.log(response.data);
+          // console.log(response.data);
         }
       })
       .catch(error => {
@@ -76,7 +80,23 @@ export function SubServicoCreate({ navigation }) {
       </View>
 
 
+<Duration/>
       <ScrollView className="flex-1">
+
+        {/* <View className=" p-3">
+          <TextInput
+            type="text"
+            placeholder="Estimativa de tempo (ex: HH:mm)"
+            onChangeText={setTempo}
+            value={tempo}
+            onFocus={showTimepicker}
+            className="border-cyan-600 border p-4 rounded bg-white"
+          />
+        </View> */}
+
+
+
+
         <View className="mt-4 p-3">
           <TextInput
             type="text"
@@ -86,24 +106,18 @@ export function SubServicoCreate({ navigation }) {
             className="border-cyan-600 border p-4 rounded bg-white"
           />
         </View>
-        <View className=" p-3">
+        <View className="flex flex-row p-3 items-center justify-center">
           <TextInput
             type="text"
             placeholder="Preço"
             value={preco}
             onChangeText={setPreco}
-            className="border-cyan-600 border p-4 rounded bg-white"
+            className="border-cyan-600 border p-4 w-24 rounded bg-white"
           />
+          <TempoPicker />
         </View>
-        <View className=" p-3">
-          <TextInput
-            type="text"
-            placeholder="Estimativa de tempo"
-            value={tempo}
-            onChangeText={setTempo}
-            className="border-cyan-600 border p-4 rounded bg-white"
-          />
-        </View>
+
+
         <View className=" p-3">
           <TextInput
             type="text"
@@ -114,11 +128,14 @@ export function SubServicoCreate({ navigation }) {
           />
         </View>
         <View className=" p-3">
-        <Picker
+          <Picker
             selectedValue={servicoid}
             onValueChange={(itemValue) => setServicoid(itemValue)}
-            className="border-cyan-600 p-4 rounded border bg-white text-white"
-            style={{ backgroundColor: "white" }}
+            // className="border-cyan-600 p-4 rounded border bg-white text-white"
+            style={{
+              backgroundColor: "white",
+             
+          }}
           >
             <Picker.Item enabled label="Escolha um tipo de serviço" />
             {services.map((service) => (

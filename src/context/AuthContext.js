@@ -20,7 +20,7 @@ export const AuthProvider = ({ children }) => {
             password
         })
             .then(res => {
-                 console.log("Resposta da API:", res.data);
+                //  console.log("Resposta da API:", res.data);
                 let userInfo = res.data.userInfo
                 setUserToken(res.data.access_token)
                 AsyncStorage.setItem('userToken', res.data.access_token)

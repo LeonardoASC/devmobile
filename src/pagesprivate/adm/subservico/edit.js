@@ -23,7 +23,7 @@ export function SubServicoEdit({ route, navigation }) {
       servico_id: servicoid
     })
       .then(response => {
-        console.log(response);
+        // console.log(response);
         if (response.status === 200 && response.data.success) {
           Alert.alert('Sucesso',"SubServiço foi Atualizado!");
           navigation.navigate('Home');
@@ -78,7 +78,7 @@ export function SubServicoEdit({ route, navigation }) {
         <View className=" p-3">
           <TextInput
             type="text"
-            placeholder="Estimativa de tempo"
+            placeholder="Estimativa de tempo (ex: HH:mm)"
             value={tempo}
             onChangeText={setTempo}
             className="border-cyan-600 border p-4 rounded bg-white"

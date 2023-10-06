@@ -15,7 +15,7 @@ export function HorarioEdit({ route, navigation }) {
       hora: time,
     })
       .then(response => {
-        console.log(response);
+        // console.log(response);
         if (response.status === 200 && response.data.success) {
           Alert.alert("Horário foi Atualizado!");
           navigation.navigate('Home');

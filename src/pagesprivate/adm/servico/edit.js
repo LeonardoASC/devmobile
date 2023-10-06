@@ -15,7 +15,7 @@ export function ServicoEdit({ route, navigation }) {
       name: name,
     })
       .then(response => {
-        console.log(response);
+        // console.log(response);
         if (response.status === 200 && response.data.success) {
           Alert.alert("Serviço foi Atualizado!");
           navigation.navigate('Home');
