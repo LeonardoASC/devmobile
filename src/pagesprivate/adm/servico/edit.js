@@ -42,7 +42,7 @@ export function ServicoEdit({ route, navigation }) {
 
 
   return (
-    <SafeAreaView className="flex-1">
+    <SafeAreaView className="flex-1 bg-cyan-500">
 
       <View className="bg-white flex h-1/4 justify-center items-center rounded-bl-full">
         <Text className="text-cyan-600 text-xl font-bold text-center">
@@ -50,24 +50,32 @@ export function ServicoEdit({ route, navigation }) {
         </Text>
       </View>
 
-      <View className="mt-4 mb-4 p-5">
-        <TextInput
-          placeholder="Insira o servico (ex: Corte Masculino)"
-          value={name}
-          onChangeText={setName}
-          className="border-cyan-600 border p-4 rounded bg-white"
-        />
+      <View className="flex-1 p-5 mt-2">
+        <Text className="text-white text-3xl font-extrabold self-center">Editar Serviço...</Text>
+        <Text className="text-white text-center mt-4">Altere o serviço conforme necessário.</Text>
+
+        <View className="mt-5 w-full">
+          <View className="flex-row items-center bg-[#06b6d4] p-2 rounded mb-4 border-b border-zinc-300">
+            <TextInput
+              placeholder="Insira o serviço (ex: Corte Masculino)"
+              value={name}
+              onChangeText={setName}
+              className="flex-1 ml-2 text-white"
+            />
+          </View>
+        </View>
+
+        <TouchableOpacity
+          className="bg-white w-11/12 rounded-xl p-3 shadow-md py-4 self-center mt-5"
+          onPress={handleSubmit}
+        >
+          <Text className="text-cyan-500 text-center font-bold text-lg">
+            Salvar Serviço
+          </Text>
+        </TouchableOpacity>
       </View>
 
-      <TouchableOpacity
-        onPress={handleSubmit}
-        className="bg-cyan-500 p-4 rounded mt-2 self-center"
-      >
-        <Text className="bg-white text-center font-bold text-lg text-cyan-500 p-4 rounded-lg">
-          Salvar serviço
-        </Text>
-      </TouchableOpacity>
-
     </SafeAreaView>
+
   );
 }

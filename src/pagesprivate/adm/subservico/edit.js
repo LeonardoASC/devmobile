@@ -1,116 +1,171 @@
-import React, { useState } from 'react';
-import { SafeAreaView, View, Text, TouchableOpacity, TextInput, Alert } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { SafeAreaView, View, Text, TouchableOpacity, TextInput, Alert, Platform } from 'react-native';
 import api from '../../../services/api';
+import { ScrollView } from 'react-native-gesture-handler';
+import { Picker } from '@react-native-picker/picker';
+import DateTimePicker from '@react-native-community/datetimepicker';
 
 export function SubServicoEdit({ route, navigation }) {
+  const dateInitial = new Date();
+  dateInitial.setHours(0, 0, 0, 0);
   const [name, setName] = useState('');
   const [preco, setPreco] = useState('');
-  const [tempo, setTempo] = useState('');
+  const [tempo, setTempo] = useState(dateInitial);
+  const [showTimePicker, setShowTimePicker] = useState(false);
   const [imagem, setImage] = useState('');
   const [servicoid, setServicoid] = useState('');
+  const [services, setServices] = useState([]);
   const { id } = route.params;
 
   const handleSubmit = () => {
     if (!id) {
-      alert('ID não definido!');
+      Alert.alert('Erro', 'ID não definido!');
       return;
     }
+    const formattedTime = `${tempo.getHours()}:${tempo.getMinutes()}:00`;
     api.put(`/subservico/${id}`, {
       name: name,
       preco: preco,
-      tempo_de_duracao: tempo,
+      tempo_de_duracao: formattedTime,
       imagem: imagem,
       servico_id: servicoid
     })
       .then(response => {
-        // console.log(response);
-        if (response.status === 200 && response.data.success) {
-          Alert.alert('Sucesso',"SubServiço foi Atualizado!");
+        if (response.data && response.data.success) {
+          Alert.alert('Sucesso', 'SubServiço foi atualizado!');
           navigation.navigate('Home');
         } else {
-          // Isto pode ser melhorado para lidar com outros erros não relacionados à validação
-          alert('Erro ao registrar! ' + (response.data.msg || ''));
+          Alert.alert('Erro ao registrar', response.data.message || 'Erro desconhecido.');
         }
       })
       .catch(error => {
-        if (error.response && error.response.status === 422) {
-          let errorMessage = 'Erros de validação:\n';
-          for (let field in error.response.data.errors) {
-            errorMessage += error.response.data.errors[field].join('\n');
-          }
-          alert(errorMessage);
+        if (!error.response) {
+          console.error('Erro na conexão:', error);
+          Alert.alert('Erro', 'Problema de conexão. Verifique sua internet e tente novamente.');
         } else {
-          console.error("Erro na requisição:", error);
-          alert('Ocorreu um erro. Tente novamente mais tarde.');
+          if (error.response.status === 422) {
+            let errorMessage = 'Ocorreram erros de validação:\n';
+            for (let field in error.response.data.errors) {
+              errorMessage += error.response.data.errors[field].join('\n') + '\n';
+            }
+            Alert.alert('Erro de Validação', errorMessage);
+          } else {
+            console.error('Erro na requisição:', error.response);
+            Alert.alert('Erro', 'Ocorreu um erro. Tente novamente mais tarde.');
+          }
         }
       });
-
-    // console.log('Horário salvo:', time, id);
   };
 
+  useEffect(() => {
+    api.get('/servico')
+      .then(response => {
+        if (response.data) {
+          setServices(response.data);
+        }
+      })
+      .catch(error => {
+        console.error('Erro ao buscar serviços:', error);
+        Alert.alert('Erro', 'Não foi possível carregar os serviços. Tente novamente.');
+      });
+  }, []);
+
+  const onChangeTime = (event, selectedDate) => {
+    const currentDate = selectedDate || tempo;
+    setShowTimePicker(Platform.OS === 'ios');
+    setTempo(currentDate);
+  };
+
+  const formatTime = (date) => {
+    let hours = date.getHours().toString().padStart(2, '0');
+    let minutes = date.getMinutes().toString().padStart(2, '0');
+    return `${hours}:${minutes}`;
+  };
 
   return (
     <SafeAreaView className="flex-1">
-
       <View className="bg-white flex h-1/4 justify-center items-center rounded-bl-full">
         <Text className="text-cyan-600 text-xl font-bold text-center">
-          Edição de Serviço
+          Edição de Sub-Serviço
         </Text>
       </View>
 
-      <View className="mt-4 p-3">
-        <TextInput
-          placeholder="Insira o servico (ex: Corte Masculino)"
-          value={name}
-          onChangeText={setName}
-          className="border-cyan-600 border p-4 rounded bg-white"
-        />
-      </View>
-      <View className=" p-3">
-          <TextInput
-            type="text"
-            placeholder="Preço"
-            value={preco}
-            onChangeText={setPreco}
-            className="border-cyan-600 border p-4 rounded bg-white"
-          />
-        </View>
-        <View className=" p-3">
-          <TextInput
-            type="text"
-            placeholder="Estimativa de tempo (ex: HH:mm)"
-            value={tempo}
-            onChangeText={setTempo}
-            className="border-cyan-600 border p-4 rounded bg-white"
-          />
-        </View>
-        <View className=" p-3">
-          <TextInput
-            type="text"
-            placeholder="Imagem"
-            value={imagem}
-            onChangeText={setImage}
-            className="border-cyan-600 border p-4 rounded bg-white"
-          />
-        </View>
-        <View className=" p-3">
-          <TextInput
-            type="text"
-            placeholder="Colocar aqui uma lista para escolha"
-            value={servicoid}
-            onChangeText={setServicoid}
-            className="border-cyan-600 border p-4 rounded bg-white"
-          />
-        </View>
-      <TouchableOpacity
-        onPress={handleSubmit}
-        className="bg-cyan-500 p-4 rounded mt-2 self-center"
-      >
-        <Text className="bg-white text-center font-bold text-lg text-cyan-500 p-4 rounded-lg">
-          Salvar serviço
-        </Text>
-      </TouchableOpacity>
+      <ScrollView className="flex-1 p-5 mt-2">
+        <Text className="text-white text-3xl font-extrabold self-center">Editar Sub-Serviço...</Text>
+        <Text className="text-white text-center mt-4">Altere os campos conforme necessário.</Text>
 
+        <View className="mt-5 w-full">
+          <View className="flex-row items-center bg-[#06b6d4] p-2 rounded mb-4 border-b border-zinc-300">
+            <TextInput
+              type="text"
+              placeholder="Nome do Sub-Serviço"
+              value={name}
+              onChangeText={setName}
+              className="flex-1 ml-2 text-white"
+            />
+          </View>
+
+          <View className="flex-row items-center bg-[#06b6d4] p-2 rounded mb-4 border-b border-zinc-300">
+            <TextInput
+              type="text"
+              placeholder="Preço"
+              value={preco}
+              onChangeText={setPreco}
+              className="flex-1 ml-2 text-white"
+            />
+          </View>
+
+          <View className="bg-[#06b6d4] p-2 rounded mb-4 border-b border-zinc-300">
+            <TouchableOpacity onPress={() => setShowTimePicker(true)} style={{ flexDirection: 'row', alignItems: 'center' }}>
+              <Text className="text-white ml-2">Selecionar Tempo:</Text>
+              <TextInput
+                value={formatTime(tempo)}
+                editable={false}
+                className="flex-1 ml-2 text-white"
+              />
+            </TouchableOpacity>
+          </View>
+
+          {showTimePicker && (
+            <DateTimePicker
+              value={tempo}
+              mode="time"
+              is24Hour={true}
+              display="spinner"
+              onChange={onChangeTime}
+            />
+          )}
+
+          <View className="flex-row items-center bg-[#06b6d4] p-2 rounded mb-4 border-b border-zinc-300">
+            <TextInput
+              type="text"
+              placeholder="Imagem"
+              value={imagem}
+              onChangeText={setImage}
+              className="flex-1 ml-2 text-white"
+            />
+          </View>
+
+          <Picker
+            selectedValue={servicoid}
+            onValueChange={(itemValue) => setServicoid(itemValue)}
+            style={{ backgroundColor: "#06b6d4", color: "white" }}
+          >
+            <Picker.Item enabled label="Escolha um tipo de serviço" />
+            {services.map((service) => (
+              <Picker.Item className="text-white" key={service.id} label={service.name} value={service.id} />
+            ))}
+          </Picker>
+        </View>
+
+        <TouchableOpacity
+          className="bg-white w-11/12 rounded-xl p-3 shadow-md py-4 self-center mt-5"
+          onPress={handleSubmit}
+        >
+          <Text className="text-cyan-500 text-center font-bold text-lg">Salvar Servico</Text>
+        </TouchableOpacity>
+      </ScrollView>
     </SafeAreaView>
+
   );
 }

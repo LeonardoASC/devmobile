@@ -39,34 +39,41 @@ export function HorarioCreate({ navigation }) {
 
 
   return (
-    <SafeAreaView className="flex-1 bg-cyan-500 ">
+    <SafeAreaView className="flex-1 bg-cyan-500">
 
-      <View className="bg-white flex h-1/4 justify-center items-center rounded-bl-full ">
+    <View className="bg-white flex h-1/4 justify-center items-center rounded-bl-full">
         <Text className="text-cyan-600 text-xl font-bold text-center">
-          Cadastro de Horário
+            Cadastro de Horário
         </Text>
-      </View>
-      
+    </View>
 
-      <View className="mt-4 mb-4 p-5">
-        <TextInput
-        type="time"
-          placeholder="Insira o horário (ex: 14:00)"
-          value={time}
-          onChangeText={setTime}
-          className="border-cyan-600 border p-4 rounded bg-white"
-        />
-      </View>
+    <View className="flex-1 p-5 mt-2">
+        <Text className="text-white text-3xl font-extrabold self-center">Registrar Horário...</Text>
+        <Text className="text-white text-center mt-4">Informe o horário desejado.</Text>
 
-      <TouchableOpacity
-        onPress={handleSubmit}
-        className="bg-white p-4 rounded mt-2 self-center "
-      >
-        <Text className="text-cyan-500 text-center font-bold text-lg">
-          Salvar Horário
-        </Text>
-      </TouchableOpacity>
+        <View className="mt-5 w-full">
+            <View className="flex-row items-center bg-[#06b6d4] p-2 rounded mb-4 border-b border-zinc-300">
+                <TextInput
+                    type="time"
+                    placeholder="Insira o horário (ex: 14:00)"
+                    value={time}
+                    onChangeText={setTime}
+                    className="flex-1 ml-2 text-white"
+                />
+            </View>
+        </View>
 
-    </SafeAreaView>
+        <TouchableOpacity
+            className="bg-white w-11/12 rounded-xl p-3 shadow-md py-4 self-center mt-5"
+            onPress={handleSubmit}
+        >
+            <Text className="text-cyan-500 text-center font-bold text-lg">
+                Salvar Horário
+            </Text>
+        </TouchableOpacity>
+    </View>
+
+</SafeAreaView>
+
   );
 }
