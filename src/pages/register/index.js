@@ -70,7 +70,7 @@ export function Register({ route, navigation }) {
                 <Text className="text-white text-center mt-4">Por favor, insira suas informações.</Text>
 
                 <View className="mt-5 w-full">
-                    <View className="flex-row items-center bg-[#06b6d4] p-2 rounded mb-4 border-b border-zinc-300">
+                    <View className="flex-row items-center p-2 rounded mb-4 border-b border-zinc-300">
                         <Ionicons name="person-add-outline" size={20} color="white" />
                         <TextInput
                             value={username}
@@ -80,7 +80,7 @@ export function Register({ route, navigation }) {
                         />
                     </View>
 
-                    <View className="flex-row items-center bg-[#06b6d4] p-2 rounded mb-4 border-b border-zinc-300">
+                    <View className="flex-row items-center p-2 rounded mb-4 border-b border-zinc-300">
                         <Ionicons name="at" size={19} color="white" />
                         <TextInput
                             value={email}
@@ -90,7 +90,7 @@ export function Register({ route, navigation }) {
                         />
                     </View>
 
-                    <View className="flex-row items-center bg-[#06b6d4] py-2 px-1 rounded mb-4 border-b border-zinc-300">
+                    <View className="flex-row items-center py-2 px-1 rounded mb-4 border-b border-zinc-300">
                         <EvilIcons name="lock" size={26} color="white" />
                         <TextInput
                             value={password}
@@ -101,7 +101,7 @@ export function Register({ route, navigation }) {
                         />
                     </View>
 
-                    <View className="flex-row items-center bg-[#06b6d4] py-2 px-1 rounded mb-4 border-b border-zinc-300">
+                    <View className="flex-row items-center py-2 px-1 rounded mb-4 border-b border-zinc-300">
                         <EvilIcons name="lock" size={26} color="white" />
                         <TextInput
                             value={confirmPassword}
@@ -121,9 +121,9 @@ export function Register({ route, navigation }) {
                 </TouchableOpacity>
 
                 <View className=" flex flex-row justify-center mt-8">
-                    <Text className="text-slate-200">Já tem uma conta?</Text>
+                    <Text className="text-white">Já tem uma conta?</Text>
                     <Pressable onPress={() => navigation.navigate('Login')}>
-                        <Text className="text-slate-200 underline ml-2">Entrar</Text>
+                        <Text className="text-white underline ml-2">Entrar</Text>
                     </Pressable>
                 </View>
             </View>

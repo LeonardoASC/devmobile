@@ -65,12 +65,12 @@ export function FirstData({ route, navigation }) {
   return (
     <SafeAreaView className="flex-1 flex justify-center">
       <ScrollView >
-        <View className="p-5 items-center justify-center bg-cyan-500 h-screen w-full">
+        <View className="p-5 items-center justify-center h-screen w-full">
           <SvgComponent width={300} height={300}/>
           <Text className="text-white text-center text-3xl font-extrabold">Agendamento</Text>
           <Text className="text-white text-center mt-4">Informe seus dados para agendar um horario</Text>
 
-          <View className="flex-row items-center bg-[#06b6d4] p-2 rounded mb-4 border-b border-zinc-300">
+          <View className="flex-row items-center  p-2 rounded mb-4 border-b border-zinc-300">
             <Ionicons name="person-outline" size={20} color="white" />
             <TextInput
               placeholder="Nome"
@@ -80,7 +80,7 @@ export function FirstData({ route, navigation }) {
             />
           </View>
 
-          <View className="flex-row items-center bg-[#06b6d4] p-2 rounded mb-4 border-b border-zinc-300">
+          <View className="flex-row items-center  p-2 rounded mb-4 border-b border-zinc-300">
             <Ionicons name="calendar-outline" size={19} color="white" />
             <TextInput
               placeholder="Dia (ex: 23/09/2023)"
@@ -90,7 +90,7 @@ export function FirstData({ route, navigation }) {
             />
           </View>
 
-          <View className="flex-row items-center bg-[#06b6d4] p-2 rounded mb-4 border-b border-zinc-300">
+          <View className="flex-row items-center  p-2 rounded mb-4 border-b border-zinc-300">
             <Ionicons name="time-outline" size={19} color="white" />
             <TextInput
               placeholder="Hora (ex: 15:30)"

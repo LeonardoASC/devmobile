@@ -29,7 +29,7 @@ export function Login({ route, navigation }) {
         <Text className="text-white text-center mt-4">Informe suas credenciais.</Text>
 
         <View className="mt-5 w-full">
-          <View className="flex-row items-center bg-[#06b6d4] p-2 rounded mb-4 border-b border-zinc-300">
+          <View className="flex-row items-center  p-2 rounded mb-4 border-b border-zinc-300">
             <Ionicons name="at" size={19} color="white" />
             <TextInput
               value={email}
@@ -39,7 +39,7 @@ export function Login({ route, navigation }) {
             />
           </View>
 
-          <View className="flex-row items-center bg-[#06b6d4] py-2 px-1 rounded mb-4 border-b border-zinc-300">
+          <View className="flex-row items-center  py-2 px-1 rounded mb-4 border-b border-zinc-300">
             <EvilIcons name="lock" size={26} color="white" />
             <TextInput
               value={password}
@@ -48,7 +48,7 @@ export function Login({ route, navigation }) {
               secureTextEntry={true}
               className="flex-1 ml-2 text-white"
             />
-            <Text className="text-slate-100 ml-2">Esqueceu?</Text>
+            <Text className="text-white ml-2">Esqueceu?</Text>
           </View>
         </View>
 
@@ -59,7 +59,7 @@ export function Login({ route, navigation }) {
           <Text className="text-cyan-500 text-center font-bold text-lg">Entrar</Text>
         </TouchableOpacity>
 
-        <Text className="text-center text-slate-200 mt-8">Ou, Logar com...</Text>
+        <Text className="text-center text-white mt-8">Ou, Logar com...</Text>
 
         <View className="flex flex-row justify-center gap-x-8 mt-8">
           <View className="bg-white w-16 h-16 items-center justify-center rounded-xl p-2 shadow-xl">
@@ -73,9 +73,9 @@ export function Login({ route, navigation }) {
           </View>
         </View>
         <View className=" flex flex-row justify-center mt-8">
-          <Text className="text-slate-200">Novo no aplicativo? </Text>
+          <Text className="text-white">Novo no aplicativo? </Text>
           <Pressable onPress={() => navigation.navigate('Register')}>
-            <Text className="text-slate-200 underline ml-2">Registre</Text>
+            <Text className="text-white underline ml-2">Registre</Text>
           </Pressable>
         </View>
 
