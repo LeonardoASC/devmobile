@@ -2,52 +2,46 @@ import { View, Text, TouchableOpacity } from "react-native";
 import SvgComponent from "../../../svg/circulo";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useContext } from "react";
-import {AuthContext} from "../../../context/AuthContext"
+import { AuthContext } from "../../../context/AuthContext"
+import { FontAwesome } from '@expo/vector-icons';
 
 export function Home({ navigation }) {
+
   const { logout } = useContext(AuthContext);
+
+  const ActionCard = ({ label, onPress, iconName }) => (
+    <TouchableOpacity
+      className="w-1/2 p-4"
+      onPress={onPress}
+    >
+      <View className="bg-white rounded-lg shadow-lg p-6 items-center">
+        <FontAwesome name={iconName} size={32} color="#06B6D4" />
+        <Text className="text-cyan  font-bold mt-4">{label}</Text>
+      </View>
+    </TouchableOpacity>
+  );
   return (
-    <SafeAreaView className="flex-1">
-      <View className="items-center  justify-center mt-2">
-        <View className="flex  justify-end ">
+    <SafeAreaView className="flex-1 ">
+      <View className="flex-1 justify-center ">
+        <View className="flex-row justify-end p-4">
           <TouchableOpacity
-            className="bg-white rounded p-2 shadow-md "
-            onPress={() => { logout() }}
+            className="bg-white rounded-lg p-2 shadow-lg"
+            onPress={logout}
           >
-            <Text className="text-cyan-500 font-bold text-sm text-center">Sair</Text>
+            <Text className="text-cyan font-bold">Sair</Text>
           </TouchableOpacity>
         </View>
-        <View className="mt-2">
-
-          <SvgComponent />
+        <View className="flex-row justify-center">
+          <SvgComponent width={150} height={150} />
         </View>
-        <Text className="text-white text-xl ">Bem vindo a area do administrador</Text>
-
-        <View className="mt-8 items-center">
-          <TouchableOpacity
-            className="bg-white rounded p-3 shadow-md mb-4"
-            onPress={() => navigation.navigate("DashBoard")}
-          >
-            <Text className="text-cyan-500 font-bold text-lg text-center px-14 mt">Agendamentos</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            className="bg-white rounded p-3 shadow-md mb-4"
-            onPress={() => navigation.navigate("Servico")}
-          >
-            <Text className="text-cyan-500 font-bold text-lg text-center px-14 mt">Serviços</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            className="bg-white rounded p-3 shadow-md mb-4"
-            onPress={() => navigation.navigate("SubServico")}
-          >
-            <Text className="text-cyan-500 font-bold text-lg text-center px-14 mt">Sub Serviços</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            className="bg-white rounded p-3 shadow-md mb-4"
-            onPress={() => navigation.navigate("Horario")}
-          >
-            <Text className="text-cyan-500 font-bold text-lg text-center px-14 mt">Horarios</Text>
-          </TouchableOpacity>
+        <View className="items-center mb-4 mt-4">
+          <Text className="text-white text-3xl font-bold text-center">Área do administrador</Text>
+        </View>
+        <View className="flex-row flex-wrap justify-between">
+          <ActionCard label="Agendamentos" iconName="calendar" onPress={() => navigation.navigate("DashBoard")} />
+          <ActionCard label="Horários" iconName="clock-o" onPress={() => navigation.navigate("Horario")} />
+          <ActionCard label="Serviços" iconName="wrench" onPress={() => navigation.navigate("Servico")} />
+          <ActionCard label="Sub Serviços" iconName="tasks" onPress={() => navigation.navigate("SubServico")} />
         </View>
       </View>
     </SafeAreaView>

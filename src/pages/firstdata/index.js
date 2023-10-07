@@ -66,7 +66,7 @@ export function FirstData({ route, navigation }) {
     <SafeAreaView className="flex-1 flex justify-center">
       <ScrollView >
         <View className="p-5 items-center justify-center bg-cyan-500 h-screen w-full">
-          <SvgComponent />
+          <SvgComponent width={300} height={300}/>
           <Text className="text-white text-center text-3xl font-extrabold">Agendamento</Text>
           <Text className="text-white text-center mt-4">Informe seus dados para agendar um horario</Text>
 

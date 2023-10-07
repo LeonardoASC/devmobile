@@ -7,7 +7,7 @@ export function Home({ navigation }) {
       <View className="bg-white flex h-1/4 justify-center items-center rounded-bl-full ">
       </View>
       <View className="flex justify-center items-center -translate-y-24">
-        <SvgComponent />
+        <SvgComponent width={300} height={300} />
 
         <Text className="text-white text-xl mt-6">Bem vindo ao nosso salão</Text>
         <Text className="text-white">Clique abaixo para agendar</Text>
