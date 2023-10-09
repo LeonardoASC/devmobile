@@ -4,7 +4,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { useContext } from "react";
 import { AuthContext } from "../../../context/AuthContext"
 import { FontAwesome } from '@expo/vector-icons';
-import Top_Knot from '../../../../assets/Top_Knot.png';
+// import Top_Knot from '../../../../assets/Top_Knot.png';
 
 
 export function Home({ navigation }) {
@@ -35,7 +35,7 @@ export function Home({ navigation }) {
         </View>
         <View className="flex-row justify-center">
           {/* <SvgComponent width={150} height={150} /> */}
-          <Image source={Top_Knot} className="w-80 h-80 border rounded-full" />
+          {/* <Image source={Top_Knot} className="w-80 h-80 border rounded-full" /> */}
         </View>
         <View className="items-center mb-4 mt-4">
           <Text className="text-white text-3xl font-bold text-center">Área do administrador</Text>

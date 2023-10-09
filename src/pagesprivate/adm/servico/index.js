@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { SafeAreaView, StyleSheet, View, Button, FlatList, Text, TextInput, TouchableOpacity, Alert, ScrollView } from 'react-native';
 import api from "../../../services/api"
+import { MaterialIcons } from '@expo/vector-icons';
 
 
 export function Servico({ navigation }) {
@@ -56,47 +57,48 @@ export function Servico({ navigation }) {
 
 
   return (
-    <SafeAreaView className="flex-1">
-      <View className="bg-white flex h-1/4 justify-center items-center rounded-bl-full">
-        <Text className="text-cyan-600 text-xl font-bold text-center">
-          Serviços do Barbeiro
-        </Text>
-      </View>
-      <View className="p-5">
-        <FlatList
-          className="h-3/5"
-          data={name}
-          keyExtractor={(item) => item.id}
-          renderItem={({ item }) => (
-            <View className="flex-row justify-between items-center mb-4 py-2 px-4 bg-white rounded">
-              <Text className="text-cyan-700 text-lg">{item.name}</Text>
-              <View className="flex-row">
-                <TouchableOpacity className="bg-cyan-500 p-2 rounded mr-2"
-                  onPress={() => navigation.navigate('ServicoEdit', { id: item.id })}
+    <SafeAreaView className="flex-1 bg-cyan-100">
+  <View className="bg-cyan-100 flex h-1/4 justify-center items-center rounded-bl-xl shadow-neu-inset">
+    <Text className="text-cyan-700 text-2xl font-extrabold text-center">
+      Serviços do Barbeiro
+    </Text>
+  </View>
 
-                >
-                  <Text className="text-white">Editar</Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                  className="bg-cyan-500 p-2 rounded"
-                  onPress={() => confirmDelete(item.id)}
-                >
-                  <Text className="text-white">Excluir</Text>
-                </TouchableOpacity>
-              </View>
-            </View>
-          )}
-          contentContainerStyle={{ marginTop: 15 }}
-        />
+  <View className="p-5 flex-1">
+    <FlatList
+      className="flex-grow mt-5"
+      data={name}
+      keyExtractor={(item) => item.id}
+      renderItem={({ item }) => (
+        <View className="flex-row justify-between items-center mb-4 py-2 px-4 bg-cyan-100 rounded-xl shadow-neu">
+          <Text className="text-cyan-700 text-lg">{item.name}</Text>
+          <View className="flex-row">
+            <TouchableOpacity
+              className="bg-cyan-100 p-2 rounded-lg mr-2 shadow-neu-inset"
+              onPress={() => navigation.navigate('ServicoEdit', { id: item.id })}
+            >
+              <MaterialIcons name="edit" size={24} color="black" />
+            </TouchableOpacity>
+            <TouchableOpacity
+              className="bg-cyan-100 p-2 rounded-lg shadow-neu-inset"
+              onPress={() => confirmDelete(item.id)}
+            >
+              <MaterialIcons name="delete" size={24} color="black" />
+            </TouchableOpacity>
+          </View>
+        </View>
+      )}
+      contentContainerStyle={{ paddingBottom: 20 }}
+    />
 
-        <TouchableOpacity
-          className="bg-white w-11/12 rounded-xl p-3 shadow-md py-4 self-center mt-5"
-          onPress={() => navigation.navigate('ServicoCreate')}
-        >
-          <Text className="text-cyan-500 text-center font-bold text-lg">Cadastrar Serviço</Text>
-        </TouchableOpacity>
-      </View>
+    <TouchableOpacity
+      className="bg-cyan-100 w-11/12 rounded-xl p-3 shadow-neu py-4 self-center mt-5"
+      onPress={() => navigation.navigate('ServicoCreate')}
+    >
+      <Text className="text-cyan-500 text-center font-extrabold text-xl">+ Cadastrar Serviço</Text>
+    </TouchableOpacity>
+  </View>
+</SafeAreaView>
 
-    </SafeAreaView>
   );
 };

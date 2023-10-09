@@ -14,12 +14,17 @@ export function Horario({ navigation }) {
     fetchTimes();
   }, []);
 
+  
+
   const fetchTimes = async () => {
     try {
       const response = await api.get('/horario');
       if (response.data && response.data.length) {
-        // const horaValues = response.data.map(item => item.hora);
-        setTimes(response.data);
+        const formattedTimes = response.data.map(item => ({
+          ...item,
+          hora: item.hora.slice(0, 5)
+        }));
+        setTimes(formattedTimes);
       }
     } catch (error) {
       console.error("Erro ao buscar horários:", error);

@@ -1,10 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { SafeAreaView, StyleSheet, View, Button, FlatList, Text, TextInput, TouchableOpacity, Alert, ScrollView, Image } from 'react-native';
+import { SafeAreaView, View, Modal, FlatList, Text, TextInput, TouchableOpacity, Alert, ScrollView, Image } from 'react-native';
 import api from "../../../services/api"
+import { MaterialIcons } from '@expo/vector-icons';
+import { AntDesign } from '@expo/vector-icons';
 
 export function SubServico({ navigation }) {
 
   const [services, setServices] = useState([]);
+  const [isImageModalVisible, setImageModalVisible] = useState(false);
+  const [selectedImage, setSelectedImage] = useState(null);
 
   useEffect(() => {
     fetchTimes();
@@ -13,8 +17,13 @@ export function SubServico({ navigation }) {
   const fetchTimes = async () => {
     try {
       const response = await api.get('/subservico');
+      console.log(response);
       if (response.data && response.data.length) {
-        setServices(response.data);
+        const formattedTimes = response.data.map(item => ({
+          ...item,
+          tempo_de_duracao: item.tempo_de_duracao.slice(0, 5)
+        }));
+        setServices(formattedTimes);
       }
     } catch (error) {
       console.error("Erro ao buscar horários:", error);
@@ -53,47 +62,102 @@ export function SubServico({ navigation }) {
     }
   };
 
+  const handleImageClick = (uri) => {
+    setSelectedImage(uri);
+    setImageModalVisible(true);
+  };
   return (
-    <SafeAreaView className="flex-1">
-      <View className="bg-white flex h-1/4 justify-center items-center rounded-bl-full">
-        <Text className="text-cyan-600 text-xl font-bold">
+    <SafeAreaView className="flex-1 bg-cyan-100">
+      <View className="bg-cyan-100 flex h-1/5 justify-center items-center rounded-bl-xl shadow-neu-inset">
+        <Text className="text-cyan-700 text-2xl font-extrabold">
           Sub-Serviços do Barbeiro
         </Text>
       </View>
-      <View className="p-5">
+
+      <View className="px-5">
         <FlatList
-          className="h-3/5"
+          horizontal={true}
+          data={services}
+          keyExtractor={(item) => item.id.toString()}
+          renderItem={({ item }) => (
+            <TouchableOpacity className="items-center justify-center m-2 bg-cyan-100 rounded-xl shadow-neu">
+              <Text className="text-cyan-700 p-2">{item.servico.name}</Text>
+            </TouchableOpacity>
+          )}
+        />
+      </View>
+
+      <View className="px-2 flex-1">
+        <FlatList
+          className="flex-grow mt-5"
           data={services}
           keyExtractor={(item) => item.id}
           renderItem={({ item }) => (
-            <View className="flex-row justify-between items-center mb-4 py-2 px-4 bg-white rounded-lg">
-              {/* <Image source={{ uri: item.imagem }} className="w-12 h-12 rounded-full" /> */}
-              <Text className="text-cyan-700">|{item.name}|</Text>
-              <Text className="text-cyan-600">{item.preco}|</Text>
-              <Text className="text-cyan-600">{item.tempo_de_duracao}</Text>
-              <View className="flex-row">
-                <TouchableOpacity className="bg-cyan-500 p-2 rounded-lg mr-2"
-                  onPress={() => navigation.navigate('SubServicoEdit', { id: item.id })}>
-                  <Text className="text-white">Editar</Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                  className="bg-cyan-500 p-2 rounded-lg"
-                  onPress={() => confirmDelete(item.id)}>
-                  <Text className="text-white">Excluir</Text>
-                </TouchableOpacity>
+            <View className="flex-row justify-between mb-4 py-3 px-8 rounded-xl shadow-neu">
+              <View className="flex  justify-center">
+                <View className="flex w-[75%]">
+                  <Text className="text-cyan-700">Nome: {item.name}</Text>
+                  <Text className="text-cyan-600">Preço: {item.preco}</Text>
+                  <Text className="text-cyan-600">Tempo estimado: {item.tempo_de_duracao}min</Text>
+                </View>
+
+                <View className="flex flex-row gap-y-2 items-center ">
+                  <TouchableOpacity
+                    className="bg-cyan-100 p-2 rounded-lg mr-2 shadow-neu-inset items-center justify-center"
+                    onPress={() => navigation.navigate('SubServicoEdit', { id: item.id })}>
+                    <MaterialIcons name="edit" size={24} color="black" />
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    className="bg-cyan-100 p-2 rounded-lg shadow-neu-inset items-center justify-center"
+                    onPress={() => confirmDelete(item.id)}>
+                    <MaterialIcons name="delete" size={24} color="black" />
+                  </TouchableOpacity>
+                </View>
+
               </View>
+              <TouchableOpacity onPress={() => handleImageClick(item.imagem)}>
+                <Image
+                  source={{ uri: item.imagem }}
+                  className="w-24 h-24 my-2 rounded-full"
+                />
+              </TouchableOpacity>
             </View>
+
           )}
-          contentContainerStyle={{ marginTop: 15 }}
         />
 
         <TouchableOpacity
-          className="bg-white w-11/12 rounded-xl p-3 shadow-md py-4 self-center mt-5"
+          className="w-11/12 rounded-xl mb-5 p-3 shadow-neu py-4 self-center mt-5"
           onPress={() => navigation.navigate('SubServicoCreate')}>
-          <Text className="text-cyan-500 text-center font-bold text-lg">Cadastrar SubServico</Text>
+          <Text className="text-cyan-500 text-center font-extrabold text-xl">+ Cadastrar SubServico</Text>
         </TouchableOpacity>
       </View>
 
+      <Modal
+        animationType="fade"
+        transparent={false}
+        visible={isImageModalVisible}
+        onRequestClose={() => {
+          setImageModalVisible(false);
+        }}
+
+      >
+        <View className="flex items-center justify-center h-full bg-cyan-200">
+
+          <TouchableOpacity
+            className="mt-5 "
+            onPress={() => setImageModalVisible(false)}
+          >
+            {/* <Text className="text-cyan-500">Fechar</Text> */}
+            <AntDesign name="back" size={32} color="black" />
+          </TouchableOpacity>
+          <Image
+            source={{ uri: selectedImage }}
+            className="w-96 h-96 mt-10"
+          />
+        </View>
+      </Modal>
     </SafeAreaView>
+
   );
 };
