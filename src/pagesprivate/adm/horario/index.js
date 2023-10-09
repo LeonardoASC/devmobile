@@ -64,7 +64,7 @@ export function Horario({ navigation }) {
 
       <View className="bg-cyan-100 flex h-1/4 justify-center items-center rounded-bl-xl shadow-neu-inset">
         <Text className="text-cyan-700 text-2xl font-extrabold text-center">
-          Horários do Barbeiro
+          Horários de atendimento
         </Text>
       </View>
 
@@ -82,13 +82,13 @@ export function Horario({ navigation }) {
                   className="bg-cyan-100 p-2 rounded-lg mr-2 shadow-neu-inset"
                   onPress={() => navigation.navigate('HorarioEdit', { id: item.id })}
                 >
-                  <MaterialIcons name="edit" size={24} color="cyan-700" />
+                  <MaterialIcons name="edit" size={24} color="black" />
                 </TouchableOpacity>
                 <TouchableOpacity
                   className="bg-cyan-100 p-2 rounded-lg shadow-neu-inset"
                   onPress={() => confirmDelete(item.id)}
                 >
-                  <MaterialIcons name="delete" size={24} color="red-500" />
+                  <MaterialIcons name="delete" size={24} color="black" />
                 </TouchableOpacity>
               </View>
             </View>

@@ -93,7 +93,7 @@ export function Servico({ navigation }) {
           className="bg-white w-11/12 rounded-xl p-3 shadow-md py-4 self-center mt-5"
           onPress={() => navigation.navigate('ServicoCreate')}
         >
-          <Text className="text-cyan-500 text-center font-bold text-lg">Cadastrar Horário</Text>
+          <Text className="text-cyan-500 text-center font-bold text-lg">Cadastrar Serviço</Text>
         </TouchableOpacity>
       </View>
 

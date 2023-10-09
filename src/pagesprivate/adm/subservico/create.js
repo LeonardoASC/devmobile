@@ -97,7 +97,7 @@ export function SubServicoCreate({ navigation }) {
         <Text className="text-white text-center mt-4">Preencha os campos abaixo.</Text>
 
         <View className="mt-5 w-full">
-          <View className="flex-row items-center bg-[#06b6d4] p-2 rounded mb-4 border-b border-zinc-300">
+          <View className="flex-row items-center  p-2 rounded mb-4 border-b border-zinc-300">
             <TextInput
               type="text"
               placeholder="Nome do Sub-Serviço"
@@ -107,7 +107,7 @@ export function SubServicoCreate({ navigation }) {
             />
           </View>
 
-          <View className="flex-row items-center bg-[#06b6d4] p-2 rounded mb-4 border-b border-zinc-300">
+          <View className="flex-row items-center  p-2 rounded mb-4 border-b border-zinc-300">
             <TextInput
               type="text"
               placeholder="Preço"
@@ -117,7 +117,7 @@ export function SubServicoCreate({ navigation }) {
             />
           </View>
 
-          <View className="bg-[#06b6d4] p-2 rounded mb-4 border-b border-zinc-300">
+          <View className=" p-2 rounded mb-4 border-b border-zinc-300">
             <TouchableOpacity onPress={() => setShowTimePicker(true)} style={{ flexDirection: 'row', alignItems: 'center' }}>
               <Text className="text-white ml-2">Selecionar Tempo:</Text>
               <TextInput
@@ -138,7 +138,7 @@ export function SubServicoCreate({ navigation }) {
             />
           )}
 
-          <View className="flex-row items-center bg-[#06b6d4] p-2 rounded mb-4 border-b border-zinc-300">
+          <View className="flex-row items-center  p-2 rounded mb-4 border-b border-zinc-300">
             <TextInput
               type="text"
               placeholder="Imagem"
@@ -151,7 +151,7 @@ export function SubServicoCreate({ navigation }) {
           <Picker
             selectedValue={servicoid}
             onValueChange={(itemValue) => setServicoid(itemValue)}
-            style={{ backgroundColor: "#06b6d4", color: "white" }}
+            style={{  color: "white" }}
           >
             <Picker.Item enabled label="Escolha um tipo de serviço" />
             {services.map((service) => (

@@ -42,7 +42,7 @@ export function HorarioEdit({ route, navigation }) {
 
 
   return (
-    <SafeAreaView className="flex-1 bg-cyan-500">
+    <SafeAreaView className="flex-1">
 
     <View className="bg-white flex h-1/4 justify-center items-center rounded-bl-full">
         <Text className="text-cyan-600 text-xl font-bold text-center">
@@ -55,7 +55,7 @@ export function HorarioEdit({ route, navigation }) {
         <Text className="text-white text-center mt-4">Informe o horário desejado.</Text>
 
         <View className="mt-5 w-full">
-            <View className="flex-row items-center bg-[#06b6d4] p-2 rounded mb-4 border-b border-zinc-300">
+            <View className="flex-row items-center p-2 rounded mb-4 border-b border-zinc-300">
                 <TextInput
                     type="time"
                     placeholder="Insira o horário (ex: 14:00)"
