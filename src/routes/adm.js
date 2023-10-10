@@ -1,6 +1,7 @@
 import { createStackNavigator } from "@react-navigation/stack";
+import { createDrawerNavigator } from '@react-navigation/drawer';
 
-import { DashBoard } from "../pagesprivate/adm/dashboard"
+import { Agendamento } from "../pagesprivate/adm/agendamento"
 import { Home } from "../pagesprivate/adm/home";
 
 import { Horario } from "../pagesprivate/adm/horario"
@@ -15,9 +16,14 @@ import { SubServico } from "../pagesprivate/adm/subservico"
 import { SubServicoCreate } from "../pagesprivate/adm/subservico/create"
 import { SubServicoEdit } from "../pagesprivate/adm/subservico/edit"
 
-const Stack = createStackNavigator();
+import { CustomDrawerContent } from "./CustomDrawerContent";
 
-export function Adm() {
+
+
+const Stack = createStackNavigator();
+const Drawer = createDrawerNavigator();
+
+function HomeStack() {
     return (
         <Stack.Navigator
             initialRouteName="Home"
@@ -29,7 +35,7 @@ export function Adm() {
             }}
         >
             <Stack.Screen name="Home" component={Home} />
-            <Stack.Screen name="DashBoard" component={DashBoard} />
+            <Stack.Screen name="Agendamento" component={Agendamento} />
             
             <Stack.Screen name="Horario" component={Horario} />
             <Stack.Screen name="HorarioCreate" component={HorarioCreate} />
@@ -43,5 +49,28 @@ export function Adm() {
             <Stack.Screen name="SubServicoCreate" component={SubServicoCreate} />
             <Stack.Screen name="SubServicoEdit" component={SubServicoEdit} />
         </Stack.Navigator>
+    );
+}
+
+export function Adm() {
+    return (
+        <Drawer.Navigator 
+        initialRouteName="HomeStack"
+        
+        screenOptions={{
+            cardStyle: {
+                backgroundColor: "#a5f3fc",
+            },
+            headerShown: false
+        }}
+        
+        drawerContent={props => <CustomDrawerContent {...props} />}
+        >
+            <Drawer.Screen name="HomeStack" component={HomeStack}  options={{ drawerLabel: 'Home' }} />
+            <Drawer.Screen name="Agendamento" component={Agendamento} />
+            <Drawer.Screen name="Horario" component={Horario} />
+            <Drawer.Screen name="Servico" component={Servico} />
+            <Drawer.Screen name="SubServico" component={SubServico} />
+        </Drawer.Navigator>
     );
 }

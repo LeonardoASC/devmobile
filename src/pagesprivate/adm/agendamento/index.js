@@ -4,7 +4,7 @@ import { Picker } from '@react-native-picker/picker';
 import { Ionicons } from '@expo/vector-icons';
 import api from '../../../services/api';
 
-export function DashBoard({ navigation }) {
+export function Agendamento({ navigation }) {
     const [agendamentos, setAgendamentos] = useState([]);
     const [filteredAgendamentos, setFilteredAgendamentos] = useState([]);
     const [selectedDate, setSelectedDate] = useState('');
@@ -56,7 +56,7 @@ export function DashBoard({ navigation }) {
     }
 
     return (
-        <SafeAreaView className="flex-1">
+        <SafeAreaView className="flex-1 bg-cyan-100">
             <View className="p-4 shadow-offset-[0,5] mt-4">
                 <View className="flex-row justify-start">
                     <TouchableOpacity
