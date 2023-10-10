@@ -14,7 +14,7 @@ export function Horario({ navigation }) {
     fetchTimes();
   }, []);
 
-  
+
 
   const fetchTimes = async () => {
     try {

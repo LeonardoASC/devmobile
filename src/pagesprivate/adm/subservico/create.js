@@ -6,6 +6,8 @@ import { Picker } from '@react-native-picker/picker';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import * as ImagePicker from 'expo-image-picker';
 import { Feather } from '@expo/vector-icons';
+import { FontAwesome, MaterialIcons } from '@expo/vector-icons';
+import { EvilIcons } from '@expo/vector-icons';
 
 
 export function SubServicoCreate({ navigation }) {
@@ -101,90 +103,98 @@ export function SubServicoCreate({ navigation }) {
   };
 
   return (
-    <SafeAreaView className="flex-1">
+    <SafeAreaView className="flex-1 bg-cyan-100">
 
-      <View className="bg-white flex h-1/6 justify-center items-center rounded-bl-full">
-        <Text className="text-cyan-600 text-xl font-bold text-center">
-          logo
+      {/* Cabeçalho */}
+      <View className="bg-cyan-100 flex h-1/6 justify-center items-center rounded-bl-xl shadow-neu-inset">
+        <Text className="text-cyan-700 text-xl font-extrabold text-center">
+          Registrar Sub-Serviço
         </Text>
       </View>
 
       <View className=" p-5 mt-2">
-        <Text className="text-white text-3xl font-extrabold self-center">Registrar Sub-Serviço...</Text>
-        <Text className="text-white text-center mt-4">Preencha os campos abaixo.</Text>
+        <Text className="text-cyan-700 text-3xl font-extrabold self-center">Registrar Sub-Serviço...</Text>
+        <Text className="text-cyan-600 text-center mt-4">Preencha os campos abaixo.</Text>
 
         <ScrollView className="flex-grow">
           <View className="mt-5 w-full ">
-            <View className="flex-row items-center  p-2 rounded mb-4 border-b border-zinc-300">
+
+            {/* Nome do Sub-Serviço */}
+            <View className="flex-row items-center p-2 rounded mb-4 shadow-neu-inset bg-white">
+              <FontAwesome name="user" size={24} color="black" />
               <TextInput
                 type="text"
                 placeholder="Nome do Sub-Serviço"
                 value={name}
                 onChangeText={setName}
-                className="flex-1 ml-2 text-white"
+                className="flex-1 ml-2 text-black"
               />
             </View>
 
-            <View className="flex-row items-center  p-2 rounded mb-4 border-b border-zinc-300">
+            {/* Preço */}
+            <View className="flex-row items-center p-2 rounded mb-4 shadow-neu-inset bg-white">
+              <FontAwesome name="dollar" size={24} color="black" />
               <TextInput
                 type="text"
                 placeholder="Preço"
                 value={preco}
                 onChangeText={setPreco}
-                className="flex-1 ml-2 text-white"
+                className="flex-1 ml-2 text-black"
               />
             </View>
-            <View className="flex-row items-center  p-2 rounded  border-zinc-300">
+
+            {/* Imagem */}
+            <View className="flex-row items-center p-2 rounded shadow-neu-inset bg-white">
+              <MaterialIcons name="image" size={24} color="black" />
               <TextInput
                 type="text"
                 placeholder="Imagem"
                 value={imagem}
                 onChangeText={setImage}
-                className="flex-1 ml-2 text-white"
-                editable={false} 
+                className="flex-1 ml-2 text-black"
+                editable={false}
               />
               <View className="items-center justify-center">
-                {!imagem && (
+                {!imagem ? (
                   <TouchableOpacity
-                    className="bg-white mb-5 rounded-xl p-3 shadow-md py-4 self-center mt-5"
+                    className="m-2 bg-cyan-100 rounded-xl p-2 shadow-neu"
                     onPress={pickImage}
                   >
-                    <Text className="text-cyan-500 text-center font-bold text-xs">Selecione a imagem</Text>
+                    <MaterialIcons name="add-a-photo" size={24} color="black" />
                   </TouchableOpacity>
-                )}
-                {imagem && (
-                  <>
+                ) : (
                   <View className="flex flex-row items-center justify-center">
                     <Image source={{ uri: imagem }} className="w-12 h-12 rounded-full" />
-                    <Feather name="x" size={24} color="black" onPress={() => setImage('')} />
+                    <Feather name="x" size={24} color="red" onPress={() => setImage('')} />
                   </View>
-                  </>
                 )}
-
               </View>
             </View>
 
+            {/* Picker */}
             <Picker
               selectedValue={servicoid}
               onValueChange={(itemValue) => setServicoid(itemValue)}
-              style={{ color: "white" }}
+              style={{ color: "black", backgroundColor: "white", marginTop: 10, marginBottom: 10, borderRadius: 8 }}
             >
               <Picker.Item enabled label="Escolha um tipo de serviço" />
               {services.map((service) => (
-                <Picker.Item className="text-white" key={service.id} label={service.name} value={service.id} />
+                <Picker.Item className="text-black" key={service.id} label={service.name} value={service.id} />
               ))}
             </Picker>
 
-            <View className=" p-2 rounded mb-4 border-b border-zinc-300">
+            {/* Tempo */}
+            <View className=" p-2 rounded mb-4 shadow-neu-inset bg-white">
               <TouchableOpacity onPress={() => setShowTimePicker(true)} style={{ flexDirection: 'row', alignItems: 'center' }}>
-                <Text className="text-white ml-2">Selecionar Tempo:</Text>
+                <MaterialIcons name="timer" size={24} color="black" />
                 <TextInput
                   value={formatTime(tempo)}
                   editable={false}
-                  className="flex-1 ml-2 text-white"
+                  className="flex-1 ml-2 text-black"
                 />
               </TouchableOpacity>
             </View>
+
             {showTimePicker && (
               <DateTimePicker
                 value={tempo}
@@ -197,18 +207,23 @@ export function SubServicoCreate({ navigation }) {
 
           </View>
         </ScrollView>
-
       </View>
 
+      {/* Botão */}
       <View className="absolute bottom-0 w-full pb-5 px-5">
-
         <TouchableOpacity
-          className="bg-white w-11/12 mb-5 rounded-xl p-3 shadow-md py-4 self-center mt-5"
+          className="bg-cyan-100 w-11/12 mb-5 rounded-xl p-3 shadow-neu py-4 self-center mt-5"
           onPress={handleSubmit}
         >
-          <Text className="text-cyan-500 text-center font-bold text-lg">Salvar Servico</Text>
+          <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
+            <EvilIcons name="check" size={24} color="#0e7490" />
+            <Text className="text-cyan-700 text-center font-extrabold text-lg ml-2">
+              Salvar Servico
+            </Text>
+          </View>
         </TouchableOpacity>
       </View>
+
     </SafeAreaView>
 
 

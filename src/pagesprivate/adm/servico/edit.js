@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { SafeAreaView, View, Text, TouchableOpacity, TextInput, Alert } from 'react-native';
+import { SafeAreaView, View, Text, TouchableOpacity, TextInput, Alert, ScrollView } from 'react-native';
 import api from '../../../services/api';
+import { FontAwesome, MaterialIcons } from '@expo/vector-icons';
 
 export function ServicoEdit({ route, navigation }) {
   const [name, setName] = useState('');
@@ -42,40 +43,47 @@ export function ServicoEdit({ route, navigation }) {
 
 
   return (
-    <SafeAreaView className="flex-1">
+    <SafeAreaView className="flex-1 bg-cyan-100">
 
-      <View className="bg-white flex h-1/4 justify-center items-center rounded-bl-full">
-        <Text className="text-cyan-600 text-xl font-bold text-center">
+      <View className="bg-cyan-100 flex h-1/5 justify-center items-center rounded-bl-xl shadow-neu-inset">
+        <Text className="text-cyan-700 text-2xl font-extrabold text-center">
           Edição de Serviço
         </Text>
       </View>
 
-      <View className="flex-1 p-5 mt-2">
-        <Text className="text-white text-3xl font-extrabold self-center">Editar Serviço...</Text>
-        <Text className="text-white text-center mt-4">Altere o serviço conforme necessário.</Text>
+      <ScrollView className="flex-1 px-5 mt-2">
+        <Text className="text-cyan-700 text-3xl font-extrabold self-center">Editar Serviço...</Text>
+        <Text className="text-cyan-600 text-center mt-4">Altere o serviço conforme necessário.</Text>
 
         <View className="mt-5 w-full">
-          <View className="flex-row items-center p-2 rounded mb-4 border-b border-zinc-300">
+          <View className="flex-row items-center p-2 rounded mb-4 shadow-neu-inset bg-white">
+            <MaterialIcons name="edit" size={24} color="black" />
             <TextInput
               placeholder="Insira o serviço (ex: Corte Masculino)"
               value={name}
               onChangeText={setName}
-              className="flex-1 ml-2 text-white"
+              className="flex-1 ml-2 text-black"
             />
           </View>
         </View>
+      </ScrollView>
 
+      <View className="absolute bottom-0 w-full pb-5 px-5">
         <TouchableOpacity
-          className="bg-white w-11/12 rounded-xl p-3 shadow-md py-4 self-center mt-5"
+          className="bg-cyan-100 w-11/12 mb-5 rounded-xl p-3 shadow-neu py-4 self-center mt-5"
           onPress={handleSubmit}
         >
-          <Text className="text-cyan-500 text-center font-bold text-lg">
-            Salvar Serviço
-          </Text>
+          <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
+            <MaterialIcons name="update" size={24} color="#0e7490" />
+            <Text className="text-cyan-700 text-center font-extrabold text-lg ml-2">
+              Atualizar Serviço
+            </Text>
+          </View>
         </TouchableOpacity>
       </View>
 
     </SafeAreaView>
+
 
   );
 }

@@ -12,7 +12,7 @@ async function getToken() {
 
 // Criando a instância Axios
 const api = axios.create({
-    baseURL: 'http://10.55.0.101:8000/api/',
+    baseURL: 'http://192.168.15.12:8000/api/',
     // timeout: 1000,
     headers: {
         'Content-Type': 'Application/json',
