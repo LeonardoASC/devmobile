@@ -51,9 +51,7 @@ export function ServicoPrivate({route, navigation }) {
   ];
 
   const ServiceItem = ({ item }) => (
-    <TouchableOpacity
-
-    >
+    <TouchableOpacity>
       <Text
         onPress={() => {
           setServico(item.name);

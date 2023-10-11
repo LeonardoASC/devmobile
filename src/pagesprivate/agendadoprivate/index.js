@@ -18,15 +18,6 @@ export function AgendadoPrivate({ route, navigation }) {
       tipo_servico: serviceName,
       servico_especifico: subServiceName
     })
-      // .then(response => {
-      //   console.log("Dados enviados com sucesso:", response.data);
-      //   // Aqui, você pode adicionar lógica adicional após o sucesso. Ex: Mostrar uma mensagem para o usuário.
-      //   navigation.navigate('Home');
-      // })
-      // .catch(error => {
-      //   console.error("Erro ao enviar dados:", error);
-      //   // Aqui, você pode adicionar lógica para lidar com o erro. Ex: Mostrar uma mensagem de erro para o usuário.
-      // });
       .then(response => {
         // console.log(response.data.success)
         if (response.data.success) {
