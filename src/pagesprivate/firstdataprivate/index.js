@@ -55,7 +55,7 @@ export function FirstDataPrivate({ route, navigation }) {
 
     <SafeAreaView className="flex-1">
       <ScrollView>
-        <View className="p-5 items-center justify-center bg-cyan-500 h-screen w-full">
+        <View className="p-5 items-center justify-center  h-screen w-full">
           <SvgComponent />
           <Text className="text-white text-3xl font-extrabold self-center mt-5">Agendamento</Text>
           <Text className="text-white text-center mt-4">
@@ -63,7 +63,7 @@ export function FirstDataPrivate({ route, navigation }) {
           </Text>
 
           <View className="mt-5 w-full">
-            <View className="flex-row items-center bg-[#06b6d4] p-2 rounded mb-4 border-b border-zinc-300">
+            <View className="flex-row items-center p-2 rounded mb-4 border-b border-zinc-300">
               <Ionicons name="calendar-outline" size={19} color="white" />
               <TextInput
                 placeholder="Dia (ex: 23/09/2023)"
@@ -73,7 +73,7 @@ export function FirstDataPrivate({ route, navigation }) {
               />
             </View>
 
-            <View className="flex-row items-center bg-[#06b6d4] p-2 rounded mb-4 border-b border-zinc-300">
+            <View className="flex-row items-center p-2 rounded mb-4 border-b border-zinc-300">
               <Ionicons name="time-outline" size={19} color="white" />
               <TextInput
                 placeholder="Hora (ex: 15:30)"

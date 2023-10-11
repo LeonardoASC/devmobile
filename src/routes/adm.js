@@ -66,7 +66,7 @@ export function Adm() {
         
         drawerContent={props => <CustomDrawerContent {...props} />}
         >
-            <Drawer.Screen name="HomeStack" component={HomeStack}  options={{ drawerLabel: 'Home' }} />
+            <Drawer.Screen name="HomeStack" component={HomeStack} options={{ drawerLabel: 'Home' }} />
             <Drawer.Screen name="Agendamento" component={Agendamento} />
             <Drawer.Screen name="Horario" component={Horario} />
             <Drawer.Screen name="Servico" component={Servico} />

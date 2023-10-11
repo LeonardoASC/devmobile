@@ -1,5 +1,5 @@
 import { createStackNavigator } from "@react-navigation/stack";
-
+import { createDrawerNavigator } from '@react-navigation/drawer';
 // importação rotas privadas
 import { HomePrivate } from "../pagesprivate/homeprivate";
 import { FirstDataPrivate } from "../pagesprivate/firstdataprivate";
@@ -7,17 +7,20 @@ import { ServicoPrivate } from "../pagesprivate/servicoprivate";
 import { SubServicoPrivate } from "../pagesprivate/subservicoprivate";
 import { AgendadoPrivate } from "../pagesprivate/agendadoprivate";
 
-const Stack = createStackNavigator();
+import { CustomDrawerContent } from "./CustomDrawerContent";
 
-export function Private() {
+const Stack = createStackNavigator();
+const Drawer = createDrawerNavigator();
+
+function HomeStack() {
   return (
     <Stack.Navigator
-    initialRouteName="HomePrivate"
+      initialRouteName="HomePrivate"
       screenOptions={{
         cardStyle: {
           backgroundColor: "#a5f3fc",
         },
-        headerShown: false 
+        headerShown: false
       }}
     >
       <Stack.Screen name="HomePrivate" component={HomePrivate} />
@@ -26,5 +29,25 @@ export function Private() {
       <Stack.Screen name="SubServicoPrivate" component={SubServicoPrivate} />
       <Stack.Screen name="AgendadoPrivate" component={AgendadoPrivate} />
     </Stack.Navigator>
+  );
+}
+
+
+
+
+export function Private() {
+  return (
+    <Drawer.Navigator
+      initialRouteName="HomeStack"
+      screenOptions={{
+        cardStyle: {
+          backgroundColor: "#a5f3fc",
+        },
+        headerShown: false
+      }}
+      drawerContent={props => <CustomDrawerContent {...props} />}
+    >
+      <Drawer.Screen name="HomeStack" component={HomeStack} options={{ drawerLabel: 'Home' }}/>
+    </Drawer.Navigator>
   );
 }
