@@ -8,6 +8,7 @@ import api from "../../services/api";
 
 
 
+
 export function FirstDataPrivate({ route, navigation }) {
   const [name, setName] = useState("");
   const [date, setDate] = useState("");
@@ -96,41 +97,51 @@ export function FirstDataPrivate({ route, navigation }) {
 
   return (
 
-    <SafeAreaView className="flex-1">
+    <SafeAreaView className="flex-1 bg-cyan-200">
 
-      <View className="p-5 items-center justify-center  h-screen w-full">
-        {/* <SvgComponent /> */}
-        <Text className="text-white text-3xl font-extrabold self-center mt-5">Agendamento</Text>
-        <Text className="text-white text-center mt-4">
-          Informe seus dados para agendar um horário - {userInfo.name}
+      <View className="p-5 items-center justify-center h-screen w-full">
+
+        {/* Título */}
+        <View className="flex flex-row items-center mb-5">
+          <Ionicons name="calendar-outline" size={32} color="white" />
+          <Text className="text-white text-3xl font-extrabold self-center ml-3">Agendamento</Text>
+        </View>
+
+        <Text className="text-white text-center mt-1 mb-5">
+          Olá, {userInfo.name}. Selecione uma data e horário para prosseguir com seu agendamento.
         </Text>
 
-        <View className="mt-5 w-full">
+        {/* Lista de datas */}
+        <View className=" flex flex-row items-center mt-5 w-full">
+          <Ionicons name="today-outline" size={24} color="white" />
           <FlatList
             horizontal={true}
             data={dates}
             keyExtractor={(item, index) => index.toString()}
             renderItem={({ item }) => (
               <TouchableOpacity
-                className={`m-2 p-4 rounded-lg ${item.toISOString().split('T')[0] === date ? 'bg-cyan-700' : 'bg-cyan-500'}`}
+                className={`m-2 p-4 rounded-lg ${item.toISOString().split('T')[0] === date ? 'bg-cyan-700 shadow-md shadow-black' : 'text-cyan-500 bg-gray-200 justify-center items-center text-center border rounded p-2 border-gray-200 my-3 '}`}
                 disabled={isDisabled(item)}
                 onPress={() => { selectHour(item) }}
               >
-                <View className="flex flex-row gap-4">
-                  <Text className="text-white">{item.toLocaleDateString('pt-BR', { weekday: 'long' })}</Text>
-                </View>
+                <Text
+                className={`m-2 p-4 rounded-lg ${item.toISOString().split('T')[0] === date ? 'bg-cyan-700 shadow-md shadow-black' : 'text-cyan-500 bg-gray-200 justify-center items-center text-center border rounded p-2 border-gray-200 my-3 '}`}
+                >{item.toLocaleDateString('pt-BR', { weekday: 'long' })}</Text>
               </TouchableOpacity>
             )}
           />
         </View>
-        <View className="mt-5 w-full">
+
+        {/* Lista de horas */}
+        <View className="flex flex-row items-center mt-5 w-full">
+          <Ionicons name="time-outline" size={24} color="white" className="mr-3" />
           <FlatList
             horizontal={true}
             data={availableHours}
             keyExtractor={(item, index) => index.toString()}
             renderItem={({ item }) => (
               <TouchableOpacity
-                className={`m-2 p-4 rounded-lg ${item === time ? 'bg-cyan-700' : 'bg-cyan-500'}`}
+                className={`m-2 p-4 rounded-lg ${item === time ? 'bg-cyan-700 shadow-md shadow-black' : 'bg-gray-500'}`}
                 onPress={() => { setTime(item) }}
               >
                 <Text className="text-white">{item}</Text>
@@ -138,12 +149,15 @@ export function FirstDataPrivate({ route, navigation }) {
             )}
           />
         </View>
+
+        {/* Botão de confirmação */}
         <TouchableOpacity
           className="bg-white w-11/12 rounded-xl p-3 shadow-md py-4 self-center mt-5"
           onPress={() => handleSubmit(userInfo)}
         >
           <Text className="text-cyan-500 text-center font-bold text-lg">Confirmar dados</Text>
         </TouchableOpacity>
+
       </View>
 
     </SafeAreaView>
