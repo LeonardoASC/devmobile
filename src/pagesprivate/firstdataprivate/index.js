@@ -2,7 +2,7 @@ import { View, Text, TextInput, Alert, TouchableOpacity, FlatList } from "react-
 import React, { Component, useState, useContext, useEffect } from "react";
 import SvgComponent from "../../svg/circulo";
 import { AuthContext } from "../../context/AuthContext"
-import { Ionicons } from '@expo/vector-icons';
+import { Ionicons, Feather } from '@expo/vector-icons';
 import { SafeAreaView } from "react-native-safe-area-context";
 import api from "../../services/api";
 
@@ -82,8 +82,7 @@ export function FirstDataPrivate({ route, navigation }) {
     api.get(`/verify-hour/${selectedDate.toISOString().split('T')[0]}`)
       .then(response => {
         if (response.data.unreservedHours) {
-          // Transforma o objeto em array
-          const hoursArray = Object.values(response.data.unreservedHours);
+          const hoursArray = Object.values(response.data.unreservedHours).map(convertToHourMinute);
           setAvailableHours(hoursArray);
         } else {
           alert('Erro ao obter os horários! ' + (response.data.message || ''));
@@ -94,6 +93,10 @@ export function FirstDataPrivate({ route, navigation }) {
       });
   }
 
+  function convertToHourMinute(timeString) {
+    const parts = timeString.split(':');
+    return parts[0] + ':' + parts[1];
+  }
 
   return (
 
@@ -112,39 +115,57 @@ export function FirstDataPrivate({ route, navigation }) {
         </Text>
 
         {/* Lista de datas */}
-        <View className=" flex flex-row items-center mt-5 w-full">
+        <View className=" flex flex-row items-center mt-5 w-full ">
           <Ionicons name="today-outline" size={24} color="white" />
           <FlatList
+            className="flex"
             horizontal={true}
             data={dates}
             keyExtractor={(item, index) => index.toString()}
             renderItem={({ item }) => (
               <TouchableOpacity
-                className={`m-2 p-4 rounded-lg ${item.toISOString().split('T')[0] === date ? 'bg-cyan-700 shadow-md shadow-black' : 'text-cyan-500 bg-gray-200 justify-center items-center text-center border rounded p-2 border-gray-200 my-3 '}`}
+                className="justify-center items-center"
                 disabled={isDisabled(item)}
                 onPress={() => { selectHour(item) }}
               >
-                <Text
-                className={`m-2 p-4 rounded-lg ${item.toISOString().split('T')[0] === date ? 'bg-cyan-700 shadow-md shadow-black' : 'text-cyan-500 bg-gray-200 justify-center items-center text-center border rounded p-2 border-gray-200 my-3 '}`}
-                >{item.toLocaleDateString('pt-BR', { weekday: 'long' })}</Text>
+                <View
+                  className={`m-4 p-8 rounded-lg ${item.toISOString().split('T')[0] === date ? 'bg-white shadow-md shadow-black justify-center items-center w-36' : 'w-36 bg-gray-200 justify-center items-center text-center border rounded-lg p-4 border-gray-200 my-3 '}`}
+                >
+                  <Text className={`p-2${item.toISOString().split('T')[0] === date ? ' text-cyan-500 text-4xl' : 'text-lg text-cyan-500  '}`}>
+                    {item.toLocaleDateString('pt-BR', { day: 'numeric' })}
+                  </Text>
+                  <Text className={`${item.toISOString().split('T')[0] === date ? ' text-cyan-500 ' : 'text-cyan-500 '}`}>
+                    {item.toLocaleDateString('pt-BR', { weekday: 'long' })}
+                  </Text>
+
+                </View>
+
               </TouchableOpacity>
             )}
           />
+        </View>
+        <View className="bg-gray-200  flex flex-row gap-2 items-center justify-center mt-3 rounded-xl mx-3 px-4 py-2">
+          <View className="pb-2">
+
+            <Feather name="alert-octagon" size={16} color="black" />
+          </View>
+          <Text className="text-xs pb-2 ">Os agendamentos devem ser realizados com pelo menos 30 minutos de antecedência.</Text>
         </View>
 
         {/* Lista de horas */}
         <View className="flex flex-row items-center mt-5 w-full">
           <Ionicons name="time-outline" size={24} color="white" className="mr-3" />
           <FlatList
-            horizontal={true}
+            horizontal={false}
+            numColumns={4}
             data={availableHours}
             keyExtractor={(item, index) => index.toString()}
             renderItem={({ item }) => (
               <TouchableOpacity
-                className={`m-2 p-4 rounded-lg ${item === time ? 'bg-cyan-700 shadow-md shadow-black' : 'bg-gray-500'}`}
+                className="justify-center items-center"
                 onPress={() => { setTime(item) }}
               >
-                <Text className="text-white">{item}</Text>
+                <Text className={`m-2 p-4 rounded-lg ${item === time ? 'bg-white shadow-md shadow-black text-cyan-500' : 'text-cyan-500 bg-gray-200 justify-center items-center text-center border rounded p-2 border-gray-200 my-3'}`}>{item}</Text>
               </TouchableOpacity>
             )}
           />
