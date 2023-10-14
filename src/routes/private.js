@@ -18,7 +18,7 @@ function HomeStack() {
       initialRouteName="HomePrivate"
       screenOptions={{
         cardStyle: {
-          backgroundColor: "#a5f3fc",
+          backgroundColor: "#082f49",
         },
         headerShown: false
       }}
@@ -41,7 +41,7 @@ export function Private() {
       initialRouteName="HomeStack"
       screenOptions={{
         cardStyle: {
-          backgroundColor: "#a5f3fc",
+          backgroundColor: "#082f49",
         },
         headerShown: false
       }}

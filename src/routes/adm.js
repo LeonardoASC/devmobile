@@ -29,7 +29,7 @@ function HomeStack() {
             initialRouteName="Home"
             screenOptions={{
                 cardStyle: {
-                    backgroundColor: "#a5f3fc",
+                    backgroundColor: "#082f49",
                 },
                 headerShown: false
             }}
@@ -59,7 +59,7 @@ export function Adm() {
         
         screenOptions={{
             cardStyle: {
-                backgroundColor: "#a5f3fc",
+                backgroundColor: "#082f49",
             },
             headerShown: false
         }}

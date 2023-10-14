@@ -32,7 +32,7 @@ export function Agendamento({ navigation }) {
                 setAgendamentos(response.data);
             }
         } catch (error) {
-            console.error("Erro ao buscar horários:", error);
+            console.error("Erro ao buscar agendamentos:", error);
         }
     };
 

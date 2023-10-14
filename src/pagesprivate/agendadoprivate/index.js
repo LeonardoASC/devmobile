@@ -1,26 +1,30 @@
 import React from 'react';
 import { View, Text, SafeAreaView, TouchableOpacity, Alert } from 'react-native';
 import api from '../../services/api'
+import { AuthContext } from "../../context/AuthContext"
+import { useContext } from "react";
 
 export function AgendadoPrivate({ route, navigation }) {
+  const { userInfo } = useContext(AuthContext);
   const name = route.params?.nameProp;
   const time = route.params?.timeProp;
   const date = route.params?.dateProp;
   const serviceName = route.params?.serviceName;
   const subServiceName = route.params?.subServiceName;
-
+  
   const sendData = () => {
-
     api.post('/agendamento', {
       nome: name,
       dia: date,
       horario: time,
       tipo_servico: serviceName,
-      servico_especifico: subServiceName
+      servico_especifico: subServiceName,
+      user_id: userInfo.id
     })
-      .then(response => {
-        // console.log(response.data.success)
-        if (response.data.success) {
+    .then(response => {
+      // console.log(response.data.success)
+      if (response.data.success) {
+          
           Alert.alert("Reserva Realizada!", "Ficamos felizes com seu agendamento! Aguardamos voce.");
           navigation.navigate('HomePrivate');
         } else {
