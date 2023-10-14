@@ -148,7 +148,6 @@ export function SubServico({ navigation }) {
             className="mt-5 "
             onPress={() => setImageModalVisible(false)}
           >
-            {/* <Text className="text-cyan-500">Fechar</Text> */}
             <AntDesign name="back" size={32} color="black" />
           </TouchableOpacity>
           <Image

@@ -1,19 +1,17 @@
-import { View, Text, TextInput, Button, Alert, TouchableOpacity, SafeAreaView, Keyboard } from "react-native";
-import React, { Component, useState, useEffect } from "react";
+import { View, Text, Alert, TouchableOpacity, FlatList, SafeAreaView, ScrollView, TextInput } from "react-native";
+import React, { useState, useEffect } from "react";
 import SvgComponent from "../../svg/circulo";
-import { Ionicons, EvilIcons } from '@expo/vector-icons';
+import { Ionicons, Feather } from '@expo/vector-icons';
 import api from "../../services/api";
-import { ScrollView } from "react-native-gesture-handler";
 
 export function FirstData({ route, navigation }) {
   const [name, setName] = useState("");
   const [date, setDate] = useState("");
   const [time, setTime] = useState("");
-
-
+  const [dates, setDates] = useState([]);
+  const [availableHours, setAvailableHours] = useState([]);
 
   const handleSubmit = async () => {
-
     const fields = {
       nome: name.trim(),
       data: date.trim(),
@@ -39,7 +37,6 @@ export function FirstData({ route, navigation }) {
       if (response.data && response.data.exists) {
         Alert.alert('Erro', 'Já existe um agendamento para esse dia e horário.');
       } else {
-
         Alert.alert(
           "Confirmar dados inseridos",
           `Nome: ${name}, Dia: ${date}, Hora: ${time}`,
@@ -52,9 +49,7 @@ export function FirstData({ route, navigation }) {
               text: 'Confirmar',
               onPress: () => navigation.navigate('Servico', { nameProp: name, dateProp: date, timeProp: time })
             }
-
           ]
-
         );
       }
     } catch (error) {
@@ -62,52 +57,138 @@ export function FirstData({ route, navigation }) {
     }
   };
 
+  const isDisabled = (date) => {
+    const day = date.getDay();
+    return day === 0 || day === 1; // 0 é domingo e 1 é segunda-feira
+  };
+
+  const selectHour = (selectedDate) => {
+    setDate(selectedDate.toISOString().split('T')[0]);
+
+    api.get(`/verify-hour/${selectedDate.toISOString().split('T')[0]}`)
+      .then(response => {
+        if (response.data.unreservedHours) {
+          const hoursArray = Object.values(response.data.unreservedHours).map(convertToHourMinute);
+          setAvailableHours(hoursArray);
+        } else {
+          alert('Erro ao obter os horários! ' + (response.data.message || ''));
+        }
+      })
+      .catch(error => {
+        console.error("Erro ao obter os horários:", error);
+      });
+  }
+
+  function convertToHourMinute(timeString) {
+    const parts = timeString.split(':');
+    return parts[0] + ':' + parts[1];
+  }
+
+  useEffect(() => {
+    const generateDates = () => {
+      const result = [];
+      const today = new Date();
+
+      for (let i = 0; i < 25; i++) {
+        const currentDate = new Date();
+        currentDate.setDate(today.getDate() + i);
+        result.push(currentDate);
+      }
+
+      return result;
+    };
+
+    setDates(generateDates());
+  }, []);
+
   return (
-    <SafeAreaView className="flex-1 flex justify-center">
-      <ScrollView >
-        <View className="p-5 items-center justify-center h-screen w-full">
-          <SvgComponent width={300} height={300}/>
-          <Text className="text-white text-center text-3xl font-extrabold">Agendamento</Text>
-          <Text className="text-white text-center mt-4">Informe seus dados para agendar um horario</Text>
+    <SafeAreaView className="flex-1 ">
 
-          <View className="flex-row items-center  p-2 rounded mb-4 border-b border-zinc-300">
-            <Ionicons name="person-outline" size={20} color="white" />
-            <TextInput
-              placeholder="Nome"
-              value={name}
-              onChangeText={setName}
-              className="flex-1 ml-2 text-white"
-            />
-          </View>
+      <View className="p-5 items-center justify-center h-screen w-full mt-10">
 
-          <View className="flex-row items-center  p-2 rounded mb-4 border-b border-zinc-300">
-            <Ionicons name="calendar-outline" size={19} color="white" />
-            <TextInput
-              placeholder="Dia (ex: 23/09/2023)"
-              value={date}
-              onChangeText={setDate}
-              className="flex-1 ml-2 text-white"
-            />
-          </View>
-
-          <View className="flex-row items-center  p-2 rounded mb-4 border-b border-zinc-300">
-            <Ionicons name="time-outline" size={19} color="white" />
-            <TextInput
-              placeholder="Hora (ex: 15:30)"
-              value={time}
-              onChangeText={setTime}
-              className="flex-1 ml-2 text-white"
-            />
-          </View>
-
-          <TouchableOpacity
-            className="bg-white w-11/12 rounded-xl p-3 shadow-md py-4"
-            onPress={handleSubmit}
-          >
-            <Text className="text-cyan-500 text-center font-bold text-lg">Confirmar dados</Text>
-          </TouchableOpacity>
+        {/* Título */}
+        <View className="flex flex-row items-center mb-5">
+          <Ionicons name="calendar-outline" size={32} color="white" />
+          <Text className="text-white text-3xl font-extrabold self-center ml-3">Data/Horario</Text>
         </View>
-      </ScrollView>
+
+        <View className="flex-row items-center  p-2 rounded mb-2 border-b border-zinc-300">
+          <Ionicons name="person-outline" size={20} color="white" />
+          <TextInput
+            placeholder="Nome"
+            placeholderTextColor="#a3a3a3"
+            value={name}
+            onChangeText={setName}
+            className="flex-1 ml-2 text-white"
+          />
+        </View>
+
+        {/* Lista de datas */}
+        <View className=" flex flex-row items-center mt-4 w-full ">
+          <Ionicons name="today-outline" size={24} color="white" />
+          <FlatList
+            className="flex"
+            horizontal={true}
+            data={dates}
+            keyExtractor={(item, index) => index.toString()}
+            renderItem={({ item }) => (
+              <TouchableOpacity
+                className="justify-center items-center"
+                disabled={isDisabled(item)}
+                onPress={() => { selectHour(item) }}
+              >
+                <View
+                  className={`m-4 p-8 rounded-lg ${item.toISOString().split('T')[0] === date ? 'bg-white shadow-md shadow-black justify-center items-center w-36' : 'w-36 bg-gray-200 justify-center items-center text-center border rounded-lg p-4 border-gray-200 my-3 '}`}
+                >
+                  <Text className={`p-2${item.toISOString().split('T')[0] === date ? ' text-cyan-500 text-4xl' : 'text-lg text-cyan-500  '}`}>
+                    {item.toLocaleDateString('pt-BR', { day: 'numeric' })}
+                  </Text>
+                  <Text className={`${item.toISOString().split('T')[0] === date ? ' text-cyan-500 ' : 'text-cyan-500 '}`}>
+                    {item.toLocaleDateString('pt-BR', { weekday: 'long' })}
+                  </Text>
+                </View>
+              </TouchableOpacity>
+            )}
+          />
+        </View>
+        {/* Alerta */}
+        <View className="bg-gray-200  flex flex-row gap-2 items-center justify-center mt-3 rounded-xl mx-3 px-4 py-2">
+          <View className="pb-2">
+            <Feather name="alert-octagon" size={16} color="black" />
+          </View>
+          <Text className="text-xs pb-2 ">Os agendamentos devem ser realizados com pelo menos 30 minutos de antecedência.</Text>
+        </View>
+
+        {/* Lista de horas */}
+        <View className="flex flex-row items-center mt-5 w-full">
+          <Ionicons name="time-outline" size={24} color="white" className="mr-3" />
+          <FlatList
+            horizontal={false}
+            numColumns={4}
+            data={availableHours}
+            keyExtractor={(item, index) => index.toString()}
+            renderItem={({ item }) => (
+              <TouchableOpacity
+                className="justify-center items-center"
+                onPress={() => { setTime(item) }}
+              >
+                <Text className={`m-2 p-4 rounded-lg ${item === time ? 'bg-white shadow-md shadow-black text-cyan-500' : 'text-cyan-500 bg-gray-200 justify-center items-center text-center border rounded p-2 border-gray-200 my-3'}`}>{item}</Text>
+              </TouchableOpacity>
+            )}
+          />
+        </View>
+        
+        {/* Botão de confirmação */}
+        <TouchableOpacity
+          onPress={handleSubmit}
+          className="flex flex-row items-center mt-16 bg-white w-3/5 p-3 rounded-lg shadow-black justify-between"
+        >
+          <Text className="text-black">Agendar</Text>
+          <Feather name="arrow-right" size={24} color="black" />
+        </TouchableOpacity>
+
+      </View>
+
     </SafeAreaView>
   );
 }

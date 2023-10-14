@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, FlatList, SafeAreaView, TouchableOpacity, Alert} from "react-native";
+import { View, Text, FlatList, SafeAreaView, TouchableOpacity, Alert, Image } from "react-native";
 import api from '../../services/api';
+import { MaterialIcons, Feather } from '@expo/vector-icons';
 
 export function SubServicoPrivate({ route, navigation }) {
   const serviceId = route.params?.serviceId;
@@ -15,13 +16,13 @@ export function SubServicoPrivate({ route, navigation }) {
   useEffect(() => {
     const fetchSubServicos = async () => {
       try {
-          const response = await api.get('/subservico');
-          if (response.data && response.data.length) {
-              const filteredSubServices = response.data.filter(subService => subService.servico_id === serviceId);
-              setSubServices(filteredSubServices);
-          }
+        const response = await api.get('/subservico');
+        if (response.data && response.data.length) {
+          const filteredSubServices = response.data.filter(subService => subService.servico_id === serviceId);
+          setSubServices(filteredSubServices);
+        }
       } catch (error) {
-          console.error("Erro ao buscar subserviços:", error);
+        console.error("Erro ao buscar subserviços:", error);
       }
     };
 
@@ -29,25 +30,50 @@ export function SubServicoPrivate({ route, navigation }) {
   }, [serviceId]);
 
   const SubServiceItem = ({ item }) => (
-    <TouchableOpacity>
-      <Text
+    
+      <TouchableOpacity
         onPress={() => setSelectedSubService(item)}
         className={
-          item.name === selectedSubService?.name
-            ? "text-cyan-500 bg-white justify-center items-center text-center border rounded p-2 border-white my-3 "
-            : "text-cyan-500 bg-gray-200 justify-center items-center text-center border rounded p-2 border-gray-200 my-3"
+          "justify-center items-center p-4 my-3 rounded-xl border-2 " +
+          (item.name === selectedSubService?.name ? "bg-white border-white shadow-md" : "bg-gray-200 border-gray-300")
         }
       >
-        {item.name}
-      </Text>
-    </TouchableOpacity>
+        <Image
+          source={{ uri: item.imagem }}
+          className="w-24 h-24 my-2 rounded-full"
+        />
+        <Text className={
+          "text-cyan-500 text-center  " +
+          (item.name === selectedSubService?.name ? "" : "bg-gray-200")
+        }>{item.name}</Text>
+        <View className="flex flex-row gap-x-2 mt-4 items-center justify-center">
+
+          <View className="flex flex-row justify-center items-center ">
+            <MaterialIcons name="attach-money" size={24} color="#06b6d4" />
+            <Text className={
+              "text-cyan-500 text-center " +
+              (item.name === selectedSubService?.name ? "" : "bg-gray-200")
+            }>{item.preco}</Text>
+          </View>
+
+          <View className="flex flex-row justify-center items-center gap-x-1">
+            <Feather name="clock" size={20} color="#06b6d4" />
+            <Text className={
+              "text-cyan-500 text-center" +
+              (item.name === selectedSubService?.name ? "" : "bg-gray-200")
+            }>{item.tempo_de_duracao}</Text>
+          </View>
+        </View>
+      </TouchableOpacity>
+    
   );
 
   return (
     <SafeAreaView className="flex-1">
-         <View className="bg-white h-1/4 rounded-bl-full justify-center  items-center">
+      <View className="bg-white h-1/4 rounded-bl-full justify-center  items-center">
         <Text className="text-cyan-600 text-xl font-bold text-center">Escolha o sub-serviço</Text>
       </View>
+      
       <View className="p-5 flex justify-center items-center h-2/4 w-full mt-10 rounded-tr-xl ">
         <Text className="text-white">Escolha o tipo de sub-serviço que você deseja:</Text>
         <FlatList
@@ -67,15 +93,15 @@ export function SubServicoPrivate({ route, navigation }) {
             }
 
             navigation.navigate('AgendadoPrivate',
-            {
-              nameProp: nameProp,
-              dateProp: dateProp,
-              timeProp: timeProp,
-              serviceName: serviceName,
-              subServiceName: selectedSubService.name,
-              subServiceId: selectedSubService.id,
-              // Adicione mais campos aqui se precisar
-            })
+              {
+                nameProp: nameProp,
+                dateProp: dateProp,
+                timeProp: timeProp,
+                serviceName: serviceName,
+                subServiceName: selectedSubService.name,
+                subServiceId: selectedSubService.id,
+                // Adicione mais campos aqui se precisar
+              })
           }}
         >
           <Text className="text-cyan-500 font-bold text-lg">Selecionar</Text>

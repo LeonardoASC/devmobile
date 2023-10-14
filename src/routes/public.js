@@ -17,7 +17,7 @@ export function Public() {
       initialRouteName="Home"
       screenOptions={{
         cardStyle: {
-          backgroundColor: "#a5f3fc",
+          backgroundColor: "#082f49",
         },
         headerShown: false
       }}

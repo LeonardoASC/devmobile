@@ -1,21 +1,37 @@
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
   FlatList,
   SafeAreaView,
-  Button,
   Alert,
   TouchableOpacity,
 } from "react-native";
-import React, { Component, useState } from "react";
+import api from '../../services/api';  // Ajuste o caminho conforme sua estrutura de pastas
 
 export function Servico({route, navigation }) {
   const [servico, setServico] = useState("");
   const [selectedItemId, setSelectedItemId] = useState(null);
+  const [services, setServices] = useState([]);
   
   const nameProp = route.params?.nameProp;
   const dateProp = route.params?.dateProp;
   const timeProp = route.params?.timeProp;
+
+  useEffect(() => {
+    fetchServicos();
+  }, []);
+
+  const fetchServicos = async () => {
+    try {
+      const response = await api.get('/servico');
+      if (response.data && response.data.length) {
+        setServices(response.data);
+      }
+    } catch (error) {
+      console.error("Erro ao buscar serviços:", error);
+    }
+  };
 
   const handleSubmit = () => {
     if (servico.trim() === '') {
@@ -42,18 +58,8 @@ export function Servico({route, navigation }) {
     ]);
   };
 
-  const services = [
-    { id: "1", name: "Corte Masculino" },
-    { id: "2", name: "Corte Barba" },
-    { id: "3", name: "Tintura em cabelo" },
-    { id: "4", name: "Limpeza de pele" },
-
-  ];
-
   const ServiceItem = ({ item }) => (
-    <TouchableOpacity
-
-    >
+    <TouchableOpacity>
       <Text
         onPress={() => {
           setServico(item.name);

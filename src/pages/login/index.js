@@ -35,9 +35,11 @@ export function Login({ route, navigation }) {
               value={email}
               onChangeText={setEmail}
               placeholder="Email ID"
+              placeholderTextColor="#a3a3a3"
               className="flex-1 ml-2 text-white"
             />
           </View>
+          
 
           <View className="flex-row items-center  py-2 px-1 rounded mb-4 border-b border-zinc-300">
             <EvilIcons name="lock" size={26} color="white" />
@@ -45,6 +47,7 @@ export function Login({ route, navigation }) {
               value={password}
               onChangeText={setPassword}
               placeholder="Senha"
+              placeholderTextColor="#a3a3a3"
               secureTextEntry={true}
               className="flex-1 ml-2 text-white"
             />

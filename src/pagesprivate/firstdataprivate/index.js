@@ -144,6 +144,7 @@ export function FirstDataPrivate({ route, navigation }) {
             )}
           />
         </View>
+        {/* Alerta */}
         <View className="bg-gray-200  flex flex-row gap-2 items-center justify-center mt-3 rounded-xl mx-3 px-4 py-2">
           <View className="pb-2">
 

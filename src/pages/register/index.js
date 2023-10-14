@@ -76,6 +76,7 @@ export function Register({ route, navigation }) {
                             value={username}
                             onChangeText={setUsername}
                             placeholder="Nome de usuário"
+                            placeholderTextColor="#a3a3a3"
                             className="flex-1 ml-2 text-white"
                         />
                     </View>
@@ -86,6 +87,7 @@ export function Register({ route, navigation }) {
                             value={email}
                             onChangeText={setEmail}
                             placeholder="Email"
+                            placeholderTextColor="#a3a3a3"
                             className="flex-1 ml-2 text-white"
                         />
                     </View>
@@ -96,6 +98,7 @@ export function Register({ route, navigation }) {
                             value={password}
                             onChangeText={setPassword}
                             placeholder="Senha"
+                            placeholderTextColor="#a3a3a3"
                             secureTextEntry={true}
                             className="flex-1 ml-2 text-white"
                         />
@@ -107,6 +110,7 @@ export function Register({ route, navigation }) {
                             value={confirmPassword}
                             onChangeText={setConfirmPassword}
                             placeholder="Confirme a Senha"
+                            placeholderTextColor="#a3a3a3"
                             secureTextEntry={true}
                             className="flex-1 ml-2 text-white"
                         />
