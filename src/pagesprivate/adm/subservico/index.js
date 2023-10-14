@@ -67,9 +67,9 @@ export function SubServico({ navigation }) {
     setImageModalVisible(true);
   };
   return (
-    <SafeAreaView className="flex-1 bg-cyan-100">
-      <View className="bg-cyan-100 flex h-1/5 justify-center items-center rounded-bl-xl shadow-neu-inset">
-        <Text className="text-cyan-700 text-2xl font-extrabold">
+    <SafeAreaView className="flex-1 bg-[#082f49]">
+      <View className=" flex h-1/5 justify-center items-center rounded-bl-xl shadow-neu-inset">
+        <Text className="text-white text-2xl font-extrabold">
           Sub-Serviços do Barbeiro
         </Text>
       </View>
@@ -80,8 +80,8 @@ export function SubServico({ navigation }) {
           data={services}
           keyExtractor={(item) => item.id.toString()}
           renderItem={({ item }) => (
-            <TouchableOpacity className="items-center justify-center m-2 bg-cyan-100 rounded-xl shadow-neu">
-              <Text className="text-cyan-700 p-2">{item.servico.name}</Text>
+            <TouchableOpacity className="items-center justify-center m-2 bg-white rounded-xl shadow-neu">
+              <Text className="text-[#082f49] p-2">{item.servico.name}</Text>
             </TouchableOpacity>
           )}
         />
@@ -96,19 +96,19 @@ export function SubServico({ navigation }) {
             <View className="flex-row justify-between mb-4 py-3 px-8 rounded-xl shadow-neu">
               <View className="flex  justify-center">
                 <View className="flex w-[75%]">
-                  <Text className="text-cyan-700">Nome: {item.name}</Text>
-                  <Text className="text-cyan-600">Preço: {item.preco}</Text>
-                  <Text className="text-cyan-600">Tempo estimado: {item.tempo_de_duracao}min</Text>
+                  <Text className="text-white">Nome: {item.name}</Text>
+                  <Text className="text-slate-400">Preço: {item.preco}</Text>
+                  <Text className="text-slate-400">Tempo estimado: {item.tempo_de_duracao}min</Text>
                 </View>
 
                 <View className="flex flex-row gap-y-2 items-center ">
                   <TouchableOpacity
-                    className="bg-cyan-100 p-2 rounded-lg mr-2 shadow-neu-inset items-center justify-center"
+                    className="bg-white p-2 rounded-lg mr-2 shadow-neu-inset items-center justify-center"
                     onPress={() => navigation.navigate('SubServicoEdit', { id: item.id })}>
                     <MaterialIcons name="edit" size={24} color="black" />
                   </TouchableOpacity>
                   <TouchableOpacity
-                    className="bg-cyan-100 p-2 rounded-lg shadow-neu-inset items-center justify-center"
+                    className="bg-white p-2 rounded-lg shadow-neu-inset items-center justify-center"
                     onPress={() => confirmDelete(item.id)}>
                     <MaterialIcons name="delete" size={24} color="black" />
                   </TouchableOpacity>
@@ -127,9 +127,9 @@ export function SubServico({ navigation }) {
         />
 
         <TouchableOpacity
-          className="w-11/12 rounded-xl mb-5 p-3 shadow-neu py-4 self-center mt-5"
+          className="bg-white w-11/12 rounded-xl mb-5 p-3 shadow-neu py-4 self-center mt-5"
           onPress={() => navigation.navigate('SubServicoCreate')}>
-          <Text className="text-cyan-500 text-center font-extrabold text-xl">+ Cadastrar SubServico</Text>
+          <Text className="text-[#082f49] text-center font-extrabold text-xl">+ Cadastrar SubServico</Text>
         </TouchableOpacity>
       </View>
 
@@ -142,13 +142,13 @@ export function SubServico({ navigation }) {
         }}
 
       >
-        <View className="flex items-center justify-center h-full bg-cyan-200">
+        <View className="flex items-center justify-center h-full bg-[#082f49]">
 
           <TouchableOpacity
             className="mt-5 "
             onPress={() => setImageModalVisible(false)}
           >
-            <AntDesign name="back" size={32} color="black" />
+            <AntDesign name="back" size={32} color="white" />
           </TouchableOpacity>
           <Image
             source={{ uri: selectedImage }}

@@ -100,7 +100,7 @@ export function FirstDataPrivate({ route, navigation }) {
 
   return (
 
-    <SafeAreaView className="flex-1 bg-cyan-200">
+    <SafeAreaView className="flex-1 ">
 
       <View className="p-5 items-center justify-center h-screen w-full">
 

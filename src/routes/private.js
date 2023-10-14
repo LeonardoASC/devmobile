@@ -45,7 +45,7 @@ export function Private() {
         },
         headerShown: false
       }}
-      drawerContent={props => <CustomDrawerContent {...props} />}
+      drawerContent={props => <CustomDrawerContent {...props} /> }
     >
       <Drawer.Screen name="HomeStack" component={HomeStack} options={{ drawerLabel: 'Home' }}/>
     </Drawer.Navigator>

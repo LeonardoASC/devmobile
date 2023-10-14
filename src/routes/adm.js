@@ -17,6 +17,7 @@ import { SubServicoCreate } from "../pagesprivate/adm/subservico/create"
 import { SubServicoEdit } from "../pagesprivate/adm/subservico/edit"
 
 import { CustomDrawerContent } from "./CustomDrawerContent";
+import { Ionicons } from '@expo/vector-icons';
 
 
 
@@ -36,7 +37,7 @@ function HomeStack() {
         >
             <Stack.Screen name="Home" component={Home} />
             <Stack.Screen name="Agendamento" component={Agendamento} />
-            
+
             <Stack.Screen name="Horario" component={Horario} />
             <Stack.Screen name="HorarioCreate" component={HorarioCreate} />
             <Stack.Screen name="HorarioEdit" component={HorarioEdit} />
@@ -52,25 +53,112 @@ function HomeStack() {
     );
 }
 
+// export function Adm() {
+//     return (
+//         <Drawer.Navigator 
+//         initialRouteName="HomeStack"
+//         screenOptions={{
+//             cardStyle: {
+//                 backgroundColor: "#082f49",
+//             },
+//             headerShown: false,
+//             drawerActiveBackgroundColor: 'white',
+//             drawerActiveTintColor: 'black'
+
+//         }}
+
+//         drawerContent={props => <CustomDrawerContent {...props}/>}
+//         >
+//             <Drawer.Screen name="HomeStack" component={HomeStack} options={{ drawerLabel: 'Home' }} />
+//             <Drawer.Screen name="Agendamento" component={Agendamento} />
+//             <Drawer.Screen name="Horario" component={Horario} />
+//             <Drawer.Screen name="Servico" component={Servico} />
+//             <Drawer.Screen name="SubServico" component={SubServico} />
+//         </Drawer.Navigator>
+//     );
+// }
+
 export function Adm() {
     return (
-        <Drawer.Navigator 
-        initialRouteName="HomeStack"
-        
-        screenOptions={{
-            cardStyle: {
-                backgroundColor: "#082f49",
-            },
-            headerShown: false
-        }}
-        
-        drawerContent={props => <CustomDrawerContent {...props} />}
+        <Drawer.Navigator
+            initialRouteName="HomeStack"
+            screenOptions={{
+                headerShown: false,
+                drawerActiveBackgroundColor: 'white',
+                drawerActiveTintColor: 'black',
+                drawerStyle: {
+                    backgroundColor: 'white', // Cor de fundo que você deseja
+                }
+            }}
+            drawerContent={props => <CustomDrawerContent {...props} />}
         >
-            <Drawer.Screen name="HomeStack" component={HomeStack} options={{ drawerLabel: 'Home' }} />
-            <Drawer.Screen name="Agendamento" component={Agendamento} />
-            <Drawer.Screen name="Horario" component={Horario} />
-            <Drawer.Screen name="Servico" component={Servico} />
-            <Drawer.Screen name="SubServico" component={SubServico} />
+            <Drawer.Screen
+                name="HomeStack"
+                component={HomeStack}
+                options={{
+                    drawerLabel: 'Home',
+                    drawerIcon: ({ focused, size }) => (
+                        <Ionicons
+                            name={focused ? 'home' : 'home-outline'}
+                            size={size}
+                            color={focused ? 'black' : 'white'}
+                        />
+                    )
+                    
+                }}
+            />
+            <Drawer.Screen
+                name="Agendamento"
+                component={Agendamento}
+                options={{
+                    drawerIcon: ({ focused, size }) => (
+                        <Ionicons
+                            name={focused ? 'calendar' : 'calendar-outline'}
+                            size={size}
+                            color={focused ? 'black' : 'white'}
+                        />
+                    )
+                }}
+            />
+            <Drawer.Screen
+                name="Horario"
+                component={Horario}
+                options={{
+                    drawerIcon: ({ focused, size }) => (
+                        <Ionicons
+                            name={focused ? 'time' : 'time-outline'}
+                            size={size}
+                            color={focused ? 'black' : 'white'}
+                        />
+                    )
+                }}
+            />
+            <Drawer.Screen
+                name="Servico"
+                component={Servico}
+                options={{
+                    drawerIcon: ({ focused, size }) => (
+                        <Ionicons
+                            name={focused ? 'settings' : 'settings-outline'}
+                            size={size}
+                            color={focused ? 'black' : 'white'}
+                        />
+                    )
+                }}
+            />
+            <Drawer.Screen
+                name="SubServico"
+                component={SubServico}
+                options={{
+                    drawerIcon: ({ focused, size }) => (
+                        <Ionicons
+                            name={focused ? 'settings' : 'settings-outline'}
+                            size={size}
+                            color={focused ? 'black' : 'white'}
+                        />
+                    )
+                }}
+            />
         </Drawer.Navigator>
     );
 }

@@ -43,17 +43,17 @@ export function ServicoEdit({ route, navigation }) {
 
 
   return (
-    <SafeAreaView className="flex-1 bg-cyan-100">
+    <SafeAreaView className="flex-1 bg-[#082f49]">
 
-      <View className="bg-cyan-100 flex h-1/5 justify-center items-center rounded-bl-xl shadow-neu-inset">
-        <Text className="text-cyan-700 text-2xl font-extrabold text-center">
+      <View className=" flex h-1/5 justify-center items-center rounded-bl-xl shadow-neu-inset">
+        <Text className="text-white text-2xl font-extrabold text-center">
           Edição de Serviço
         </Text>
       </View>
 
       <ScrollView className="flex-1 px-5 mt-2">
-        <Text className="text-cyan-700 text-3xl font-extrabold self-center">Editar Serviço...</Text>
-        <Text className="text-cyan-600 text-center mt-4">Altere o serviço conforme necessário.</Text>
+        <Text className="text-white text-3xl font-extrabold self-center">Editar Serviço...</Text>
+        <Text className="text-white text-center mt-4">Altere o serviço conforme necessário.</Text>
 
         <View className="mt-5 w-full">
           <View className="flex-row items-center p-2 rounded mb-4 shadow-neu-inset bg-white">
@@ -70,12 +70,12 @@ export function ServicoEdit({ route, navigation }) {
 
       <View className="absolute bottom-0 w-full pb-5 px-5">
         <TouchableOpacity
-          className="bg-cyan-100 w-11/12 mb-5 rounded-xl p-3 shadow-neu py-4 self-center mt-5"
+          className="bg-white w-11/12 mb-5 rounded-xl p-3 shadow-neu py-4 self-center mt-5"
           onPress={handleSubmit}
         >
-          <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
-            <MaterialIcons name="update" size={24} color="#0e7490" />
-            <Text className="text-cyan-700 text-center font-extrabold text-lg ml-2">
+          <View className="flex flex-row items-center justify-center">
+            <MaterialIcons name="update" size={24} color="#082f49" />
+            <Text className="text-[#082f49] text-center font-extrabold text-lg ml-2">
               Atualizar Serviço
             </Text>
           </View>

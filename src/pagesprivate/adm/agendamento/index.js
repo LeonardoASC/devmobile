@@ -56,7 +56,7 @@ export function Agendamento({ navigation }) {
     }
 
     return (
-        <SafeAreaView className="flex-1 bg-cyan-100">
+        <SafeAreaView className="flex-1 bg-[#082f49]">
             <View className="p-4 shadow-offset-[0,5] mt-4">
                 <View className="flex-row justify-start">
                     <TouchableOpacity
@@ -68,20 +68,20 @@ export function Agendamento({ navigation }) {
                 </View>
 
                 <Text className="text-center text-white font-bold text-xl mb-3">Agendamentos</Text>
-            
-            
+
+
                 <Picker
                     selectedValue={selectedDate}
                     onValueChange={(value) => setSelectedDate(value)}
-                   
+                    style={{ color: 'white' }}
                 >
                     <Picker.Item label="Hoje" value={selectedDate} />
                     {getUniqueValues('dia').map(date => (
-                        <Picker.Item key={date} label={date} value={date} />
+                        <Picker.Item key={date} label={date} value={date}  />
                     ))}
                 </Picker>
 
-                <Picker
+                {/* <Picker
                     selectedValue={selectedService}
                     onValueChange={(value) => setSelectedService(value)}
                 >
@@ -99,9 +99,9 @@ export function Agendamento({ navigation }) {
                     {getUniqueValues('status').map(status => (
                         <Picker.Item key={status} label={status} value={status} />
                     ))}
-                </Picker>
-                </View>
-        
+                </Picker> */}
+            </View>
+
 
             <View className="flex-1 justify-center items-center p-4">
                 <FlatList

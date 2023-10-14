@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { DrawerContentScrollView, DrawerItemList } from '@react-navigation/drawer';
+import { DrawerContentScrollView, DrawerItem, DrawerItemList } from '@react-navigation/drawer';
 import { SvgXml } from 'react-native-svg';
 import SvgComponent from '../svg/circulo';
 import { Text, TouchableOpacity, View } from 'react-native';
@@ -10,12 +10,12 @@ export function CustomDrawerContent(props) {
   const { logout } = useContext(AuthContext);
   return (
     <DrawerContentScrollView {...props} >
-      <View className="bg-cyan-100 h-screen flex flex-col justify-between">
+      <View className="bg-sky-900 h-screen flex flex-col justify-between">
         <View className="items-center justify-center m-4">
           <SvgComponent />
         </View>
-        <View>
-          <DrawerItemList {...props} />
+        <View className="">
+          <DrawerItemList {...props}/>
         </View>
 
         <View className="mb-4 mx-6">

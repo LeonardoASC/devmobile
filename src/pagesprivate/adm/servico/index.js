@@ -57,9 +57,9 @@ export function Servico({ navigation }) {
 
 
   return (
-    <SafeAreaView className="flex-1 bg-cyan-100">
-      <View className="bg-cyan-100 flex h-1/4 justify-center items-center rounded-bl-xl shadow-neu-inset">
-        <Text className="text-cyan-700 text-2xl font-extrabold text-center">
+    <SafeAreaView className="flex-1 bg-[#082f49]">
+      <View className=" flex h-1/4 justify-center items-center rounded-bl-xl shadow-neu-inset">
+        <Text className="text-white text-2xl font-extrabold text-center">
           Serviços do Barbeiro
         </Text>
       </View>
@@ -70,20 +70,20 @@ export function Servico({ navigation }) {
           data={name}
           keyExtractor={(item) => item.id}
           renderItem={({ item }) => (
-            <View className="flex-row justify-between items-center mb-4 py-2 px-4 bg-cyan-100 rounded-xl shadow-neu">
-              <Text className="text-cyan-700 text-lg">{item.name}</Text>
+            <View className="flex-row justify-between items-center mb-4 py-2 px-4  rounded-xl shadow-neu">
+              <Text className="text-white text-lg">{item.name}</Text>
               <View className="flex-row">
                 <TouchableOpacity
-                  className="bg-cyan-100 p-2 rounded-lg mr-2 shadow-neu-inset"
+                  className=" p-2 rounded-lg mr-2 shadow-neu-inset"
                   onPress={() => navigation.navigate('ServicoEdit', { id: item.id })}
                 >
-                  <MaterialIcons name="edit" size={24} color="black" />
+                  <MaterialIcons name="edit" size={24} color="white" />
                 </TouchableOpacity>
                 <TouchableOpacity
-                  className="bg-cyan-100 p-2 rounded-lg shadow-neu-inset"
+                  className=" p-2 rounded-lg shadow-neu-inset"
                   onPress={() => confirmDelete(item.id)}
                 >
-                  <MaterialIcons name="delete" size={24} color="black" />
+                  <MaterialIcons name="delete" size={24} color="white" />
                 </TouchableOpacity>
               </View>
             </View>
@@ -92,10 +92,10 @@ export function Servico({ navigation }) {
         />
 
         <TouchableOpacity
-          className="bg-cyan-100 w-11/12 rounded-xl p-3 shadow-neu py-4 self-center mt-5"
+          className="bg-white w-11/12 rounded-xl p-3 shadow-neu py-4 self-center mt-5"
           onPress={() => navigation.navigate('ServicoCreate')}
         >
-          <Text className="text-cyan-500 text-center font-extrabold text-xl">+ Cadastrar Serviço</Text>
+          <Text className="text-[#082f49] text-center font-extrabold text-xl">+ Cadastrar Serviço</Text>
         </TouchableOpacity>
       </View>
     </SafeAreaView>

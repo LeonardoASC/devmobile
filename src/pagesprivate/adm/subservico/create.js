@@ -103,18 +103,18 @@ export function SubServicoCreate({ navigation }) {
   };
 
   return (
-    <SafeAreaView className="flex-1 bg-cyan-100">
+    <SafeAreaView className="flex-1 bg-[#082f49]">
 
       {/* Cabeçalho */}
-      <View className="bg-cyan-100 flex h-1/6 justify-center items-center rounded-bl-xl shadow-neu-inset">
-        <Text className="text-cyan-700 text-xl font-extrabold text-center">
-          Registrar Sub-Serviço
+      <View className=" flex h-1/6 justify-center items-center rounded-bl-xl shadow-neu-inset">
+        <Text className="text-white text-xl font-extrabold text-center">
+          ...
         </Text>
       </View>
 
       <View className=" p-5 mt-2">
-        <Text className="text-cyan-700 text-3xl font-extrabold self-center">Registrar Sub-Serviço...</Text>
-        <Text className="text-cyan-600 text-center mt-4">Preencha os campos abaixo.</Text>
+        <Text className="text-white text-3xl font-extrabold self-center">Registrar Sub-Serviço...</Text>
+        <Text className="text-white text-center mt-4">Preencha os campos abaixo.</Text>
 
         <ScrollView className="flex-grow">
           <View className="mt-5 w-full ">
@@ -157,7 +157,7 @@ export function SubServicoCreate({ navigation }) {
               <View className="items-center justify-center">
                 {!imagem ? (
                   <TouchableOpacity
-                    className="m-2 bg-cyan-100 rounded-xl p-2 shadow-neu"
+                    className="m-2  rounded-xl p-2 shadow-neu"
                     onPress={pickImage}
                   >
                     <MaterialIcons name="add-a-photo" size={24} color="black" />
@@ -175,6 +175,7 @@ export function SubServicoCreate({ navigation }) {
             <Picker
               selectedValue={servicoid}
               onValueChange={(itemValue) => setServicoid(itemValue)}
+
               style={{ color: "black", backgroundColor: "white", marginTop: 10, marginBottom: 10, borderRadius: 8 }}
             >
               <Picker.Item enabled label="Escolha um tipo de serviço" />
@@ -212,12 +213,12 @@ export function SubServicoCreate({ navigation }) {
       {/* Botão */}
       <View className="absolute bottom-0 w-full pb-5 px-5">
         <TouchableOpacity
-          className="bg-cyan-100 w-11/12 mb-5 rounded-xl p-3 shadow-neu py-4 self-center mt-5"
+          className="bg-white w-11/12 mb-5 rounded-xl p-3 shadow-neu py-4 self-center mt-5"
           onPress={handleSubmit}
         >
-          <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
-            <EvilIcons name="check" size={24} color="#0e7490" />
-            <Text className="text-cyan-700 text-center font-extrabold text-lg ml-2">
+          <View className="flex flex-row justify-center items-center ">
+            <EvilIcons name="check" size={24} color="#082f49" />
+            <Text className="text-[#082f49] text-center font-extrabold text-lg ml-2">
               Salvar Servico
             </Text>
           </View>
