@@ -11,12 +11,14 @@ export function AgendadoPrivate({ route, navigation }) {
   const date = route.params?.dateProp;
   const serviceName = route.params?.serviceName;
   const subServiceName = route.params?.subServiceName;
-  
+  const precoService = route.params?.precoService;
+
   const sendData = () => {
     api.post('/agendamento', {
       nome: name,
       dia: date,
       horario: time,
+      preco: precoService,
       tipo_servico: serviceName,
       servico_especifico: subServiceName,
       user_id: userInfo.id
@@ -48,6 +50,7 @@ export function AgendadoPrivate({ route, navigation }) {
         <Text className="text-white text-xl text-center bottom-20">Clique em agendar para confirmar sua reserva!</Text>
         <View className="bg-white  shadow-sm p-5 rounded ">
           <Text className="text-cyan-600">Seu nome: {name}</Text>
+          <Text className="text-cyan-600">Preço: {precoService}</Text>
           <Text className="text-cyan-600">Horario: {time}</Text>
           <Text className="text-cyan-600">data: {date}</Text>
           <Text className="text-cyan-600">Serviço selecionado: {serviceName}</Text>

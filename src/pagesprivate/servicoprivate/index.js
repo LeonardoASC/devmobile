@@ -56,7 +56,7 @@ export function ServicoPrivate({route, navigation }) {
           }),
         },
       ]);
-      console.log(selectedItemId);
+      // console.log(selectedItemId);
   };
 
   const ServiceItem = ({ item }) => (

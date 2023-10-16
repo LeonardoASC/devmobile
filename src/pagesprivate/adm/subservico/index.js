@@ -3,21 +3,25 @@ import { SafeAreaView, View, Modal, FlatList, Text, TextInput, TouchableOpacity,
 import api from "../../../services/api"
 import { MaterialIcons } from '@expo/vector-icons';
 import { AntDesign } from '@expo/vector-icons';
+import { useIsFocused } from '@react-navigation/native';
+
 
 export function SubServico({ navigation }) {
-
+  const isFocused = useIsFocused();
   const [services, setServices] = useState([]);
   const [isImageModalVisible, setImageModalVisible] = useState(false);
   const [selectedImage, setSelectedImage] = useState(null);
 
   useEffect(() => {
-    fetchTimes();
-  }, []);
+    if (isFocused) {
+        fetchTimes();
+    }
+}, [isFocused]);
 
   const fetchTimes = async () => {
     try {
       const response = await api.get('/subservico');
-      console.log(response);
+      // console.log(response);
       if (response.data && response.data.length) {
         const formattedTimes = response.data.map(item => ({
           ...item,

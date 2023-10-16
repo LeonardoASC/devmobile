@@ -100,7 +100,7 @@ export function SubServicoPrivate({ route, navigation }) {
                 serviceName: serviceName,
                 subServiceName: selectedSubService.name,
                 subServiceId: selectedSubService.id,
-                // Adicione mais campos aqui se precisar
+                precoService: selectedSubService.preco
               })
           }}
         >
