@@ -50,34 +50,72 @@ export function Agendamento({ navigation }) {
         setFilteredAgendamentos(filtered);
     };
 
-  
-        // Funções auxiliares para filtragem
-        const isToday = (date) => {
-            const today = new Date();
-            const d = new Date(date);
-            return d.getDate() === today.getDate() &&
-                d.getMonth() === today.getMonth() &&
-                d.getFullYear() === today.getFullYear();
+
+    // Funções auxiliares para filtragem
+    const isToday = (date) => {
+        const today = new Date();
+        const d = new Date(date);
+        return d.getDate() === today.getDate() &&
+            d.getMonth() === today.getMonth() &&
+            d.getFullYear() === today.getFullYear();
+    }
+
+    const isThisWeek = (date) => {
+        const today = new Date();
+        const d = new Date(date);
+        const day = d.getDay() || 7;
+        if (day !== 7)
+            d.setHours(-24 * (day - 1));
+        const startOfWeek = new Date(d.toLocaleDateString());
+        const endOfWeek = new Date(today.getFullYear(), today.getMonth(), today.getDate() + (7 - today.getDay()));
+
+        return d >= startOfWeek && d <= endOfWeek;
+    }
+
+    const isThisMonth = (date) => {
+        const today = new Date();
+        const d = new Date(date);
+        return d.getMonth() === today.getMonth() &&
+            d.getFullYear() === today.getFullYear();
+    }
+
+    const updateAgendamentoStatus = async (id) => {
+        try {
+            const response = await api.put(`/agendamento/${id}`, {
+                status: "Concluído"
+            }, {
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            if (response.status === 200) {
+                fetchAgendamentos(); // Atualizar a lista após alterar o status
+            }
+        } catch (error) {
+            console.error("Erro ao atualizar o status do agendamento:", error);
+            console.error("Erro ao atualizar o status do agendamento:", error.response ? error.response.data : error.message);
         }
-    
-        const isThisWeek = (date) => {
-            const today = new Date();
-            const d = new Date(date);
-            const day = d.getDay() || 7;
-            if (day !== 7)
-                d.setHours(-24 * (day - 1));
-            const startOfWeek = new Date(d.toLocaleDateString());
-            const endOfWeek = new Date(today.getFullYear(), today.getMonth(), today.getDate() + (7 - today.getDay()));
-    
-            return d >= startOfWeek && d <= endOfWeek;
+    };
+
+    const disupidate = async (id) => {
+        try {
+            const response = await api.put(`/agendamento/${id}`, {
+                status: "Cancelado"
+            }, {
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            if (response.status === 200) {
+                fetchAgendamentos(); // Atualizar a lista após alterar o status
+            }
+        } catch (error) {
+            console.error("Erro ao atualizar o status do agendamento:", error);
+            console.error("Erro ao atualizar o status do agendamento:", error.response ? error.response.data : error.message);
         }
-    
-        const isThisMonth = (date) => {
-            const today = new Date();
-            const d = new Date(date);
-            return d.getMonth() === today.getMonth() &&
-                d.getFullYear() === today.getFullYear();
-        }
+    }
 
     return (
         <SafeAreaView className="flex-1 bg-[#082f49]">
@@ -109,7 +147,7 @@ export function Agendamento({ navigation }) {
                     data={filteredAgendamentos}
                     keyExtractor={item => item.id}
                     renderItem={({ item }) => (
-                        <View className="flex-row justify-between items-center bg-white m-1 p-4 rounded-lg shadow-offset-[0,5]">
+                        <View className="flex-justify-between items-center bg-white m-1 p-4 rounded-lg shadow-offset-[0,5]">
                             <View>
                                 <Text className="text-#00B8D9 font-bold text-lg mb-2">Nome: {item.nome}</Text>
                                 <Text className="text-#00B8D9 mb-1">Dia: {item.dia}</Text>
@@ -118,9 +156,28 @@ export function Agendamento({ navigation }) {
                                 <Text className="text-#00B8D9 mb-1">Serviço Específico: {item.servico_especifico}</Text>
                                 <Text className="text-#00B8D9 mb-1">Status: {item.status}</Text>
                             </View>
-                            <View className="w-8 h-8 justify-center items-center">
-                                <Ionicons name="ios-checkbox" size={24} color="green" />
+                            <View className="justify-center items-center flex-row">
+                                {item.status === "Concluído" ? (
+                                    <Text className="text-green-500">Concluído</Text>
+                                ) : item.status === "Cancelado" ? (
+                                    <Text className="text-red-500">Cancelado</Text>
+                                ) : (
+                                    <>
+                                        <TouchableOpacity
+                                            onPress={() => updateAgendamentoStatus(item.id)}
+                                            style={{ marginRight: 10 }}  // Dando espaço entre os botões
+                                        >
+                                            <Text className="bg-green-500 text-white px-2 py-1 rounded">Concluir</Text>
+                                        </TouchableOpacity>
+                                        <TouchableOpacity
+                                            onPress={() => disupidate(item.id)}
+                                        >
+                                            <Text className="bg-red-500 text-white px-2 py-1 rounded">Cancelar</Text>
+                                        </TouchableOpacity>
+                                    </>
+                                )}
                             </View>
+
                         </View>
                     )}
                 />
