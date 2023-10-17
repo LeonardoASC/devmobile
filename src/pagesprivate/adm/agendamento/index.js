@@ -4,26 +4,20 @@ import { Picker } from '@react-native-picker/picker';
 import { Ionicons } from '@expo/vector-icons';
 import api from '../../../services/api';
 
+
+
 export function Agendamento({ navigation }) {
     const [agendamentos, setAgendamentos] = useState([]);
     const [filteredAgendamentos, setFilteredAgendamentos] = useState([]);
-    const [selectedDate, setSelectedDate] = useState('');
-    const [selectedService, setSelectedService] = useState('');
-    const [selectedStatus, setSelectedStatus] = useState('');
-
+    const [filterType, setFilterType] = useState('hoje');
 
     useEffect(() => {
         fetchAgendamentos();
     }, []);
 
     useEffect(() => {
-        const today = new Date().toLocaleDateString(); // Altere o formato conforme sua necessidade
-        setSelectedDate(today);
-    }, []);
-
-    useEffect(() => {
         filterAgendamentos();
-    }, [agendamentos, selectedDate, selectedService, selectedStatus]);
+    }, [agendamentos, filterType]);
 
     const fetchAgendamentos = async () => {
         try {
@@ -38,22 +32,52 @@ export function Agendamento({ navigation }) {
 
     const filterAgendamentos = () => {
         let filtered = agendamentos;
-        if (selectedDate) {
-            filtered = filtered.filter(item => item.dia === selectedDate);
+
+        switch (filterType) {
+            case 'hoje':
+                filtered = filtered.filter(item => isToday(item.dia));
+                break;
+            case 'semana':
+                filtered = filtered.filter(item => isThisWeek(item.dia));
+                break;
+            case 'mes':
+                filtered = filtered.filter(item => isThisMonth(item.dia));
+                break;
+            default:
+                break;
         }
-        if (selectedService) {
-            filtered = filtered.filter(item => item.tipo_servico === selectedService);
-        }
-        if (selectedStatus) {
-            filtered = filtered.filter(item => item.status === selectedStatus);
-        }
+
         setFilteredAgendamentos(filtered);
     };
 
-    const getUniqueValues = (key) => {
-        const uniqueValues = [...new Set(agendamentos.map(item => item[key]))];
-        return uniqueValues;
-    }
+  
+        // Funções auxiliares para filtragem
+        const isToday = (date) => {
+            const today = new Date();
+            const d = new Date(date);
+            return d.getDate() === today.getDate() &&
+                d.getMonth() === today.getMonth() &&
+                d.getFullYear() === today.getFullYear();
+        }
+    
+        const isThisWeek = (date) => {
+            const today = new Date();
+            const d = new Date(date);
+            const day = d.getDay() || 7;
+            if (day !== 7)
+                d.setHours(-24 * (day - 1));
+            const startOfWeek = new Date(d.toLocaleDateString());
+            const endOfWeek = new Date(today.getFullYear(), today.getMonth(), today.getDate() + (7 - today.getDay()));
+    
+            return d >= startOfWeek && d <= endOfWeek;
+        }
+    
+        const isThisMonth = (date) => {
+            const today = new Date();
+            const d = new Date(date);
+            return d.getMonth() === today.getMonth() &&
+                d.getFullYear() === today.getFullYear();
+        }
 
     return (
         <SafeAreaView className="flex-1 bg-[#082f49]">
@@ -68,40 +92,17 @@ export function Agendamento({ navigation }) {
                 </View>
 
                 <Text className="text-center text-white font-bold text-xl mb-3">Agendamentos</Text>
-
-
                 <Picker
-                    selectedValue={selectedDate}
-                    onValueChange={(value) => setSelectedDate(value)}
+                    selectedValue={filterType}
+                    onValueChange={(value) => setFilterType(value)}
                     style={{ color: 'white' }}
                 >
-                    <Picker.Item label="Hoje" value={selectedDate} />
-                    {getUniqueValues('dia').map(date => (
-                        <Picker.Item key={date} label={date} value={date}  />
-                    ))}
+                    <Picker.Item label="Hoje" value="hoje" />
+                    <Picker.Item label="Esta Semana" value="semana" />
+                    <Picker.Item label="Este Mês" value="mes" />
+                    <Picker.Item label="Todos" value="todos" />
                 </Picker>
-
-                {/* <Picker
-                    selectedValue={selectedService}
-                    onValueChange={(value) => setSelectedService(value)}
-                >
-                    <Picker.Item label="Selecione um serviço" value="" />
-                    {getUniqueValues('tipo_servico').map(service => (
-                        <Picker.Item key={service} label={service} value={service} />
-                    ))}
-                </Picker>
-
-                <Picker
-                    selectedValue={selectedStatus}
-                    onValueChange={(value) => setSelectedStatus(value)}
-                >
-                    <Picker.Item label="Selecione um status" value="" />
-                    {getUniqueValues('status').map(status => (
-                        <Picker.Item key={status} label={status} value={status} />
-                    ))}
-                </Picker> */}
             </View>
-
 
             <View className="flex-1 justify-center items-center p-4">
                 <FlatList
