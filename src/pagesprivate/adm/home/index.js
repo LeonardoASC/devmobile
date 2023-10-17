@@ -17,6 +17,9 @@ export function Home({ navigation }) {
   const [tipoServicoMaisSelecionado, setTipoServicoMaisSelecionado] = useState('');
   const [message, setMessage] = useState('');
 
+  const [agendamentosDia, setAgendamentosDia] = useState(0);
+  const [agendamentosSemana, setAgendamentosSemana] = useState(0);
+  const [agendamentosMes, setAgendamentosMes] = useState(0);
 
   useEffect(() => {
     fetchDashboardData();
@@ -25,6 +28,7 @@ export function Home({ navigation }) {
   const fetchDashboardData = async () => {
     try {
       const totalRes = await api.get('/total');
+
       if (totalRes.data && totalRes.data.total) {
         setTotalAgendamentos(totalRes.data.total);
 
@@ -45,6 +49,18 @@ export function Home({ navigation }) {
 
         const responseServicoMaisSelecionado = await api.get('/servico-mais-selecionado');
         setTipoServicoMaisSelecionado(responseServicoMaisSelecionado.data.tipo_servico);
+
+        const responseAgendamentosDia = await api.get('/agendamentos-dia');
+        setAgendamentosDia(responseAgendamentosDia.data.quantidade_agendamentos_dia)
+        console.log(responseAgendamentosDia.data);
+
+        const responseAgendamentosSemana = await api.get('/agendamentos-semana');
+        console.log(responseAgendamentosSemana.data);
+        setAgendamentosSemana(responseAgendamentosSemana.data.quantidade_agendamentos_semana)
+
+        const responseAgendamentosMes = await api.get('/agendamentos-mes');
+        console.log(responseAgendamentosMes.data);
+        setAgendamentosMes(responseAgendamentosMes.data.quantidade_agendamentos_mes)
       } else {
         setMessage('Nenhum agendamento encontrado.');
         return;  // Se não há registros, não prossegue para as demais chamadas
@@ -67,15 +83,15 @@ export function Home({ navigation }) {
       </View>
     );
   };
-  
+
   return (
     <SafeAreaView className="flex-1">
       <View className="h-full justify-center p-5">
-  
+
         <OpenDrawerButton />
-  
-        <Text className="text-white text-2xl font-bold text-center mb-6">Área do administrador</Text>
-  
+
+        <Text className="text-white text-2xl font-bold text-center mb-6">Área do administradora</Text>
+
         {message ? (
           <Text className="text-red-500 text-center mt-5">{message}</Text>
         ) : (
@@ -86,42 +102,53 @@ export function Home({ navigation }) {
                 title="Total de Agendamentos"
                 data={totalAgendamentos}
               />
-  
+              <Card
+                icon={<FontAwesome5 name="calendar-check" size={18} color="gray" />}
+                title="Agendamentos do Dia"
+                data={agendamentosDia}
+              />
+
+              <Card
+                icon={<MaterialCommunityIcons name="account-check-outline" size={18} color="gray" />}
+                title="Agendamentos Semanais"
+                data={agendamentosSemana}
+              />
+
+            </View>
+
+            <View className="flex-row">
+
               <Card
                 icon={<FontAwesome5 name="money-bill-wave" size={18} color="gray" />}
                 title="Receita Total"
                 data={`R$ ${receitaTotal.toFixed(2)}`}
               />
+
             </View>
-  
-            <View className="flex-row">
-              <Card
-                icon={<MaterialCommunityIcons name="account-check-outline" size={18} color="gray" />}
-                title="Último Cliente"
-                data={ultimoCliente.nome}
-              />
-  
-              <Card
-                icon={<Entypo name="pie-chart" size={18} color="gray" />}
-                title="Receita Mensal"
-                data={`R$ ${receitaMensal}`}
-              />
-            </View>
-  
+
             <View className="flex-row">
               <Card
                 icon={<Entypo name="line-graph" size={18} color="gray" />}
                 title="Receita Semanal"
                 data={`R$ ${receitaSemanal}`}
               />
-  
+
               <Card
                 icon={<FontAwesome5 name="calendar" size={18} color="gray" />}
                 title="Receita Diária"
                 data={`R$ ${receitaDiaria}`}
               />
+
+              <Card
+                icon={<Entypo name="pie-chart" size={18} color="gray" />}
+                title="Receita Mensal"
+                data={`R$ ${receitaMensal}`}
+              />
+
+
+
             </View>
-  
+
             {/* If you have an odd number of cards, the last one can stand alone without a row wrap. */}
             <Card
               icon={<FontAwesome5 name="tools" size={18} color="gray" />}
@@ -133,5 +160,5 @@ export function Home({ navigation }) {
       </View>
     </SafeAreaView>
   );
-  
+
 }

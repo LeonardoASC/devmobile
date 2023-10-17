@@ -181,7 +181,7 @@ export function FirstData({ route, navigation }) {
         {/* Botão de confirmação */}
         <TouchableOpacity
           onPress={handleSubmit}
-          className="flex flex-row items-center mt-16 bg-white w-3/5 p-3 rounded-lg shadow-black justify-between"
+          className="flex flex-row items-center mt-8 bg-white w-3/5 p-3 rounded-lg shadow-black justify-between"
         >
           <Text className="text-black">Agendar</Text>
           <Feather name="arrow-right" size={24} color="black" />

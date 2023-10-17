@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { View, Text, SafeAreaView, TouchableOpacity, FlatList } from 'react-native';
+import { View, Text, SafeAreaView, TouchableOpacity, FlatList, Alert } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import { Ionicons } from '@expo/vector-icons';
 import api from '../../../services/api';
@@ -8,8 +8,9 @@ import api from '../../../services/api';
 
 export function Agendamento({ navigation }) {
     const [agendamentos, setAgendamentos] = useState([]);
+    const [filterDate, setFilterDate] = useState(new Date());
     const [filteredAgendamentos, setFilteredAgendamentos] = useState([]);
-    const [filterType, setFilterType] = useState('hoje');
+    const [selectedDate, setSelectedDate] = useState(null);
 
     useEffect(() => {
         fetchAgendamentos();
@@ -17,11 +18,12 @@ export function Agendamento({ navigation }) {
 
     useEffect(() => {
         filterAgendamentos();
-    }, [agendamentos, filterType]);
+    }, [agendamentos, filterDate]);
 
     const fetchAgendamentos = async () => {
         try {
             const response = await api.get('/agendamento');
+            // console.log('API Response:', response.data);
             if (response.data && response.data.length) {
                 setAgendamentos(response.data);
             }
@@ -31,91 +33,95 @@ export function Agendamento({ navigation }) {
     };
 
     const filterAgendamentos = () => {
-        let filtered = agendamentos;
-
-        switch (filterType) {
-            case 'hoje':
-                filtered = filtered.filter(item => isToday(item.dia));
-                break;
-            case 'semana':
-                filtered = filtered.filter(item => isThisWeek(item.dia));
-                break;
-            case 'mes':
-                filtered = filtered.filter(item => isThisMonth(item.dia));
-                break;
-            default:
-                break;
-        }
+        const filtered = agendamentos.filter(item => {
+            const d = new Date(item.dia);
+            return d.getUTCDate() === filterDate.getUTCDate() &&
+                d.getUTCMonth() === filterDate.getUTCMonth() &&
+                d.getUTCFullYear() === filterDate.getUTCFullYear();
+        });
 
         setFilteredAgendamentos(filtered);
     };
 
-
-    // Funções auxiliares para filtragem
-    const isToday = (date) => {
+    const isToday = (someDate) => {
         const today = new Date();
-        const d = new Date(date);
-        return d.getDate() === today.getDate() &&
-            d.getMonth() === today.getMonth() &&
-            d.getFullYear() === today.getFullYear();
-    }
-
-    const isThisWeek = (date) => {
-        const today = new Date();
-        const d = new Date(date);
-        const day = d.getDay() || 7;
-        if (day !== 7)
-            d.setHours(-24 * (day - 1));
-        const startOfWeek = new Date(d.toLocaleDateString());
-        const endOfWeek = new Date(today.getFullYear(), today.getMonth(), today.getDate() + (7 - today.getDay()));
-
-        return d >= startOfWeek && d <= endOfWeek;
-    }
-
-    const isThisMonth = (date) => {
-        const today = new Date();
-        const d = new Date(date);
-        return d.getMonth() === today.getMonth() &&
-            d.getFullYear() === today.getFullYear();
-    }
-
-    const updateAgendamentoStatus = async (id) => {
-        try {
-            const response = await api.put(`/agendamento/${id}`, {
-                status: "Concluído"
-            }, {
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            });
-
-            if (response.status === 200) {
-                fetchAgendamentos(); // Atualizar a lista após alterar o status
-            }
-        } catch (error) {
-            console.error("Erro ao atualizar o status do agendamento:", error);
-            console.error("Erro ao atualizar o status do agendamento:", error.response ? error.response.data : error.message);
-        }
+        return someDate.getUTCDate() === today.getUTCDate() &&
+            someDate.getUTCMonth() === today.getUTCMonth() &&
+            someDate.getUTCFullYear() === today.getUTCFullYear();
     };
 
-    const disupidate = async (id) => {
-        try {
-            const response = await api.put(`/agendamento/${id}`, {
-                status: "Cancelado"
-            }, {
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            });
-
-            if (response.status === 200) {
-                fetchAgendamentos(); // Atualizar a lista após alterar o status
-            }
-        } catch (error) {
-            console.error("Erro ao atualizar o status do agendamento:", error);
-            console.error("Erro ao atualizar o status do agendamento:", error.response ? error.response.data : error.message);
+    const generateDateList = () => {
+        const dates = [];
+        const today = new Date();
+        for (let i = 0; i < 25; i++) {
+            const newDate = new Date(today);
+            newDate.setDate(today.getDate() + i);
+            dates.push(newDate);
         }
-    }
+        return dates;
+    };
+
+    const updateAgendamentoStatus = (id) => {
+        Alert.alert(
+            "Confirmação",
+            "Tem certeza de que deseja concluir?",
+            [
+                { text: "Cancelar", style: "cancel" },
+                {
+                    text: "Sim",
+                    onPress: async () => {
+                        try {
+                            const response = await api.put(`/agendamento/${id}`, {
+                                status: "Concluído"
+                            }, {
+                                headers: {
+                                    'Content-Type': 'application/json'
+                                }
+                            });
+
+                            if (response.status === 200) {
+                                fetchAgendamentos(); // Atualizar a lista após alterar o status
+                            }
+                        } catch (error) {
+                            console.error("Erro ao atualizar o status do agendamento:", error);
+                            console.error("Erro ao atualizar o status do agendamento:", error.response ? error.response.data : error.message);
+                        }
+                    }
+                }
+            ]
+        );
+    };
+
+    const disupidate = (id) => {
+        Alert.alert(
+            "Confirmação",
+            "Tem certeza de que deseja cancelar?",
+            [
+                { text: "Cancelar", style: "cancel" },
+                {
+                    text: "Sim",
+                    onPress: async () => {
+                        try {
+                            const response = await api.put(`/agendamento/${id}`, {
+                                status: "Cancelado"
+                            }, {
+                                headers: {
+                                    'Content-Type': 'application/json'
+                                }
+                            });
+
+                            if (response.status === 200) {
+                                fetchAgendamentos(); // Atualizar a lista após alterar o status
+                            }
+                        } catch (error) {
+                            console.error("Erro ao atualizar o status do agendamento:", error);
+                            console.error("Erro ao atualizar o status do agendamento:", error.response ? error.response.data : error.message);
+                        }
+                    }
+                }
+            ]
+        );
+    };
 
     return (
         <SafeAreaView className="flex-1 bg-[#082f49]">
@@ -130,16 +136,26 @@ export function Agendamento({ navigation }) {
                 </View>
 
                 <Text className="text-center text-white font-bold text-xl mb-3">Agendamentos</Text>
-                <Picker
-                    selectedValue={filterType}
-                    onValueChange={(value) => setFilterType(value)}
-                    style={{ color: 'white' }}
-                >
-                    <Picker.Item label="Hoje" value="hoje" />
-                    <Picker.Item label="Esta Semana" value="semana" />
-                    <Picker.Item label="Este Mês" value="mes" />
-                    <Picker.Item label="Todos" value="todos" />
-                </Picker>
+                <FlatList
+                    horizontal
+                    data={generateDateList()}
+                    keyExtractor={(item) => item.toString()}
+                    renderItem={({ item }) => (
+                        <TouchableOpacity
+                            onPress={() => {
+                                setFilterDate(item);
+                                setSelectedDate(item);  // Atualizando o item selecionado
+                            }}
+                            className={`m-1 p-2 ${selectedDate && selectedDate.toString() === item.toString() ? 'bg-blue-600 rounded' : 'bg-white rounded'}`}
+                        >
+                            <Text className="text-sm font-medium">
+                                {isToday(item) ? "Hoje" : `${item.getDate()}/${item.getMonth() + 1}`}
+                            </Text>
+                        </TouchableOpacity>
+                    )}
+                />
+
+
             </View>
 
             <View className="flex-1 justify-center items-center p-4">
