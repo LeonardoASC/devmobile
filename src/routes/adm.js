@@ -53,30 +53,6 @@ function HomeStack() {
     );
 }
 
-// export function Adm() {
-//     return (
-//         <Drawer.Navigator 
-//         initialRouteName="HomeStack"
-//         screenOptions={{
-//             cardStyle: {
-//                 backgroundColor: "#082f49",
-//             },
-//             headerShown: false,
-//             drawerActiveBackgroundColor: 'white',
-//             drawerActiveTintColor: 'black'
-
-//         }}
-
-//         drawerContent={props => <CustomDrawerContent {...props}/>}
-//         >
-//             <Drawer.Screen name="HomeStack" component={HomeStack} options={{ drawerLabel: 'Home' }} />
-//             <Drawer.Screen name="Agendamento" component={Agendamento} />
-//             <Drawer.Screen name="Horario" component={Horario} />
-//             <Drawer.Screen name="Servico" component={Servico} />
-//             <Drawer.Screen name="SubServico" component={SubServico} />
-//         </Drawer.Navigator>
-//     );
-// }
 
 export function Adm() {
     return (

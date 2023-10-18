@@ -129,7 +129,7 @@ export function SubServico({ route, navigation }) {
           (item.name === selectedSubService?.name ? "bg-cyan-600" : "bg-gray-400")
         }
       >
-        <View className="flex flex-row justify-center items-center gap-x-1">
+        <View className="flex flex-row justify-center items-center gap-x-1 w-28">
           <MaterialCommunityIcons
             name="hair-dryer-outline"
             size={26}
@@ -145,7 +145,7 @@ export function SubServico({ route, navigation }) {
           </Text>
         </View>
 
-        <View className="flex flex-row justify-center items-center gap-x-2">
+        <View className="flex flex-row justify-center items-center gap-x-1">
           <Feather
             name="clock"
             size={22}
@@ -181,11 +181,11 @@ export function SubServico({ route, navigation }) {
   return (
     <SafeAreaView className="flex-1">
       <View className="bg-white h-1/4 rounded-bl-full justify-center  items-center">
-        <Text className="text-cyan-600 text-xl font-bold text-center">Escolha o sub-serviço</Text>
+        <Text className="text-cyan-600 text-xl font-bold text-center">Escolha de {serviceName}</Text>
       </View>
 
       <View className="flex justify-center items-center h-3/5 w-full mt-8 rounded-tr-xl">
-        <Text className="text-white">Escolha o tipo de sub-serviço que você deseja:</Text>
+        <Text className="text-white">Escolha o tipo de {serviceName} que você deseja:</Text>
         <FlatList
           className="w-full"
           data={subServices}

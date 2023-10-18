@@ -8,6 +8,7 @@ import { SubServicoPrivate } from "../pagesprivate/subservicoprivate";
 import { AgendadoPrivate } from "../pagesprivate/agendadoprivate";
 
 import { CustomDrawerContent } from "./CustomDrawerContent";
+import { Ionicons } from '@expo/vector-icons';
 
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -40,14 +41,30 @@ export function Private() {
     <Drawer.Navigator
       initialRouteName="HomeStack"
       screenOptions={{
-        cardStyle: {
-          backgroundColor: "#082f49",
-        },
-        headerShown: false
+        headerShown: false,
+        drawerActiveBackgroundColor: 'white',
+        drawerActiveTintColor: 'black',
+        drawerStyle: {
+          backgroundColor: 'white', // Cor de fundo que você deseja
+        }
       }}
-      drawerContent={props => <CustomDrawerContent {...props} /> }
+      drawerContent={props => <CustomDrawerContent {...props} />}
     >
-      <Drawer.Screen name="HomeStack" component={HomeStack} options={{ drawerLabel: 'Home' }}/>
+      <Drawer.Screen
+        name="HomeStack"
+        component={HomeStack}
+        options={{
+          drawerLabel: 'Home',
+          drawerIcon: ({ focused, size }) => (
+            <Ionicons
+              name={focused ? 'home' : 'home-outline'}
+              size={size}
+              color={focused ? 'black' : 'white'}
+            />
+          )
+
+        }}
+      />
     </Drawer.Navigator>
   );
 }
