@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { View, Text, FlatList, SafeAreaView, TouchableOpacity, Alert, Image } from "react-native";
 import api from '../../services/api';
-import { MaterialIcons, Feather } from '@expo/vector-icons';
+import { MaterialIcons, Feather, MaterialCommunityIcons } from '@expo/vector-icons';
 
 export function SubServicoPrivate({ route, navigation }) {
   const serviceId = route.params?.serviceId;
@@ -29,43 +29,116 @@ export function SubServicoPrivate({ route, navigation }) {
     fetchSubServicos();
   }, [serviceId]);
 
+  const formatDuration = (duration) => {
+    const [hour, minute] = duration.split(':');
+    return `${hour}:${minute}`;
+  }
+
+  // const SubServiceItem = ({ item }) => (
+
+  //     <TouchableOpacity
+  //       onPress={() => setSelectedSubService(item)}
+  //       className={
+  //         "justify-center items-center p-4 my-3 rounded-xl border-2 " +
+  //         (item.name === selectedSubService?.name ? "bg-white border-white shadow-md" : "bg-gray-200 border-gray-300")
+  //       }
+  //     >
+  //       <Image
+  //         source={{ uri: item.imagem }}
+  //         className="w-24 h-24 my-2 rounded-full"
+  //       />
+  //       <Text className={
+  //         "text-cyan-500 text-center  " +
+  //         (item.name === selectedSubService?.name ? "" : "bg-gray-200")
+  //       }>{item.name}</Text>
+  //       <View className="flex flex-row gap-x-2 mt-4 items-center justify-center">
+
+  //         <View className="flex flex-row justify-center items-center ">
+  //           <MaterialIcons name="attach-money" size={24} color="#06b6d4" />
+  //           <Text className={
+  //             "text-cyan-500 text-center " +
+  //             (item.name === selectedSubService?.name ? "" : "bg-gray-200")
+  //           }>{item.preco}</Text>
+  //         </View>
+
+  //         <View className="flex flex-row justify-center items-center gap-x-1">
+  //           <Feather name="clock" size={20} color="#06b6d4" />
+  //           <Text className={
+  //             "text-cyan-500 text-center" +
+  //             (item.name === selectedSubService?.name ? "" : "bg-gray-200")
+  //           }>{item.tempo_de_duracao}</Text>
+  //         </View>
+  //       </View>
+  //     </TouchableOpacity>
+
+  // );
   const SubServiceItem = ({ item }) => (
-    
-      <TouchableOpacity
-        onPress={() => setSelectedSubService(item)}
+    <TouchableOpacity
+      onPress={() => setSelectedSubService(item)}
+      className={
+        "flex flex-row gap-x-2 items-center px-4 py-2  w-full " +
+        (item.name === selectedSubService?.name ? " " : "")
+      }
+    >
+      <Image
+        source={{ uri: item.imagem }}
+
+        className={(item.name === selectedSubService?.name ? "flex-shrink-0 my-2 rounded-full z-10 w-40 h-40" : "flex-shrink-0 my-2 rounded-full z-10 w-32 h-32 ")}
+      />
+
+      <View
         className={
-          "justify-center items-center p-4 my-3 rounded-xl border-2 " +
-          (item.name === selectedSubService?.name ? "bg-white border-white shadow-md" : "bg-gray-200 border-gray-300")
+          "flex flex-col gap-y-2 rounded-3xl items-center justify-center w-48 right-10 p-4 pl-10 shadow-lg transform hover:scale-105 transition-transform duration-200 " +
+          (item.name === selectedSubService?.name ? "bg-cyan-600" : "bg-gray-400")
         }
       >
-        <Image
-          source={{ uri: item.imagem }}
-          className="w-24 h-24 my-2 rounded-full"
-        />
-        <Text className={
-          "text-cyan-500 text-center  " +
-          (item.name === selectedSubService?.name ? "" : "bg-gray-200")
-        }>{item.name}</Text>
-        <View className="flex flex-row gap-x-2 mt-4 items-center justify-center">
-
-          <View className="flex flex-row justify-center items-center ">
-            <MaterialIcons name="attach-money" size={24} color="#06b6d4" />
-            <Text className={
-              "text-cyan-500 text-center " +
-              (item.name === selectedSubService?.name ? "" : "bg-gray-200")
-            }>{item.preco}</Text>
-          </View>
-
-          <View className="flex flex-row justify-center items-center gap-x-1">
-            <Feather name="clock" size={20} color="#06b6d4" />
-            <Text className={
-              "text-cyan-500 text-center" +
-              (item.name === selectedSubService?.name ? "" : "bg-gray-200")
-            }>{item.tempo_de_duracao}</Text>
-          </View>
+        <View className="flex flex-row justify-center items-center gap-x-1">
+          <MaterialCommunityIcons
+            name="hair-dryer-outline"
+            size={26}
+            color={item.name === selectedSubService?.name ? "white" : "#082f49"}
+          />
+          <Text
+            className={
+              "font-semibold " +
+              (item.name === selectedSubService?.name ? "text-white font-extrabold " : "text-gray-800")
+            }
+          >
+            {item.name}
+          </Text>
         </View>
-      </TouchableOpacity>
-    
+
+        <View className="flex flex-row justify-center items-center gap-x-2">
+          <Feather
+            name="clock"
+            size={22}
+            color={item.name === selectedSubService?.name ? "white" : "#082f49"}
+          />
+          <Text
+            className={
+              "font-semibold " +
+              (item.name === selectedSubService?.name ? "text-white font-extrabold" : "text-gray-800")
+            }
+          >
+            {formatDuration(item.tempo_de_duracao)}
+          </Text>
+
+          <MaterialIcons
+            name="attach-money"
+            size={26}
+            color={item.name === selectedSubService?.name ? "white" : "#082f49"}
+          />
+          <Text
+            className={
+              "font-semibold " +
+              (item.name === selectedSubService?.name ? "text-white" : "text-gray-800")
+            }
+          >
+            {item.preco}
+          </Text>
+        </View>
+      </View>
+    </TouchableOpacity>
   );
 
   return (
@@ -73,13 +146,14 @@ export function SubServicoPrivate({ route, navigation }) {
       <View className="bg-white h-1/4 rounded-bl-full justify-center  items-center">
         <Text className="text-cyan-600 text-xl font-bold text-center">Escolha o sub-serviço</Text>
       </View>
-      
-      <View className="p-5 flex justify-center items-center h-2/4 w-full mt-10 rounded-tr-xl ">
+
+      <View className="flex justify-center items-center h-3/5 w-full mt-8 rounded-tr-xl ">
         <Text className="text-white">Escolha o tipo de sub-serviço que você deseja:</Text>
         <FlatList
+          className="w-full"
           data={subServices}
-          renderItem={({ item }) => <SubServiceItem item={item} />}
-          keyExtractor={(item) => item.id}
+          renderItem={({ item, index }) => <SubServiceItem item={item} index={index} />}
+          keyExtractor={(item) => item.id.toString()}
           showsVerticalScrollIndicator={false}
         />
       </View>
