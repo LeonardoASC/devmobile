@@ -64,7 +64,7 @@ export function Agendamento({ navigation }) {
     const updateAgendamentoStatus = (id) => {
         Alert.alert(
             "Confirmação",
-            "Tem certeza de que deseja concluir?",
+            "Cliente Atendido?",
             [
                 { text: "Cancelar", style: "cancel" },
                 {
@@ -95,24 +95,19 @@ export function Agendamento({ navigation }) {
     const disupidate = (id) => {
         Alert.alert(
             "Confirmação",
-            "Tem certeza de que deseja cancelar?",
+            "Tem certeza de que deseja desmarcar?",
             [
                 { text: "Cancelar", style: "cancel" },
                 {
                     text: "Sim",
                     onPress: async () => {
                         try {
-                            const response = await api.put(`/agendamento/${id}`, {
-                                status: "Cancelado"
-                            }, {
-                                headers: {
-                                    'Content-Type': 'application/json'
-                                }
-                            });
-
+                            const response = await api.delete(`/agendamento/${id}`);
                             if (response.status === 200) {
                                 fetchAgendamentos(); // Atualizar a lista após alterar o status
+                                filterAgendamentos();
                             }
+                            fetchAgendamentos(); // Atualizar a lista após alterar o status
                         } catch (error) {
                             console.error("Erro ao atualizar o status do agendamento:", error);
                             console.error("Erro ao atualizar o status do agendamento:", error.response ? error.response.data : error.message);
@@ -183,12 +178,12 @@ export function Agendamento({ navigation }) {
                                             onPress={() => updateAgendamentoStatus(item.id)}
                                             style={{ marginRight: 10 }}  // Dando espaço entre os botões
                                         >
-                                            <Text className="bg-green-500 text-white px-2 py-1 rounded">Concluir</Text>
+                                            <Text className="bg-green-500 text-white px-2 py-1 rounded">Atendido</Text>
                                         </TouchableOpacity>
                                         <TouchableOpacity
                                             onPress={() => disupidate(item.id)}
                                         >
-                                            <Text className="bg-red-500 text-white px-2 py-1 rounded">Cancelar</Text>
+                                            <Text className="bg-red-500 text-white px-2 py-1 rounded">Desmarcar</Text>
                                         </TouchableOpacity>
                                     </>
                                 )}

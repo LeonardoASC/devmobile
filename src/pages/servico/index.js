@@ -67,14 +67,15 @@ export function Servico({route, navigation }) {
         }}
         className={
           item.id === selectedItemId
-            ? "text-cyan-500 bg-white justify-center items-center text-center border rounded p-2 border-white my-3 "
-            : "text-cyan-500 bg-gray-200 justify-center items-center text-center border rounded p-2 border-gray-200 my-3"
+            ? "text-cyan-500 bg-white justify-center items-center text-center border rounded p-4 border-white my-3 shadow-md font-bold"
+            : "text-cyan-700 bg-gray-200 justify-center items-center text-center border rounded p-2 border-gray-200 my-3"
         }
       >
         {item.name}
       </Text>
     </TouchableOpacity>
   );
+
 
   return (
     <SafeAreaView className="flex-1">
