@@ -13,7 +13,7 @@ export function Home({ navigation }) {
         <Text className="text-white">Clique abaixo para agendar</Text>
         <View className="mt-8 items-center">
           <TouchableOpacity
-            className="bg-white rounded p-3 shadow-md mb-4"
+            className="bg-white rounded-lg p-3 shadow-md mb-4"
             onPress={() => navigation.navigate("FirstData")}
           >
             <Text className="text-cyan-500 font-bold text-lg text-center px-14 mt">Agendar sem registro</Text>
@@ -29,14 +29,14 @@ export function Home({ navigation }) {
           {/* "Login" e "Registrar" */}
           <View className="flex-row justify-between w-3/4">
             <TouchableOpacity
-              className="bg-cyan-900 rounded p-3 shadow-md mr-2 flex-1"
+              className="bg-white rounded-lg p-3 shadow-md mr-2 flex-1"
               onPress={() => navigation.navigate("Login")}
             >
-              <Text className="text-white font-bold text-center">Login</Text>
+              <Text className="text-cyan-500 font-bold text-center">Login</Text>
             </TouchableOpacity>
 
             <TouchableOpacity
-              className="bg-white  rounded p-3 shadow-md ml-2 flex-1"
+              className="bg-white rounded-lg p-3 shadow-md ml-2 flex-1"
               onPress={() => navigation.navigate("Register")}
             >
               <Text className="text-cyan-500 font-bold text-center">Registrar</Text>
