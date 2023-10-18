@@ -124,7 +124,7 @@ export function FirstData({ route, navigation }) {
         </View>
 
         {/* Lista de datas */}
-        <View className=" flex flex-row items-center mt-4 w-full ">
+        {/* <View className=" flex flex-row items-center mt-4 w-full ">
           <Ionicons name="today-outline" size={24} color="white" />
           <FlatList
             className="flex"
@@ -150,7 +150,37 @@ export function FirstData({ route, navigation }) {
               </TouchableOpacity>
             )}
           />
+        </View> */}
+
+        <View className=" flex flex-row items-center mt-4 w-full ">
+          <Ionicons name="today-outline" size={24} color="white" />
+          <FlatList
+            className="flex"
+            horizontal={true}
+            data={dates}
+            keyExtractor={(item, index) => index.toString()}
+            renderItem={({ item }) => (
+              <TouchableOpacity
+                className="justify-center items-center"
+                disabled={isDisabled(item)}
+                onPress={() => { selectHour(item) }}
+              >
+                <View
+                  className={`m-4 p-8 rounded-lg ${item.toISOString().split('T')[0] === date ? 'bg-white shadow-md shadow-black justify-center items-center w-36' : 'w-36 bg-gray-300 justify-center items-center text-center border rounded-lg p-4 border-gray-300 my-3 '}`}
+                >
+                  <Text className={`p-2 ${item.toISOString().split('T')[0] === date ? ' text-cyan-500 text-4xl' : 'text-lg text-cyan-500  '} ${isDisabled(item) ? 'text-gray-400 ' : 'opacity-100'}`}>
+                    {item.toLocaleDateString('pt-BR', { day: 'numeric' })}
+                  </Text>
+                  <Text className={` ${item.toISOString().split('T')[0] === date ? ' text-cyan-500 ' : 'text-cyan-500 '} ${isDisabled(item) ? 'text-gray-400' : 'opacity-100'}`}>
+                    {item.toLocaleDateString('pt-BR', { weekday: 'long' })}
+                  </Text>
+                </View>
+              </TouchableOpacity>
+            )}
+          />
         </View>
+
+
         {/* Alerta */}
         <View className="bg-gray-200  flex flex-row gap-2 items-center justify-center mt-3 rounded-xl mx-3 px-4 py-2">
           <View className="pb-2">
@@ -177,7 +207,7 @@ export function FirstData({ route, navigation }) {
             )}
           />
         </View>
-        
+
         {/* Botão de confirmação */}
         <TouchableOpacity
           onPress={handleSubmit}
