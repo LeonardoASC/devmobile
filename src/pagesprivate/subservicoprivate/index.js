@@ -92,7 +92,7 @@ export function SubServicoPrivate({ route, navigation }) {
           (item.name === selectedSubService?.name ? "bg-cyan-600" : "bg-gray-400")
         }
       >
-        <View className="flex flex-row justify-center items-center gap-x-1">
+        <View className="flex flex-row justify-center items-center gap-x-1 w-28">
           <MaterialCommunityIcons
             name="hair-dryer-outline"
             size={26}
@@ -108,7 +108,7 @@ export function SubServicoPrivate({ route, navigation }) {
           </Text>
         </View>
 
-        <View className="flex flex-row justify-center items-center gap-x-2">
+        <View className="flex flex-row justify-center items-center ">
           <Feather
             name="clock"
             size={22}
