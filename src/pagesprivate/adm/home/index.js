@@ -52,14 +52,14 @@ export function Home({ navigation }) {
 
         const responseAgendamentosDia = await api.get('/agendamentos-dia');
         setAgendamentosDia(responseAgendamentosDia.data.quantidade_agendamentos_dia)
-        console.log(responseAgendamentosDia.data);
+        //console.log(responseAgendamentosDia.data);
 
         const responseAgendamentosSemana = await api.get('/agendamentos-semana');
-        console.log(responseAgendamentosSemana.data);
+        //console.log(responseAgendamentosSemana.data);
         setAgendamentosSemana(responseAgendamentosSemana.data.quantidade_agendamentos_semana)
 
         const responseAgendamentosMes = await api.get('/agendamentos-mes');
-        console.log(responseAgendamentosMes.data);
+        //console.log(responseAgendamentosMes.data);
         setAgendamentosMes(responseAgendamentosMes.data.quantidade_agendamentos_mes)
       } else {
         setMessage('Nenhum agendamento encontrado.');
