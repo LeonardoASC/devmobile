@@ -6,6 +6,7 @@ import { AntDesign } from '@expo/vector-icons';
 import { useIsFocused } from '@react-navigation/native';
 
 
+
 export function SubServico({ navigation }) {
   const isFocused = useIsFocused();
   const [services, setServices] = useState([]);
@@ -70,6 +71,8 @@ export function SubServico({ navigation }) {
     setSelectedImage(uri);
     setImageModalVisible(true);
   };
+
+  
   return (
     <SafeAreaView className="flex-1 bg-[#082f49]">
       <View className=" flex h-1/5 justify-center items-center rounded-bl-xl shadow-neu-inset">
@@ -78,7 +81,7 @@ export function SubServico({ navigation }) {
         </Text>
       </View>
 
-      <View className="px-5">
+      <View className="px-5 bg-white">
         <FlatList
           horizontal={true}
           data={services}
