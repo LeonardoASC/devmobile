@@ -35,7 +35,7 @@ const LoadingComponent = ({ width = 200, height = 200 }) => {
 
 
     return (
-        <Animated.View style={{ transform: [{ scale: animatedScale }], opacity: animatedOpacity }} className="flex-1 items-center justify-center">
+        <Animated.View style={{ transform: [{ scale: animatedScale }], opacity: animatedOpacity }} className="items-center justify-center">
             <Svg
                 xmlns="http://www.w3.org/2000/svg"
                 width={width}

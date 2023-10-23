@@ -8,12 +8,14 @@ import {
   TouchableOpacity,
 } from "react-native";
 import api from '../../services/api';  // Ajuste o caminho conforme sua estrutura de pastas
+import LoadingComponent from "../../components/loadingcomponent";
 
-export function Servico({route, navigation }) {
+export function Servico({ route, navigation }) {
   const [servico, setServico] = useState("");
   const [selectedItemId, setSelectedItemId] = useState(null);
   const [services, setServices] = useState([]);
-  
+  const [loading, setLoading] = useState(false);
+
   const nameProp = route.params?.nameProp;
   const dateProp = route.params?.dateProp;
   const timeProp = route.params?.timeProp;
@@ -24,12 +26,15 @@ export function Servico({route, navigation }) {
 
   const fetchServicos = async () => {
     try {
+      setLoading(true);
       const response = await api.get('/servico');
       if (response.data && response.data.length) {
         setServices(response.data);
       }
     } catch (error) {
       console.error("Erro ao buscar serviços:", error);
+    } finally {
+      setLoading(false); // Exemplo de código para executar no finally
     }
   };
 
@@ -84,12 +89,14 @@ export function Servico({route, navigation }) {
       </View>
       <View className="p-5 flex justify-center items-center h-2/4 w-full mt-10 rounded-tr-xl ">
         <Text className="text-white">Escolha qual serviço esta Procurando</Text>
-        <FlatList
-          data={services}
-          renderItem={({ item }) => <ServiceItem item={item} />}
-          keyExtractor={(item) => item.id}
-          showsVerticalScrollIndicator={false}
-        />
+        {loading ? <LoadingComponent width={100} height={100} /> :
+          <FlatList
+            data={services}
+            renderItem={({ item }) => <ServiceItem item={item} />}
+            keyExtractor={(item) => item.id}
+            showsVerticalScrollIndicator={false}
+          />
+        }
       </View>
       <View className="w-full items-center justify-center">
 

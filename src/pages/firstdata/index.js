@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import SvgComponent from "../../svg/circulo";
 import { Ionicons, Feather } from '@expo/vector-icons';
 import api from "../../services/api";
+import LoadingComponent from "../../components/loadingcomponent";
 
 export function FirstData({ route, navigation }) {
   const [name, setName] = useState("");
@@ -10,6 +11,7 @@ export function FirstData({ route, navigation }) {
   const [time, setTime] = useState("");
   const [dates, setDates] = useState([]);
   const [availableHours, setAvailableHours] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async () => {
     const fields = {
@@ -64,6 +66,7 @@ export function FirstData({ route, navigation }) {
 
   const selectHour = (selectedDate) => {
     setDate(selectedDate.toISOString().split('T')[0]);
+    setLoading(true);
 
     api.get(`/verify-hour/${selectedDate.toISOString().split('T')[0]}`)
       .then(response => {
@@ -76,6 +79,9 @@ export function FirstData({ route, navigation }) {
       })
       .catch(error => {
         console.error("Erro ao obter os horários:", error);
+      })
+      .finally(() => {
+        setLoading(false);
       });
   }
 
@@ -124,34 +130,6 @@ export function FirstData({ route, navigation }) {
         </View>
 
         {/* Lista de datas */}
-        {/* <View className=" flex flex-row items-center mt-4 w-full ">
-          <Ionicons name="today-outline" size={24} color="white" />
-          <FlatList
-            className="flex"
-            horizontal={true}
-            data={dates}
-            keyExtractor={(item, index) => index.toString()}
-            renderItem={({ item }) => (
-              <TouchableOpacity
-                className="justify-center items-center"
-                disabled={isDisabled(item)}
-                onPress={() => { selectHour(item) }}
-              >
-                <View
-                  className={`m-4 p-8 rounded-lg ${item.toISOString().split('T')[0] === date ? 'bg-white shadow-md shadow-black justify-center items-center w-36' : 'w-36 bg-gray-200 justify-center items-center text-center border rounded-lg p-4 border-gray-200 my-3 '}`}
-                >
-                  <Text className={`p-2${item.toISOString().split('T')[0] === date ? ' text-cyan-500 text-4xl' : 'text-lg text-cyan-500  '}`}>
-                    {item.toLocaleDateString('pt-BR', { day: 'numeric' })}
-                  </Text>
-                  <Text className={`${item.toISOString().split('T')[0] === date ? ' text-cyan-500 ' : 'text-cyan-500 '}`}>
-                    {item.toLocaleDateString('pt-BR', { weekday: 'long' })}
-                  </Text>
-                </View>
-              </TouchableOpacity>
-            )}
-          />
-        </View> */}
-
         <View className=" flex flex-row items-center mt-4 w-full ">
           <Ionicons name="today-outline" size={24} color="white" />
           <FlatList
@@ -190,24 +168,25 @@ export function FirstData({ route, navigation }) {
         </View>
 
         {/* Lista de horas */}
-        <View className="flex flex-row items-center mt-5 w-full">
-          <Ionicons name="time-outline" size={24} color="white" className="mr-3" />
-          <FlatList
-            horizontal={false}
-            numColumns={4}
-            data={availableHours}
-            keyExtractor={(item, index) => index.toString()}
-            renderItem={({ item }) => (
-              <TouchableOpacity
-                className="justify-center items-center"
-                onPress={() => { setTime(item) }}
-              >
-                <Text className={`m-2 p-4 rounded-lg ${item === time ? 'bg-white shadow-md shadow-black text-cyan-500' : 'text-cyan-500 bg-gray-200 justify-center items-center text-center border rounded p-2 border-gray-200 my-3'}`}>{item}</Text>
-              </TouchableOpacity>
-            )}
-          />
+        <View className="flex flex-row items-center justify-center mt-5 w-full">
+          <Ionicons name="time-outline" size={24} color="white" className="mr-3 " />
+          {loading ? <LoadingComponent width={100} height={100} /> :
+            <FlatList
+              horizontal={false}
+              numColumns={4}
+              data={availableHours}
+              keyExtractor={(item, index) => index.toString()}
+              renderItem={({ item }) => (
+                <TouchableOpacity
+                  className="justify-center items-center"
+                  onPress={() => { setTime(item) }}
+                >
+                  <Text className={`m-2 p-4 rounded-lg ${item === time ? 'bg-white shadow-md shadow-black text-cyan-500' : 'text-cyan-500 bg-gray-200 justify-center items-center text-center border rounded p-2 border-gray-200 my-3'}`}>{item}</Text>
+                </TouchableOpacity>
+              )}
+            />
+          }
         </View>
-
         {/* Botão de confirmação */}
         <TouchableOpacity
           onPress={handleSubmit}

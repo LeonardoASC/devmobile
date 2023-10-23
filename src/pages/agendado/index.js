@@ -12,7 +12,7 @@ export function Agendado({ route, navigation }) {
   const precoService = route.params?.precoService;
 
   const [loading, setLoading] = useState(false);
-  
+
   const sendData = () => {
     setLoading(true);
     api.post('/agendamento', {
@@ -27,7 +27,7 @@ export function Agendado({ route, navigation }) {
         // console.log(response.data.success)
         if (response.data.success) {
           Alert.alert("Reserva Realizada!", "Ficamos felizes com seu agendamento! Aguardamos voce.");
-          // navigation.navigate('Home');
+          navigation.navigate('Home');
         } else {
           alert('Erro ao registrar! ' + (response.data.message || ''));
         }
@@ -38,14 +38,11 @@ export function Agendado({ route, navigation }) {
       })
       .finally(() => {
         // Terminar o carregamento independente de sucesso ou erro
-        // setLoading(false);
+        setLoading(false);
       });
 
   }
 
-  if (loading) {
-    return <LoadingComponent />;
-  }
 
 
   return (
@@ -66,12 +63,14 @@ export function Agendado({ route, navigation }) {
         </View>
       </View>
       <View className="w-full items-center justify-center">
+      {loading ? <LoadingComponent width={100} height={100} /> :
         <TouchableOpacity
           className="bg-white rounded p-3 shadow-md"
           onPress={sendData}
         >
           <Text className="text-cyan-500 font-bold text-lg">AGENDAR</Text>
         </TouchableOpacity>
+}
       </View>
     </SafeAreaView>
   );
