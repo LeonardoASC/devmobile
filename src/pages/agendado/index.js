@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Text, SafeAreaView, TouchableOpacity, Alert } from 'react-native';
 import api from "../../services/api"
+import LoadingComponent from '../../components/loadingcomponent';
 
 export function Agendado({ route, navigation }) {
   const name = route.params?.nameProp;
@@ -9,9 +10,11 @@ export function Agendado({ route, navigation }) {
   const serviceName = route.params?.serviceName;
   const subServiceName = route.params?.subServiceName;
   const precoService = route.params?.precoService;
+
+  const [loading, setLoading] = useState(false);
   
   const sendData = () => {
-
+    setLoading(true);
     api.post('/agendamento', {
       nome: name,
       dia: date,
@@ -24,7 +27,7 @@ export function Agendado({ route, navigation }) {
         // console.log(response.data.success)
         if (response.data.success) {
           Alert.alert("Reserva Realizada!", "Ficamos felizes com seu agendamento! Aguardamos voce.");
-          navigation.navigate('Home');
+          // navigation.navigate('Home');
         } else {
           alert('Erro ao registrar! ' + (response.data.message || ''));
         }
@@ -32,9 +35,18 @@ export function Agendado({ route, navigation }) {
       .catch(error => {
         // console.error("Erro ao enviar dados:", error);
         alert("Erro ao enviar dados:", error);
+      })
+      .finally(() => {
+        // Terminar o carregamento independente de sucesso ou erro
+        // setLoading(false);
       });
 
   }
+
+  if (loading) {
+    return <LoadingComponent />;
+  }
+
 
   return (
 
