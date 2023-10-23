@@ -8,10 +8,11 @@ import SvgComponentFace from "../../svg/facebook";
 import { Pressable } from 'react-native';
 import { AuthContext } from '../../context/AuthContext';
 
+
 export function Login({ route, navigation }) {
   const [email, setEmail] = useState(null);
   const [password, setPassword] = useState(null);
-
+ 
   const { login } = useContext(AuthContext);
  
   return (

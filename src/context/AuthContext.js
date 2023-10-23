@@ -10,7 +10,7 @@ export const AuthProvider = ({ children }) => {
     const [isLoading, setIsLoading] = useState(false);
     const [userToken, setUserToken] = useState(null);
     const [userInfo, setUserInfo] = useState('');
-
+    
    
 
     const login = (email, password) => {
@@ -27,10 +27,7 @@ export const AuthProvider = ({ children }) => {
                 // console.log(userInfo);
                 setUserInfo(userInfo)
                 AsyncStorage.setItem('userInfo', JSON.stringify(userInfo))
-                // AsyncStorage.setItem('userInfo', userInfo.name)
-
-                // console.log(res.data);
-                // console.log('User token: ' + res.data.access_token);
+               
             })
             .catch(e => {
                 if (e.response && e.response.status === 401) {

@@ -43,8 +43,6 @@ export function Agendado({ route, navigation }) {
 
   }
 
-
-
   return (
 
     <SafeAreaView className="flex h-screen w-full">

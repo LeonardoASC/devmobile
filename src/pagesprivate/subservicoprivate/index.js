@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { View, Text, FlatList, SafeAreaView, TouchableOpacity, Alert, Image } from "react-native";
 import api from '../../services/api';
 import { MaterialIcons, Feather, MaterialCommunityIcons } from '@expo/vector-icons';
+import LoadingComponent from "../../components/loadingcomponent";
 
 export function SubServicoPrivate({ route, navigation }) {
   const serviceId = route.params?.serviceId;
@@ -12,10 +13,12 @@ export function SubServicoPrivate({ route, navigation }) {
 
   const [subServices, setSubServices] = useState([]);
   const [selectedSubService, setSelectedSubService] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const fetchSubServicos = async () => {
       try {
+        setLoading(true);
         const response = await api.get('/subservico');
         if (response.data && response.data.length) {
           const filteredSubServices = response.data.filter(subService => subService.servico_id === serviceId);
@@ -23,6 +26,8 @@ export function SubServicoPrivate({ route, navigation }) {
         }
       } catch (error) {
         console.error("Erro ao buscar subserviços:", error);
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -34,44 +39,7 @@ export function SubServicoPrivate({ route, navigation }) {
     return `${hour}:${minute}`;
   }
 
-  // const SubServiceItem = ({ item }) => (
 
-  //     <TouchableOpacity
-  //       onPress={() => setSelectedSubService(item)}
-  //       className={
-  //         "justify-center items-center p-4 my-3 rounded-xl border-2 " +
-  //         (item.name === selectedSubService?.name ? "bg-white border-white shadow-md" : "bg-gray-200 border-gray-300")
-  //       }
-  //     >
-  //       <Image
-  //         source={{ uri: item.imagem }}
-  //         className="w-24 h-24 my-2 rounded-full"
-  //       />
-  //       <Text className={
-  //         "text-cyan-500 text-center  " +
-  //         (item.name === selectedSubService?.name ? "" : "bg-gray-200")
-  //       }>{item.name}</Text>
-  //       <View className="flex flex-row gap-x-2 mt-4 items-center justify-center">
-
-  //         <View className="flex flex-row justify-center items-center ">
-  //           <MaterialIcons name="attach-money" size={24} color="#06b6d4" />
-  //           <Text className={
-  //             "text-cyan-500 text-center " +
-  //             (item.name === selectedSubService?.name ? "" : "bg-gray-200")
-  //           }>{item.preco}</Text>
-  //         </View>
-
-  //         <View className="flex flex-row justify-center items-center gap-x-1">
-  //           <Feather name="clock" size={20} color="#06b6d4" />
-  //           <Text className={
-  //             "text-cyan-500 text-center" +
-  //             (item.name === selectedSubService?.name ? "" : "bg-gray-200")
-  //           }>{item.tempo_de_duracao}</Text>
-  //         </View>
-  //       </View>
-  //     </TouchableOpacity>
-
-  // );
   const SubServiceItem = ({ item }) => (
     <TouchableOpacity
       onPress={() => setSelectedSubService(item)}
@@ -144,18 +112,20 @@ export function SubServicoPrivate({ route, navigation }) {
   return (
     <SafeAreaView className="flex-1">
       <View className="bg-white h-1/4 rounded-bl-full justify-center  items-center">
-        <Text className="text-cyan-600 text-xl font-bold text-center">Escolha o sub-serviço</Text>
+        <Text className="text-cyan-600 text-xl font-bold text-center">Escolha o {serviceName}</Text>
       </View>
 
       <View className="flex justify-center items-center h-3/5 w-full mt-8 rounded-tr-xl ">
-        <Text className="text-white">Escolha o tipo de sub-serviço que você deseja:</Text>
-        <FlatList
-          className="w-full"
-          data={subServices}
-          renderItem={({ item, index }) => <SubServiceItem item={item} index={index} />}
-          keyExtractor={(item) => item.id.toString()}
-          showsVerticalScrollIndicator={false}
-        />
+        <Text className="text-white">Escolha o tipo de {serviceName} que você deseja:</Text>
+        {loading ? <LoadingComponent width={100} height={100} /> :
+          <FlatList
+            className="w-full"
+            data={subServices}
+            renderItem={({ item, index }) => <SubServiceItem item={item} index={index} />}
+            keyExtractor={(item) => item.id.toString()}
+            showsVerticalScrollIndicator={false}
+          />
+        }
       </View>
       <View className="w-full items-center justify-center">
         <TouchableOpacity

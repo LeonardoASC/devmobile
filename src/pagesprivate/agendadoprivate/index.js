@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Text, SafeAreaView, TouchableOpacity, Alert } from 'react-native';
 import api from '../../services/api'
 import { AuthContext } from "../../context/AuthContext"
 import { useContext } from "react";
+import LoadingComponent from '../../components/loadingcomponent';
+
 
 export function AgendadoPrivate({ route, navigation }) {
   const { userInfo } = useContext(AuthContext);
@@ -12,8 +14,10 @@ export function AgendadoPrivate({ route, navigation }) {
   const serviceName = route.params?.serviceName;
   const subServiceName = route.params?.subServiceName;
   const precoService = route.params?.precoService;
+  const [loading, setLoading] = useState(false);
 
   const sendData = () => {
+    setLoading(true);
     api.post('/agendamento', {
       nome: name,
       dia: date,
@@ -36,7 +40,10 @@ export function AgendadoPrivate({ route, navigation }) {
       .catch(error => {
         console.error("Erro ao enviar dados:", error);
         // Aqui, você pode adicionar lógica para lidar com o erro. Ex: Mostrar uma mensagem de erro para o usuário.
-      });
+      })
+      .finally(() =>{
+        setLoading(false);
+      })
 
   }
 
@@ -58,12 +65,14 @@ export function AgendadoPrivate({ route, navigation }) {
         </View>
       </View>
       <View className="w-full items-center justify-center">
+      {loading ? <LoadingComponent width={100} height={100} /> :
         <TouchableOpacity
           className="bg-white rounded p-3 shadow-md"
           onPress={sendData}
         >
           <Text className="text-cyan-500 font-bold text-lg">AGENDAR</Text>
         </TouchableOpacity>
+}
       </View>
     </SafeAreaView>
   );

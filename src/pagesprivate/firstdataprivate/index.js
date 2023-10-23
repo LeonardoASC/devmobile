@@ -5,6 +5,7 @@ import { AuthContext } from "../../context/AuthContext"
 import { Ionicons, Feather } from '@expo/vector-icons';
 import { SafeAreaView } from "react-native-safe-area-context";
 import api from "../../services/api";
+import LoadingComponent from "../../components/loadingcomponent"
 
 
 
@@ -16,6 +17,7 @@ export function FirstDataPrivate({ route, navigation }) {
   const { userInfo } = useContext(AuthContext);
   const [availableHours, setAvailableHours] = useState([]);
   const [selectedItemId, setSelectedItemId] = useState(null);
+  const [loading, setLoading] = useState(false);
 
 
   const handleSubmit = (userInfo) => {
@@ -78,7 +80,7 @@ export function FirstDataPrivate({ route, navigation }) {
 
   const selectHour = (selectedDate) => {
     setDate(selectedDate.toISOString().split('T')[0]);
-
+    setLoading(true);
     api.get(`/verify-hour/${selectedDate.toISOString().split('T')[0]}`)
       .then(response => {
         if (response.data.unreservedHours) {
@@ -90,7 +92,10 @@ export function FirstDataPrivate({ route, navigation }) {
       })
       .catch(error => {
         console.error("Erro ao obter os horários:", error);
-      });
+      })
+      .finally(() => {
+        setLoading(false);
+      })
   }
 
   function convertToHourMinute(timeString) {
@@ -154,22 +159,24 @@ export function FirstDataPrivate({ route, navigation }) {
         </View>
 
         {/* Lista de horas */}
-        <View className="flex flex-row items-center mt-5 w-full">
+        <View className="flex flex-row items-center justify-center mt-5 w-full">
           <Ionicons name="time-outline" size={24} color="white" className="mr-3" />
-          <FlatList
-            horizontal={false}
-            numColumns={4}
-            data={availableHours}
-            keyExtractor={(item, index) => index.toString()}
-            renderItem={({ item }) => (
-              <TouchableOpacity
-                className="justify-center items-center"
-                onPress={() => { setTime(item) }}
-              >
-                <Text className={`m-2 p-4 rounded-lg ${item === time ? 'bg-white shadow-md shadow-black text-cyan-500' : 'text-cyan-500 bg-gray-200 justify-center items-center text-center border rounded p-2 border-gray-200 my-3'}`}>{item}</Text>
-              </TouchableOpacity>
-            )}
-          />
+          {loading ? <LoadingComponent width={100} height={100} /> :
+            <FlatList
+              horizontal={false}
+              numColumns={4}
+              data={availableHours}
+              keyExtractor={(item, index) => index.toString()}
+              renderItem={({ item }) => (
+                <TouchableOpacity
+                  className="justify-center items-center"
+                  onPress={() => { setTime(item) }}
+                >
+                  <Text className={`m-2 p-4 rounded-lg ${item === time ? 'bg-white shadow-md shadow-black text-cyan-500' : 'text-cyan-500 bg-gray-200 justify-center items-center text-center border rounded p-2 border-gray-200 my-3'}`}>{item}</Text>
+                </TouchableOpacity>
+              )}
+            />
+          }
         </View>
 
         {/* Botão de confirmação */}
