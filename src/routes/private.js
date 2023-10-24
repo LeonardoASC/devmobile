@@ -6,6 +6,7 @@ import { FirstDataPrivate } from "../pagesprivate/firstdataprivate";
 import { ServicoPrivate } from "../pagesprivate/servicoprivate";
 import { SubServicoPrivate } from "../pagesprivate/subservicoprivate";
 import { AgendadoPrivate } from "../pagesprivate/agendadoprivate";
+import { MeusAgendamentos } from "../pagesprivate/meusagendamentos";
 
 import { CustomDrawerContent } from "./CustomDrawerContent";
 import { Ionicons } from '@expo/vector-icons';
@@ -65,6 +66,24 @@ export function Private() {
 
         }}
       />
+      
+      <Drawer.Screen
+        name="TodosAgendamentos"
+        component={MeusAgendamentos}
+        options={{
+          drawerLabel: 'Meus Agendamentos',
+          drawerIcon: ({ focused, size }) => (
+            <Ionicons
+              name={focused ? 'home' : 'home-outline'}
+              size={size}
+              color={focused ? 'black' : 'white'}
+            />
+          )
+
+        }}
+      />
+
+
     </Drawer.Navigator>
   );
 }

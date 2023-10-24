@@ -63,27 +63,27 @@ export function HomePrivate({ route, navigation }) {
 
                   <View className="flex-row mb-3 items-center">
                     <Ionicons name="ios-calendar" size={24} color="#00B8D9" className="mr-2" />
-                    <Text className="text-#00B8D9">Dia: {lastAppointment.dia}</Text>
+                    <Text className="">Dia: {lastAppointment.dia}</Text>
                   </View>
 
                   <View className="flex-row mb-3 items-center">
                     <Ionicons name="ios-time" size={24} color="#00B8D9" className="mr-2" />
-                    <Text className="text-#00B8D9">Horário: {lastAppointment.horario}</Text>
+                    <Text className="">Horário: {lastAppointment.horario}</Text>
                   </View>
 
                   <View className="flex-row mb-3 items-center">
                     <Ionicons name="ios-list" size={24} color="#00B8D9" className="mr-2" />
-                    <Text className="text-#00B8D9">Tipo de Serviço: {lastAppointment.tipo_servico}</Text>
+                    <Text className="">Tipo de Serviço: {lastAppointment.tipo_servico}</Text>
                   </View>
 
                   <View className="flex-row mb-3 items-center">
                     <Ionicons name="ios-information-circle" size={24} color="#00B8D9" className="mr-2" />
-                    <Text className="text-#00B8D9">Serviço Específico: {lastAppointment.servico_especifico}</Text>
+                    <Text className="">Serviço Específico: {lastAppointment.servico_especifico}</Text>
                   </View>
 
                   <View className="flex-row mb-3 items-center">
                     <Ionicons name="ios-checkmark-circle" size={24} color="green" className="mr-2" />
-                    <Text className="text-#00B8D9">Status: {lastAppointment.status}</Text>
+                    <Text className="">Status: {lastAppointment.status}</Text>
                   </View>
                 </View>
               ) : (
