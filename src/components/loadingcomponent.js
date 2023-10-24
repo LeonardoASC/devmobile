@@ -3,7 +3,7 @@ import { View, Text, ActivityIndicator } from 'react-native';
 import { Svg, Path, G, Defs, ClipPath } from 'react-native-svg';
 import { Animated } from 'react-native';
 
-const LoadingComponent = ({ width = 200, height = 200 }) => {
+const LoadingComponent = ({ width = 200, height = 200, cor = "white" }) => {
     const animationValue = useRef(new Animated.Value(0)).current;
 
     useEffect(() => {
@@ -93,7 +93,7 @@ const LoadingComponent = ({ width = 200, height = 200 }) => {
                         <Path d="M728.992 227.117L378.148 720.305 90.301 515.539 441.148 22.348zm0 0"></Path>
                     </ClipPath>
                 </Defs>
-                <G fill="white" ClipPath="url(#8074513a20)">
+                <G fill={cor} ClipPath="url(#8074513a20)">
                     <G ClipPath="url(#6b4027aca8)">
                         <G ClipPath="url(#2652e0484e)">
                             <G ClipPath="url(#d7880ecb88)">
@@ -102,7 +102,7 @@ const LoadingComponent = ({ width = 200, height = 200 }) => {
                         </G>
                     </G>
                 </G>
-                <G fill="white" ClipPath="url(#89cfb7346c)">
+                <G fill={cor} ClipPath="url(#89cfb7346c)">
                     <G ClipPath="url(#47cd1418a8)">
                         <G ClipPath="url(#884823ad31)">
                             <G ClipPath="url(#69aa5acfee)">
@@ -111,7 +111,7 @@ const LoadingComponent = ({ width = 200, height = 200 }) => {
                         </G>
                     </G>
                 </G>
-                <G fill="white" ClipPath="url(#8475312d16)">
+                <G fill={cor} ClipPath="url(#8475312d16)">
                     <G ClipPath="url(#b8a355f57c)">
                         <G ClipPath="url(#9b4523bb35)">
                             <G ClipPath="url(#05b31b48be)">
@@ -120,7 +120,7 @@ const LoadingComponent = ({ width = 200, height = 200 }) => {
                         </G>
                     </G>
                 </G>
-                <G fill="white" ClipPath="url(#35e4d0de5b)">
+                <G fill={cor} ClipPath="url(#35e4d0de5b)">
                     <G ClipPath="url(#191516efbd)">
                         <G ClipPath="url(#2792881cd3)">
                             <G ClipPath="url(#18c1054bb7)">

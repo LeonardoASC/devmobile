@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, TouchableOpacity, Image } from "react-native";
+import { View, Text  } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import OpenDrawerButton from '../../../components/opendrawer';
 import api from "../../../services/api";
 import { FontAwesome5, MaterialCommunityIcons, Entypo, FontAwesome } from '@expo/vector-icons';
 import { ScrollView } from "react-native-gesture-handler";
-
+import LoadingComponent from "../../../components/loadingcomponent";
+import { useIsFocused } from '@react-navigation/native';
 
 export function Home({ navigation }) {
   const [totalAgendamentos, setTotalAgendamentos] = useState(0);
@@ -16,17 +17,19 @@ export function Home({ navigation }) {
   const [receitaDiaria, setReceitaDiaria] = useState(0);
   const [tipoServicoMaisSelecionado, setTipoServicoMaisSelecionado] = useState('');
   const [message, setMessage] = useState('');
+  const [loading, setLoading] = useState(false);
 
   const [agendamentosDia, setAgendamentosDia] = useState(0);
   const [agendamentosSemana, setAgendamentosSemana] = useState(0);
   const [agendamentosMes, setAgendamentosMes] = useState(0);
+  const isFocused = useIsFocused();
+ 
 
-  useEffect(() => {
-    fetchDashboardData();
-  }, []);
+  
 
   const fetchDashboardData = async () => {
     try {
+      setLoading(true);
       const totalRes = await api.get('/total');
 
       if (totalRes.data && totalRes.data.total) {
@@ -69,8 +72,16 @@ export function Home({ navigation }) {
     } catch (error) {
       console.error("Erro ao buscar dados do dashboard:", error);
       setMessage('Erro ao buscar dados. Por favor, tente novamente.');
+    }finally {
+      setLoading(false); // Exemplo de código para executar no finally
     }
   };
+
+  useEffect(() => {
+    if (isFocused) {
+      fetchDashboardData();
+    }
+  }, [isFocused]);
 
   const Card = ({ icon, title, data }) => {
     return (
@@ -78,7 +89,9 @@ export function Home({ navigation }) {
         {icon}
         <View className="mt-2">
           <Text className="font-bold text-center mb-1">{title}</Text>
+          {loading ? <LoadingComponent width={50} height={50} cor={"black"}/> :
           <Text className="text-lg text-center">{data}</Text>
+  }
         </View>
       </View>
     );

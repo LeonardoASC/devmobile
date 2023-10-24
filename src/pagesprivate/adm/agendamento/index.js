@@ -3,6 +3,7 @@ import { View, Text, SafeAreaView, TouchableOpacity, FlatList, Alert } from 'rea
 import { Picker } from '@react-native-picker/picker';
 import { Ionicons } from '@expo/vector-icons';
 import api from '../../../services/api';
+import LoadingComponent from '../../../components/loadingcomponent';
 
 
 
@@ -11,6 +12,7 @@ export function Agendamento({ navigation }) {
     const [filterDate, setFilterDate] = useState(new Date());
     const [filteredAgendamentos, setFilteredAgendamentos] = useState([]);
     const [selectedDate, setSelectedDate] = useState(null);
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         fetchAgendamentos();
@@ -22,6 +24,7 @@ export function Agendamento({ navigation }) {
 
     const fetchAgendamentos = async () => {
         try {
+            setLoading(true);
             const response = await api.get('/agendamento');
             // console.log('API Response:', response.data);
             if (response.data && response.data.length) {
@@ -29,6 +32,8 @@ export function Agendamento({ navigation }) {
             }
         } catch (error) {
             console.error("Erro ao buscar agendamentos:", error);
+        } finally {
+            setLoading(false); // Exemplo de código para executar no finally
         }
     };
 
@@ -154,44 +159,46 @@ export function Agendamento({ navigation }) {
             </View>
 
             <View className="flex-1 justify-center items-center p-4">
-                <FlatList
-                    data={filteredAgendamentos}
-                    keyExtractor={item => item.id}
-                    renderItem={({ item }) => (
-                        <View className="flex-justify-between items-center bg-white m-1 p-4 rounded-lg shadow-offset-[0,5]">
-                            <View>
-                                <Text className="text-#00B8D9 font-bold text-lg mb-2">Nome: {item.nome}</Text>
-                                <Text className="text-#00B8D9 mb-1">Dia: {item.dia}</Text>
-                                <Text className="text-#00B8D9 mb-1">Horário: {item.horario}</Text>
-                                <Text className="text-#00B8D9 mb-1">Tipo de Serviço: {item.tipo_servico}</Text>
-                                <Text className="text-#00B8D9 mb-1">Serviço Específico: {item.servico_especifico}</Text>
-                                <Text className="text-#00B8D9 mb-1">Status: {item.status}</Text>
-                            </View>
-                            <View className="justify-center items-center flex-row">
-                                {item.status === "Concluído" ? (
-                                    <Text className="text-green-500">Concluído</Text>
-                                ) : item.status === "Cancelado" ? (
-                                    <Text className="text-red-500">Cancelado</Text>
-                                ) : (
-                                    <>
-                                        <TouchableOpacity
-                                            onPress={() => updateAgendamentoStatus(item.id)}
-                                            style={{ marginRight: 10 }}  // Dando espaço entre os botões
-                                        >
-                                            <Text className="bg-green-500 text-white px-2 py-1 rounded">Atendido</Text>
-                                        </TouchableOpacity>
-                                        <TouchableOpacity
-                                            onPress={() => disupidate(item.id)}
-                                        >
-                                            <Text className="bg-red-500 text-white px-2 py-1 rounded">Desmarcar</Text>
-                                        </TouchableOpacity>
-                                    </>
-                                )}
-                            </View>
+                {loading ? <LoadingComponent width={100} height={100} /> :
+                    <FlatList
+                        data={filteredAgendamentos}
+                        keyExtractor={item => item.id}
+                        renderItem={({ item }) => (
+                            <View className="flex-justify-between items-center bg-white m-1 p-4 rounded-lg shadow-offset-[0,5]">
+                                <View>
+                                    <Text className="text-#00B8D9 font-bold text-lg mb-2">Nome: {item.nome}</Text>
+                                    <Text className="text-#00B8D9 mb-1">Dia: {item.dia}</Text>
+                                    <Text className="text-#00B8D9 mb-1">Horário: {item.horario}</Text>
+                                    <Text className="text-#00B8D9 mb-1">Tipo de Serviço: {item.tipo_servico}</Text>
+                                    <Text className="text-#00B8D9 mb-1">Serviço Específico: {item.servico_especifico}</Text>
+                                    <Text className="text-#00B8D9 mb-1">Status: {item.status}</Text>
+                                </View>
+                                <View className="justify-center items-center flex-row">
+                                    {item.status === "Concluído" ? (
+                                        <Text className="text-green-500">Concluído</Text>
+                                    ) : item.status === "Cancelado" ? (
+                                        <Text className="text-red-500">Cancelado</Text>
+                                    ) : (
+                                        <>
+                                            <TouchableOpacity
+                                                onPress={() => updateAgendamentoStatus(item.id)}
+                                                style={{ marginRight: 10 }}  // Dando espaço entre os botões
+                                            >
+                                                <Text className="bg-green-500 text-white px-2 py-1 rounded">Atendido</Text>
+                                            </TouchableOpacity>
+                                            <TouchableOpacity
+                                                onPress={() => disupidate(item.id)}
+                                            >
+                                                <Text className="bg-red-500 text-white px-2 py-1 rounded">Desmarcar</Text>
+                                            </TouchableOpacity>
+                                        </>
+                                    )}
+                                </View>
 
-                        </View>
-                    )}
-                />
+                            </View>
+                        )}
+                    />
+                }
             </View>
         </SafeAreaView>
 
