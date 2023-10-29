@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "350800382254",
+    "project_id": "barbernotify-58b05",
+    "storage_bucket": "barbernotify-58b05.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:350800382254:android:10f86baa39f0ea4a2052bf",
+        "android_client_info": {
+          "package_name": "com.leoaschaves.DevMobile"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDotFEaZpIRoLDJHwE1Mj9STGZUl2frVRA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
