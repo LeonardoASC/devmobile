@@ -2,6 +2,7 @@ import React, { createContext, useState, useEffect } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import api from "../services/api"
 import messaging from '@react-native-firebase/messaging';
+import { Alert } from 'react-native';
 
 export const AuthContext = createContext({});
 
@@ -14,59 +15,58 @@ export const AuthProvider = ({ children }) => {
     const requestUserPermission = async () => {
         const authStatus = await messaging().requestPermission();
         const enabled =
-          authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
-          authStatus === messaging.AuthorizationStatus.PROVISIONAL;
-    
+            authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
+            authStatus === messaging.AuthorizationStatus.PROVISIONAL;
+
         if (enabled) {
-        //   console.log('Authorization status:', authStatus);
+            //   console.log('Authorization status:', authStatus);
         }
-      }
-    
-      useEffect(() => {
+    }
+
+    useEffect(() => {
         if (requestUserPermission()) {
-          // retorna o token do dispositivo
-          messaging().getToken().then(token => {
-            //   console.log(token);
-             
-          })
-        } 
-        else {
-          console.log("falhou o token man", authStatus);
+            // retorna o token do dispositivo
+            messaging().getToken().then(token => {
+                  console.log(token);
+
+            })
         }
-    
+        else {
+            console.log("falhou o token man", authStatus);
+        }
         // Check whether an initial notification is available
         messaging()
-          .getInitialNotification()
-          .then(async(remoteMessage) => {
-            if (remoteMessage) {
-              console.log(
-                'Notification caused app to open from quit state:',
-                remoteMessage.notification,
-              );
-            }
-          });
-    
+            .getInitialNotification()
+            .then(async (remoteMessage) => {
+                if (remoteMessage) {
+                    console.log(
+                        'Notification caused app to open from quit state:',
+                        remoteMessage.notification,
+                    );
+                }
+            });
+
         // Assume a message-notification contains a "type" property in the data payload of the screen to open
-    
+
         messaging().onNotificationOpenedApp(async (remoteMessage) => {
-          console.log(
-            'Notification caused app to open from background state:',
-            remoteMessage.notification,
-          );
+            console.log(
+                'Notification caused app to open from background state:',
+                remoteMessage.notification,
+            );
         });
-    
+
         // Register background handler
         messaging().setBackgroundMessageHandler(async remoteMessage => {
-          console.log('Message handled in the background!', remoteMessage);
+            console.log('Message handled in the background!', remoteMessage);
         });
-    
+
         const unsubscribe = messaging().onMessage(async remoteMessage => {
-          Alert.alert('A new FCM message arrived!', JSON.stringify(remoteMessage));
+            Alert.alert('A new FCM message arrived!', JSON.stringify(remoteMessage));
         });
-    
+
         return unsubscribe;
-    
-      }, [])
+
+    }, [])
 
     const login = (email, password) => {
         setIsLoading(true);
@@ -94,42 +94,33 @@ export const AuthProvider = ({ children }) => {
             });
         setIsLoading(false);
     }
+
     const updateFCMToken = () => {
         messaging().getToken()
-        .then(token => {
-            if (token) {
-                // Se o token foi obtido, enviar para o backend
-                api.post('/update-expo-token', {
-                    expo_token: token
-                })
-                .then(response => {
-                    console.log("Token FCM atualizado com sucesso:", response.data);
-                })
-                .catch(error => {
-                    console.error("Erro ao atualizar o token FCM no backend:", error);
-                });
-            } else {
-                console.warn("Token FCM não foi obtido.");
-            }
-        })
-        .catch(error => {
-            console.error("Erro ao obter token FCM:", error);
-        });
+            .then(token => {
+                if (token) {
+                    // Se o token foi obtido, enviar para o backend
+                    api.post('/update-expo-token', {
+                        expo_token: token
+                    })
+                        .then(response => {
+                            console.log("Token FCM atualizado com sucesso:", response.data);
+                        })
+                        .catch(error => {
+                            console.error("Erro ao atualizar o token FCM no backend:", error);
+                        });
+                } else {
+                    console.warn("Token FCM não foi obtido.");
+                }
+            })
+            .catch(error => {
+                console.error("Erro ao obter token FCM:", error);
+            });
     }
-    
 
 
-    const logout1 = () => {
-        setIsLoading(true);
-        setUserToken(null);
-        AsyncStorage.removeItem('userInfo');
-        AsyncStorage.removeItem('userToken');
-        setIsLoading(false);
-
-    }
     const logout = () => {
         setIsLoading(true);
-        
         // Chamada para remover o token antes de fazer o logout efetivamente
         api.post('/remove-expo-token')
             .then(res => {
