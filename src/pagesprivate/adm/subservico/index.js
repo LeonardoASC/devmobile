@@ -12,12 +12,20 @@ export function SubServico({ navigation }) {
   const [services, setServices] = useState([]);
   const [isImageModalVisible, setImageModalVisible] = useState(false);
   const [selectedImage, setSelectedImage] = useState(null);
+  const [selectedServiceId, setSelectedServiceId] = useState(null);
+  const [uniqueServices, setUniqueServices] = useState([]);
+
+  const dataWithAllOption = [
+    { id: -1, name: 'Todos' },
+    ...uniqueServices
+  ];
 
   useEffect(() => {
     if (isFocused) {
-        fetchTimes();
+      fetchTimes();
+      fetchServices();
     }
-}, [isFocused]);
+  }, [isFocused]);
 
   const fetchTimes = async () => {
     try {
@@ -32,6 +40,17 @@ export function SubServico({ navigation }) {
       }
     } catch (error) {
       console.error("Erro ao buscar horários:", error);
+    }
+  };
+
+  const fetchServices = async () => {
+    try {
+      const response = await api.get('/servico');
+      if (response.data && response.data.length) {
+        setUniqueServices(response.data);
+      }
+    } catch (error) {
+      console.error("Erro ao buscar serviços:", error);
     }
   };
 
@@ -72,7 +91,10 @@ export function SubServico({ navigation }) {
     setImageModalVisible(true);
   };
 
-  
+  const filteredSubServices = selectedServiceId
+    ? services.filter(service => service.servico_id === selectedServiceId)
+    : services;
+
   return (
     <SafeAreaView className="flex-1 bg-[#082f49]">
       <View className=" flex h-1/5 justify-center items-center rounded-bl-xl shadow-neu-inset">
@@ -84,11 +106,14 @@ export function SubServico({ navigation }) {
       <View className="px-5 bg-white">
         <FlatList
           horizontal={true}
-          data={services}
+          data={dataWithAllOption} 
           keyExtractor={(item) => item.id.toString()}
           renderItem={({ item }) => (
-            <TouchableOpacity className="items-center justify-center m-2 bg-white rounded-xl shadow-neu">
-              <Text className="text-[#082f49] p-2">{item.servico.name}</Text>
+            <TouchableOpacity
+              className={`items-center justify-center m-2 bg-white shadow-neu ${item.id === selectedServiceId || (item.id === -1 && selectedServiceId == null) ? "border-b border-[#082f49]" : ""}`}
+              onPress={() => setSelectedServiceId(item.id === -1 ? null : item.id)}
+            >
+              <Text className="text-[#082f49] p-2">{item.name}</Text>
             </TouchableOpacity>
           )}
         />
@@ -97,7 +122,7 @@ export function SubServico({ navigation }) {
       <View className="px-2 flex-1">
         <FlatList
           className="flex-grow mt-5"
-          data={services}
+          data={filteredSubServices}
           keyExtractor={(item) => item.id}
           renderItem={({ item }) => (
             <View className="flex-row justify-between mb-4 py-3 px-8 rounded-xl shadow-neu">

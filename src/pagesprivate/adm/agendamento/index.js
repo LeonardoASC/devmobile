@@ -66,6 +66,11 @@ export function Agendamento({ navigation }) {
         return dates;
     };
 
+    const formatDate = (date) => {
+        const d = new Date(date);
+        return `${d.getUTCFullYear()}-${String(d.getUTCMonth() + 1).padStart(2, '0')}-${String(d.getUTCDate()).padStart(2, '0')}`;
+    };
+
     const updateAgendamentoStatus = (id) => {
         Alert.alert(
             "Confirmação",
@@ -125,8 +130,8 @@ export function Agendamento({ navigation }) {
 
     return (
         <SafeAreaView className="flex-1 bg-[#082f49]">
-            <View className="p-4 shadow-offset-[0,5] mt-4">
-                <View className="flex-row justify-start">
+            <View className="shadow-offset-[0,5] mt-4">
+                <View className="flex-row justify-start mt-10 ml-4">
                     <TouchableOpacity
                         className="bg-white rounded-lg p-3 shadow-offset-[0,5] mb-3"
                         onPress={() => navigation.navigate("Home")}
@@ -136,7 +141,9 @@ export function Agendamento({ navigation }) {
                 </View>
 
                 <Text className="text-center text-white font-bold text-xl mb-3">Agendamentos</Text>
+                <View className="px-2 py-2 bg-white">
                 <FlatList
+                className="bg-white"
                     horizontal
                     data={generateDateList()}
                     keyExtractor={(item) => item.toString()}
@@ -146,7 +153,7 @@ export function Agendamento({ navigation }) {
                                 setFilterDate(item);
                                 setSelectedDate(item);  // Atualizando o item selecionado
                             }}
-                            className={`m-1 p-2 ${selectedDate && selectedDate.toString() === item.toString() ? 'bg-blue-600 rounded' : 'bg-white rounded'}`}
+                            className={`m-1 p-2 ${selectedDate && formatDate(selectedDate) === formatDate(item) ? 'border-b' : ''}`}
                         >
                             <Text className="text-sm font-medium">
                                 {isToday(item) ? "Hoje" : `${item.getDate()}/${item.getMonth() + 1}`}
@@ -156,6 +163,7 @@ export function Agendamento({ navigation }) {
                 />
 
 
+            </View>
             </View>
 
             <View className="flex-1 justify-center items-center p-4">

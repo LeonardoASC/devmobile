@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View, Text  } from "react-native";
+import { View, Text } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import OpenDrawerButton from '../../../components/opendrawer';
 import api from "../../../services/api";
@@ -23,9 +23,9 @@ export function Home({ navigation }) {
   const [agendamentosSemana, setAgendamentosSemana] = useState(0);
   const [agendamentosMes, setAgendamentosMes] = useState(0);
   const isFocused = useIsFocused();
- 
 
-  
+
+
 
   const fetchDashboardData = async () => {
     try {
@@ -72,7 +72,7 @@ export function Home({ navigation }) {
     } catch (error) {
       console.error("Erro ao buscar dados do dashboard:", error);
       setMessage('Erro ao buscar dados. Por favor, tente novamente.');
-    }finally {
+    } finally {
       setLoading(false); // Exemplo de código para executar no finally
     }
   };
@@ -89,9 +89,9 @@ export function Home({ navigation }) {
         {icon}
         <View className="mt-2">
           <Text className="font-bold text-center mb-1">{title}</Text>
-          {loading ? <LoadingComponent width={50} height={50} cor={"black"}/> :
-          <Text className="text-lg text-center">{data}</Text>
-  }
+          {loading ? <LoadingComponent width={50} height={50} cor={"black"} /> :
+            <Text className="text-lg text-center">{data}</Text>
+          }
         </View>
       </View>
     );
@@ -99,11 +99,11 @@ export function Home({ navigation }) {
 
   return (
     <SafeAreaView className="flex-1">
-      <View className="h-full justify-center p-5">
+      <View className="h-full justify-center p-5 ">
 
         <OpenDrawerButton />
 
-        <Text className="text-white text-2xl font-bold text-center mb-6">Área do administradora</Text>
+        <Text className="text-white text-2xl font-bold text-center mb-6">Área do administrador</Text>
 
         {message ? (
           <Text className="text-red-500 text-center mt-5">{message}</Text>
@@ -157,9 +157,6 @@ export function Home({ navigation }) {
                 title="Receita Mensal"
                 data={`R$ ${receitaMensal}`}
               />
-
-
-
             </View>
 
             {/* If you have an odd number of cards, the last one can stand alone without a row wrap. */}

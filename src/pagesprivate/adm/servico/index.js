@@ -3,15 +3,20 @@ import { SafeAreaView, StyleSheet, View, Button, FlatList, Text, TextInput, Touc
 import api from "../../../services/api"
 import { MaterialIcons } from '@expo/vector-icons';
 import Animated, { Easing, withSpring, useSharedValue, useAnimatedStyle, withTiming } from 'react-native-reanimated';
+import { useIsFocused } from '@react-navigation/native';
 
 
 export function Servico({ navigation }) {
 
   const [name, setName] = useState([]);
+  const isFocused = useIsFocused();
+
 
   useEffect(() => {
-    fetchTimes();
-  }, []);
+    if (isFocused) {
+      fetchTimes();
+    }
+  }, [isFocused]);
 
   const fetchTimes = async () => {
     try {
