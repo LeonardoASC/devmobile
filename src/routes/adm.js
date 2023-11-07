@@ -16,6 +16,8 @@ import { SubServico } from "../pagesprivate/adm/subservico"
 import { SubServicoCreate } from "../pagesprivate/adm/subservico/create"
 import { SubServicoEdit } from "../pagesprivate/adm/subservico/edit"
 
+import { Plano } from "../pagesprivate/adm/plano";
+
 import { CustomDrawerContent } from "./CustomDrawerContent";
 import { Ionicons } from '@expo/vector-icons';
 
@@ -49,6 +51,9 @@ function HomeStack() {
             <Stack.Screen name="SubServico" component={SubServico} />
             <Stack.Screen name="SubServicoCreate" component={SubServicoCreate} />
             <Stack.Screen name="SubServicoEdit" component={SubServicoEdit} />
+
+
+            <Stack.Screen name="Plano" component={Plano} />
         </Stack.Navigator>
     );
 }
@@ -125,6 +130,19 @@ export function Adm() {
             <Drawer.Screen
                 name="SubServico"
                 component={SubServico}
+                options={{
+                    drawerIcon: ({ focused, size }) => (
+                        <Ionicons
+                            name={focused ? 'settings' : 'settings-outline'}
+                            size={size}
+                            color={focused ? 'black' : 'white'}
+                        />
+                    )
+                }}
+            />
+            <Drawer.Screen
+                name="Plano"
+                component={Plano}
                 options={{
                     drawerIcon: ({ focused, size }) => (
                         <Ionicons
