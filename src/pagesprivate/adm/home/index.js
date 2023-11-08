@@ -110,7 +110,22 @@ export function Home({ navigation }) {
         ) : (
           <ScrollView>
             <View className="flex-row">
-              <Card
+
+              <View className="flex-1 m-3 bg-white rounded-xl p-4 flex-col items-center">
+                {icon = <FontAwesome5 name="calendar-check" size={18} color="gray" />}
+                <View className="mt-2">
+                  <Text className="font-bold text-center mb-1">Agendamentos</Text>
+                  {loading ? <LoadingComponent width={50} height={50} cor={"black"} /> :
+                  <View className="flex">
+                    <Text className="text-lg text-center">Total:{totalAgendamentos}</Text>
+                    <Text className="text-lg text-center">Diario:{agendamentosDia}</Text>
+                    <Text className="text-lg text-center">Semanal:{agendamentosSemana}</Text>
+                  </View>
+                  }
+                </View>
+              </View>
+
+              {/* <Card
                 icon={<FontAwesome5 name="calendar-check" size={18} color="gray" />}
                 title="Total de Agendamentos"
                 data={totalAgendamentos}
@@ -125,7 +140,7 @@ export function Home({ navigation }) {
                 icon={<MaterialCommunityIcons name="account-check-outline" size={18} color="gray" />}
                 title="Agendamentos Semanais"
                 data={agendamentosSemana}
-              />
+              /> */}
 
             </View>
 
@@ -140,7 +155,7 @@ export function Home({ navigation }) {
             </View>
 
             <View className="flex-row">
-              <Card
+              {/* <Card
                 icon={<Entypo name="line-graph" size={18} color="gray" />}
                 title="Receita Semanal"
                 data={`R$ ${receitaSemanal}`}
@@ -156,7 +171,23 @@ export function Home({ navigation }) {
                 icon={<Entypo name="pie-chart" size={18} color="gray" />}
                 title="Receita Mensal"
                 data={`R$ ${receitaMensal}`}
-              />
+              /> */}
+              
+              
+              <View className="flex-1 m-3 bg-white rounded-xl p-4 flex-col items-center">
+                {icon = <FontAwesome5 name="calendar-check" size={18} color="gray" />}
+                <View className="mt-2">
+                  <Text className="font-bold text-center mb-1">Receita</Text>
+                  {loading ? <LoadingComponent width={50} height={50} cor={"black"} /> :
+                  <View className="flex">
+                    <Text className="text-lg text-center">Semanal:{receitaSemanal}</Text>
+                    <Text className="text-lg text-center">Diario:{receitaDiaria}</Text>
+                    <Text className="text-lg text-center">Mensal:{receitaMensal}</Text>
+                  </View>
+                  }
+                </View>
+              </View>
+
             </View>
 
             {/* If you have an odd number of cards, the last one can stand alone without a row wrap. */}
