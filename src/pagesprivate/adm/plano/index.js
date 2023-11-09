@@ -4,7 +4,7 @@ import api from '../../../services/api';
 import { useEffect, useState } from 'react';
 
 
-export function Plano() {
+export function Plano({ navigation }) {
     const [plano, setPlano] = useState([]);
     const disupidate = () => {
         alert('texto')
@@ -33,28 +33,30 @@ export function Plano() {
                 <Text className="text-[#082f49] text-xl font-extrabold">Cadastre planos</Text>
                 <Text className="text-[#082f49] p-2 text-center">Os planos cadastrados aqui apareceram para os usuarios</Text>
                 <TouchableOpacity
-                    onPress={() => disupidate()}
+                    onPress={() => navigation.navigate('PlanoCreate')}
                 >
                     <Text className="bg-green-500 text-white px-2 py-1 rounded mt-4 text-center">Cadastrar plano</Text>
                 </TouchableOpacity>
             </View>
-            
 
-            <View className="flex h-44 w-full items-center justify-center">
+
+            <View className="flex w-full items-center justify-center">
                 <FlatList
-                    className="bg-slate-300 py-5 px-10 rounded-3xl w-[80%]  mt-10"
+                    className=" rounded-3xl w-[80%] mt-10"
                     data={plano}
                     keyExtractor={(item) => item.id}
                     renderItem={({ item }) => (
-                        <View className="">
+                        <View className="bg-slate-300 p-4 m-2 rounded-lg">
                             <View className="flex flex-row justify-between">
                                 <Text>{item.nome}</Text>
-                                <View className="left-4">
+                                <View>
                                     <Feather name="circle" size={18} color="black" />
                                 </View>
                             </View>
                             <View className="flex flex-row items-center">
-                                <Text className="text-[#082f49] text-center font-extrabold text-3xl">R${item.preco}/</Text>
+                                <Text className="text-[#082f49] text-center font-extrabold text-3xl">
+                                    R${Math.floor(item.preco)}/
+                                </Text>
                                 <Text className="text-[#082f49] font-extrabold">mensal</Text>
                             </View>
 
@@ -62,11 +64,11 @@ export function Plano() {
                                 <Ionicons name="checkmark-circle-outline" size={18} color="#082f49" />
                                 <Text className="text-[#082f49]">Inclui {item.quantidade} cortes</Text>
                             </View>
-
                         </View>
                     )}
                 />
             </View>
+
         </SafeAreaView>
     )
 }

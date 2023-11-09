@@ -17,6 +17,7 @@ import { SubServicoCreate } from "../pagesprivate/adm/subservico/create"
 import { SubServicoEdit } from "../pagesprivate/adm/subservico/edit"
 
 import { Plano } from "../pagesprivate/adm/plano";
+import { PlanoCreate } from "../pagesprivate/adm/plano/create";
 
 import { CustomDrawerContent } from "./CustomDrawerContent";
 import { Ionicons } from '@expo/vector-icons';
@@ -54,6 +55,7 @@ function HomeStack() {
 
 
             <Stack.Screen name="Plano" component={Plano} />
+            <Stack.Screen name="PlanoCreate" component={PlanoCreate} />
         </Stack.Navigator>
     );
 }
