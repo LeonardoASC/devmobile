@@ -65,7 +65,7 @@ export function Login({ route, navigation }) {
 
         <Text className="text-center text-white mt-8">Ou, Logar com...</Text>
 
-        <View className="flex flex-row justify-center gap-x-8 mt-8">
+        <View className="flex flex-row justify-center gap-x-8 mt-6">
           <View className="bg-white w-16 h-16 items-center justify-center rounded-xl p-2 shadow-xl">
             <SvgComponent />
           </View>
@@ -76,7 +76,7 @@ export function Login({ route, navigation }) {
             <SvgComponentFace />
           </View>
         </View>
-        <View className=" flex flex-row justify-center mt-8">
+        <View className=" flex flex-row justify-center mt-4">
           <Text className="text-white">Novo no aplicativo? </Text>
           <Pressable onPress={() => navigation.navigate('Register')}>
             <Text className="text-white underline ml-2">Registre</Text>

@@ -120,7 +120,7 @@ export function FirstDataPrivate({ route, navigation }) {
         </Text>
 
         {/* Lista de datas */}
-        <View className=" flex flex-row items-center mt-5 w-full ">
+        <View className=" flex flex-row items-center w-full ">
           <Ionicons name="today-outline" size={24} color="white" />
           <FlatList
             className="flex"
@@ -164,7 +164,7 @@ export function FirstDataPrivate({ route, navigation }) {
           {loading ? <LoadingComponent width={100} height={100} /> :
             <FlatList
               horizontal={false}
-              numColumns={4}
+              numColumns={5}
               data={availableHours}
               keyExtractor={(item, index) => index.toString()}
               renderItem={({ item }) => (

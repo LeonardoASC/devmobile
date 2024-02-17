@@ -110,12 +110,12 @@ export function FirstData({ route, navigation }) {
   return (
     <SafeAreaView className="flex-1 ">
 
-      <View className="p-5 items-center justify-center h-screen w-full mt-10">
+      <View className="p-5 items-center justify-center h-screen w-full mt-6">
 
         {/* Título */}
-        <View className="flex flex-row items-center mb-5">
+        <View className="flex flex-row items-center mb-3">
           <Ionicons name="calendar-outline" size={32} color="white" />
-          <Text className="text-white text-3xl font-extrabold self-center ml-3">Data/Horario</Text>
+          <Text className="text-white text-3xl font-extrabold self-center ml-3">Agendamento</Text>
         </View>
 
         <View className="flex-row items-center  p-2 rounded mb-2 border-b border-zinc-300">
@@ -173,7 +173,7 @@ export function FirstData({ route, navigation }) {
           {loading ? <LoadingComponent width={100} height={100} /> :
             <FlatList
               horizontal={false}
-              numColumns={4}
+              numColumns={5}
               data={availableHours}
               keyExtractor={(item, index) => index.toString()}
               renderItem={({ item }) => (

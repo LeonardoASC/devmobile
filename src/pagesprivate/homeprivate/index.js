@@ -13,6 +13,11 @@ export function HomePrivate({ route, navigation }) {
   const [lastAppointment, setLastAppointment] = useState(null);
   const [loading, setLoading] = useState(false);
 
+  useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', fetchAgendamentos);
+    return unsubscribe;
+  }, [navigation]);
+
   const fetchAgendamentos = async () => {
     try {
       setLoading(true);
@@ -30,12 +35,7 @@ export function HomePrivate({ route, navigation }) {
     }
   };
 
-  useEffect(() => {
-    const unsubscribe = navigation.addListener('focus', fetchAgendamentos);
-    return unsubscribe;
-  }, [navigation]);
-
-
+  
   return (
     <SafeAreaView className="flex-1">
       <View className=" h-screen items-center justify-center">

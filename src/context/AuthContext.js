@@ -4,6 +4,9 @@ import api from "../services/api"
 import messaging from '@react-native-firebase/messaging';
 import { Alert } from 'react-native';
 
+
+
+
 export const AuthContext = createContext({});
 
 export const AuthProvider = ({ children }) => {

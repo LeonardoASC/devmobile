@@ -20,7 +20,7 @@ export function CustomDrawerContent(props) {
 
         <View className="mb-4 mx-6">
           <TouchableOpacity
-            className="bg-white rounded-lg p-2 shadow-lg gap-x-2 items-center justify-center flex-row"
+            className="bg-white rounded-lg p-2 shadow-lg gap-x-2 items-center justify-center flex-row mb-5"
             onPress={logout}
           >
             <MaterialCommunityIcons name="exit-run" size={16} color="gray" />

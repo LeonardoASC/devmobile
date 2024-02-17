@@ -18,8 +18,8 @@ export function PlanoCreate({ navigation }) {
      })
       .then(response => {
         if (response.data && response.data.success) {
-          Alert.alert('Sucesso', 'Horário foi cadastrado!');
-          navigation.navigate('Plano');
+          Alert.alert('Sucesso', 'Plano foi cadastrado!');
+          navigation.navigate('Home');
         } else {
           Alert.alert('Erro ao registrar', response.data.message || 'Erro desconhecido.');
         }
@@ -93,7 +93,7 @@ export function PlanoCreate({ navigation }) {
         </View>
       </ScrollView>
 
-      <View className="absolute bottom-0 w-full pb-5 px-5">
+      <View className="absolute bottom-0 w-full px-5">
         <TouchableOpacity
           className="bg-white w-11/12 mb-5 rounded-xl p-3 shadow-neu py-4 self-center mt-5"
           onPress={handleSubmit}

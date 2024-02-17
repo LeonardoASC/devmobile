@@ -66,6 +66,7 @@ export function MeusAgendamentos({ navigation }) {
             <OpenDrawerButton />
             <View className="h-screen items-center justify-center">
                 <View className="mt-20 items-center justify-center">
+                    <Text className="font-bold text-xl text-white">Meus Agendamentos</Text>
                     {loading ? (
                         <LoadingComponent width={100} height={100} />
                     ) : (
