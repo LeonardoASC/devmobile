@@ -71,6 +71,38 @@ export const AuthProvider = ({ children }) => {
 
     }, [])
 
+    const register = async (username, email, password) => {
+        setIsLoading(true);
+        try {
+            const response = await api.post('/register', {
+                name: username,
+                email: email,
+                password: password
+            });
+
+            let userInfo = response.data.userInfo;
+            let userToken = response.data.access_token;
+            
+            // Atualizar o estado e armazenar no AsyncStorage
+            setUserToken(userToken);
+            setUserInfo(userInfo);
+            await AsyncStorage.setItem('userToken', userToken);
+            await AsyncStorage.setItem('userInfo', JSON.stringify(userInfo));
+            
+            updateFCMToken(); // Se necessário
+
+            // Caso você queira fazer algo após o registro, como redirecionar para uma página, você pode fazer isso aqui.
+
+        } catch (error) {
+            console.error("Erro durante o registro:", error);
+            // Tratar erros de registro aqui, como mostrar uma mensagem ao usuário
+            throw error; // Lançar erro para ser capturado no componente
+        } finally {
+            setIsLoading(false);
+        }
+    };
+    
+
     const login = (email, password) => {
         setIsLoading(true);
         api.post('/login', {
@@ -170,7 +202,7 @@ export const AuthProvider = ({ children }) => {
     }, []);
 
     return (
-        <AuthContext.Provider value={{ login, logout, isLoading, userToken, userInfo }}>
+        <AuthContext.Provider value={{ login, logout, register, isLoading, userToken, userInfo }}>
             {children}
         </AuthContext.Provider>
     );
