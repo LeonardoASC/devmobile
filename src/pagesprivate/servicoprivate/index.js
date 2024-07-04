@@ -44,7 +44,9 @@ export function ServicoPrivate({ route, navigation }) {
       return;
     }
 
-    Alert.alert("Dados inseridos", `Servico: ${servico}`, [
+    Alert.alert(
+      "O serviço inserido está correto ?",
+      `Servico: ${servico}`, [
       {
         text: "Cancelar",
         onPress: () => navigation.navigate("ServicoPrivate"),

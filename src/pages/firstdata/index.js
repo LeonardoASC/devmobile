@@ -40,8 +40,8 @@ export function FirstData({ route, navigation }) {
         Alert.alert('Erro', 'Já existe um agendamento para esse dia e horário.');
       } else {
         Alert.alert(
-          "Confirmar dados inseridos",
-          `Nome: ${name}, Dia: ${date}, Hora: ${time}`,
+          "Os dados inseridos estão corretos ?",
+          `Nome: ${name}\nDia: ${date}\nHora: ${time}`,
           [
             {
               text: 'Cancelar',

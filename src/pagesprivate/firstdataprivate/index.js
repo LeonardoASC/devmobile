@@ -37,8 +37,8 @@ export function FirstDataPrivate({ route, navigation }) {
     }
 
     Alert.alert(
-      "Dados inseridos",
-      `Nome: ${actualName}, Dia: ${date}, Hora: ${time}`,
+      "Os dados inseridos estão corretos ?",
+      `Nome: ${actualName}\nDia: ${date}\nHora: ${time}`,
       [
         {
           text: 'Cancelar',
