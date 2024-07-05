@@ -1,5 +1,5 @@
 import 'react-native-gesture-handler';
-import 'expo-dev-client';
+// import 'expo-dev-client';
 import { NavigationContainer } from "@react-navigation/native";
 import React, { useEffect } from 'react';
 import { Routes } from "./src/routes";
