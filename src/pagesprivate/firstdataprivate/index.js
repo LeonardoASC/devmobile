@@ -11,13 +11,16 @@ import LoadingComponent from "../../components/loadingcomponent"
 
 
 export function FirstDataPrivate({ route, navigation }) {
-  const [name, setName] = useState("");
+  
+  const { userInfo } = useContext(AuthContext);
   const [date, setDate] = useState("");
   const [time, setTime] = useState("");
-  const { userInfo } = useContext(AuthContext);
   const [availableHours, setAvailableHours] = useState([]);
-  const [selectedItemId, setSelectedItemId] = useState(null);
   const [loading, setLoading] = useState(false);
+
+  const serviceName = route.params?.serviceName;
+  const subServiceName = route.params?.subServiceName;
+  const precoService = route.params?.precoService;
 
 
   const handleSubmit = (userInfo) => {
@@ -46,7 +49,14 @@ export function FirstDataPrivate({ route, navigation }) {
         },
         {
           text: 'Confirmar',
-          onPress: () => navigation.navigate('ServicoPrivate', { nameProp: actualName, dateProp: date, timeProp: time })
+          onPress: () => navigation.navigate('AgendadoPrivate', {
+            nameProp: actualName,
+            dateProp: date,
+            timeProp: time,
+            serviceName: serviceName,
+            subServiceName: subServiceName,
+            precoService: precoService
+          })
         }
 
       ]

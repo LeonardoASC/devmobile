@@ -16,9 +16,6 @@ export function ServicoPrivate({ route, navigation }) {
   const [services, setServices] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  const nameProp = route.params?.nameProp;
-  const dateProp = route.params?.dateProp;
-  const timeProp = route.params?.timeProp;
 
   useEffect(() => {
     fetchServicos();
@@ -53,9 +50,6 @@ export function ServicoPrivate({ route, navigation }) {
         text: "Confirmar",
         onPress: () => navigation.navigate("SubServicoPrivate",
           {
-            nameProp: nameProp,
-            dateProp: dateProp,
-            timeProp: timeProp,
             serviceId: selectedItemId,
             serviceName: servico
           }),
