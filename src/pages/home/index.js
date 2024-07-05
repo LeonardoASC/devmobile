@@ -14,7 +14,7 @@ export function Home({ navigation }) {
         <View className="mt-8 items-center">
           <TouchableOpacity
             className="bg-white rounded-lg p-3 shadow-md mb-4"
-            onPress={() => navigation.navigate("FirstData")}
+            onPress={() => navigation.navigate("Servico")}
           >
             <Text className="text-cyan-500 font-bold text-lg text-center px-14 mt">Agendar sem registro</Text>
           </TouchableOpacity>

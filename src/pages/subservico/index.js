@@ -4,10 +4,11 @@ import api from '../../services/api';
 import { MaterialIcons, Feather, MaterialCommunityIcons } from '@expo/vector-icons';
 import LoadingComponent from "../../components/loadingcomponent";
 export function SubServico({ route, navigation }) {
-  const serviceId = route.params?.serviceId;
-  const nameProp = route.params?.nameProp;
-  const dateProp = route.params?.dateProp;
-  const timeProp = route.params?.timeProp;
+  // const nameProp = route.params?.nameProp;
+  // const dateProp = route.params?.dateProp;
+  // const timeProp = route.params?.timeProp;
+  
+  const serviceId = route.params?.serviceId; //utilizado apenas para filtrar os subserviços
   const serviceName = route.params?.serviceName;
 
   const [subServices, setSubServices] = useState([]);
@@ -134,11 +135,11 @@ export function SubServico({ route, navigation }) {
               Alert.alert('Erro', 'Por favor, selecione um sub-serviço.');
               return;
             }
-            navigation.navigate('Agendado',
+            navigation.navigate('FirstData',
               {
-                nameProp: nameProp,
-                dateProp: dateProp,
-                timeProp: timeProp,
+                // nameProp: nameProp,
+                // dateProp: dateProp,
+                // timeProp: timeProp,
                 serviceName: serviceName,
                 subServiceName: selectedSubService.name,
                 subServiceId: selectedSubService.id,
