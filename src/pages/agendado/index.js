@@ -5,8 +5,8 @@ import LoadingComponent from '../../components/loadingcomponent';
 
 export function Agendado({ route, navigation }) {
   const name = route.params?.nameProp;
-  const time = route.params?.timeProp;
   const date = route.params?.dateProp;
+  const time = route.params?.timeProp;
   const serviceName = route.params?.serviceName;
   const subServiceName = route.params?.subServiceName;
   const precoService = route.params?.precoService;

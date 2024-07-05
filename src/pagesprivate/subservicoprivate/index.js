@@ -5,10 +5,8 @@ import { MaterialIcons, Feather, MaterialCommunityIcons } from '@expo/vector-ico
 import LoadingComponent from "../../components/loadingcomponent";
 
 export function SubServicoPrivate({ route, navigation }) {
+  
   const serviceId = route.params?.serviceId;
-  const nameProp = route.params?.nameProp;
-  const dateProp = route.params?.dateProp;
-  const timeProp = route.params?.timeProp;
   const serviceName = route.params?.serviceName;
 
   const [subServices, setSubServices] = useState([]);
@@ -136,11 +134,8 @@ export function SubServicoPrivate({ route, navigation }) {
               return;
             }
 
-            navigation.navigate('AgendadoPrivate',
+            navigation.navigate('FirstDataPrivate',
               {
-                nameProp: nameProp,
-                dateProp: dateProp,
-                timeProp: timeProp,
                 serviceName: serviceName,
                 subServiceName: selectedSubService.name,
                 subServiceId: selectedSubService.id,

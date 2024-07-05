@@ -28,7 +28,6 @@ export function AgendadoPrivate({ route, navigation }) {
       user_id: userInfo.id
     })
     .then(response => {
-      // console.log(response.data.success)
       if (response.data.success) {
           
           Alert.alert("Reserva Realizada!", "Ficamos felizes com seu agendamento! Aguardamos voce.");

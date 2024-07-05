@@ -9,9 +9,16 @@ export function FirstData({ route, navigation }) {
   const [name, setName] = useState("");
   const [date, setDate] = useState("");
   const [time, setTime] = useState("");
+
   const [dates, setDates] = useState([]);
   const [availableHours, setAvailableHours] = useState([]);
   const [loading, setLoading] = useState(false);
+
+  const serviceName = route.params?.serviceName;
+  const subServiceName = route.params?.subServiceName;
+  const subServiceId = route.params?.subServiceId;
+  const precoService = route.params?.precoService;
+
 
   const handleSubmit = async () => {
     const fields = {
@@ -49,8 +56,16 @@ export function FirstData({ route, navigation }) {
             },
             {
               text: 'Confirmar',
-              onPress: () => navigation.navigate('Servico', { nameProp: name, dateProp: date, timeProp: time })
-            }
+              onPress: () => navigation.navigate('Agendado', { 
+                nameProp: name,
+                dateProp: date,
+                timeProp: time,
+                serviceName: serviceName,
+                subServiceName: subServiceName,
+                // subServiceId: subServiceId,
+                precoService: precoService
+             })
+            },
           ]
         );
       }
