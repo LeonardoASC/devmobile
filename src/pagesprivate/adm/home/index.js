@@ -99,12 +99,17 @@ export function Home({ navigation }) {
 
   return (
     <SafeAreaView className="flex-1">
-      <View className="h-full justify-center p-5 ">
 
-        <OpenDrawerButton />
+      <View className="h-[15%] w-full  justify-end items-center">
+        <View className="w-full flex-row items-center justify-center mb-5">
+          <OpenDrawerButton />
+          <View className="flex-1 items-center">
+            <Text className="text-white font-bold text-xl">Área do administrador</Text>
+          </View>
+        </View>
+      </View>
 
-        <Text className="text-white text-2xl font-bold text-center mb-6">Área do administrador</Text>
-
+      <View className="flex-row h-[85%] justify-center items-center">
         {message ? (
           <Text className="text-red-500 text-center mt-5">{message}</Text>
         ) : (
@@ -116,32 +121,14 @@ export function Home({ navigation }) {
                 <View className="mt-2">
                   <Text className="font-bold text-center mb-1">Agendamentos</Text>
                   {loading ? <LoadingComponent width={50} height={50} cor={"black"} /> :
-                  <View className="flex">
-                    <Text className="text-lg text-center">Total:{totalAgendamentos}</Text>
-                    <Text className="text-lg text-center">Diario:{agendamentosDia}</Text>
-                    <Text className="text-lg text-center">Semanal:{agendamentosSemana}</Text>
-                  </View>
+                    <View className="flex">
+                      <Text className="text-lg text-center">Total:{totalAgendamentos}</Text>
+                      <Text className="text-lg text-center">Diario:{agendamentosDia}</Text>
+                      <Text className="text-lg text-center">Semanal:{agendamentosSemana}</Text>
+                    </View>
                   }
                 </View>
               </View>
-
-              {/* <Card
-                icon={<FontAwesome5 name="calendar-check" size={18} color="gray" />}
-                title="Total de Agendamentos"
-                data={totalAgendamentos}
-              />
-              <Card
-                icon={<FontAwesome5 name="calendar-check" size={18} color="gray" />}
-                title="Agendamentos do Dia"
-                data={agendamentosDia}
-              />
-
-              <Card
-                icon={<MaterialCommunityIcons name="account-check-outline" size={18} color="gray" />}
-                title="Agendamentos Semanais"
-                data={agendamentosSemana}
-              /> */}
-
             </View>
 
             <View className="flex-row">
@@ -155,42 +142,22 @@ export function Home({ navigation }) {
             </View>
 
             <View className="flex-row">
-              {/* <Card
-                icon={<Entypo name="line-graph" size={18} color="gray" />}
-                title="Receita Semanal"
-                data={`R$ ${receitaSemanal}`}
-              />
-
-              <Card
-                icon={<FontAwesome5 name="calendar" size={18} color="gray" />}
-                title="Receita Diária"
-                data={`R$ ${receitaDiaria}`}
-              />
-
-              <Card
-                icon={<Entypo name="pie-chart" size={18} color="gray" />}
-                title="Receita Mensal"
-                data={`R$ ${receitaMensal}`}
-              /> */}
-              
-              
               <View className="flex-1 m-3 bg-white rounded-xl p-4 flex-col items-center">
                 {icon = <FontAwesome5 name="calendar-check" size={18} color="gray" />}
                 <View className="mt-2">
                   <Text className="font-bold text-center mb-1">Receita</Text>
                   {loading ? <LoadingComponent width={50} height={50} cor={"black"} /> :
-                  <View className="flex">
-                    <Text className="text-lg text-center">Semanal:{receitaSemanal}</Text>
-                    <Text className="text-lg text-center">Diario:{receitaDiaria}</Text>
-                    <Text className="text-lg text-center">Mensal:{receitaMensal}</Text>
-                  </View>
+                    <View className="flex">
+                      <Text className="text-lg text-center">Semanal:{receitaSemanal}</Text>
+                      <Text className="text-lg text-center">Diario:{receitaDiaria}</Text>
+                      <Text className="text-lg text-center">Mensal:{receitaMensal}</Text>
+                    </View>
                   }
                 </View>
               </View>
 
             </View>
 
-            {/* If you have an odd number of cards, the last one can stand alone without a row wrap. */}
             <Card
               icon={<FontAwesome5 name="tools" size={18} color="gray" />}
               title="Serviço mais selecionado"
@@ -199,6 +166,7 @@ export function Home({ navigation }) {
           </ScrollView>
         )}
       </View>
+
     </SafeAreaView>
   );
 

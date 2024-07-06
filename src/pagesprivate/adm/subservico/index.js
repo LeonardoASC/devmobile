@@ -4,6 +4,7 @@ import api from "../../../services/api"
 import { MaterialIcons } from '@expo/vector-icons';
 import { AntDesign } from '@expo/vector-icons';
 import { useIsFocused } from '@react-navigation/native';
+import OpenDrawerButton from '../../../components/opendrawer';
 
 
 
@@ -97,29 +98,31 @@ export function SubServico({ navigation }) {
 
   return (
     <SafeAreaView className="flex-1 bg-[#082f49]">
-      <View className=" flex h-1/5 justify-center items-center rounded-bl-xl shadow-neu-inset">
-        <Text className="text-white text-2xl font-extrabold">
-          Sub-Serviços do Barbeiro
-        </Text>
+      <View className="h-1/5 w-full  justify-center items-center">
+        <View className="w-full flex-row items-center justify-center mb-5">
+          <OpenDrawerButton />
+          <View className="flex-1 items-center">
+            <Text className="text-white font-bold text-xl">Subservico</Text>
+          </View>
+        </View>
       </View>
 
-      <View className="px-5 bg-white">
-        <FlatList
-          horizontal={true}
-          data={dataWithAllOption} 
-          keyExtractor={(item) => item.id.toString()}
-          renderItem={({ item }) => (
-            <TouchableOpacity
-              className={`items-center justify-center m-2 bg-white shadow-neu ${item.id === selectedServiceId || (item.id === -1 && selectedServiceId == null) ? "border-b border-[#082f49]" : ""}`}
-              onPress={() => setSelectedServiceId(item.id === -1 ? null : item.id)}
-            >
-              <Text className="text-[#082f49] p-2">{item.name}</Text>
-            </TouchableOpacity>
-          )}
-        />
-      </View>
-
-      <View className="px-2 flex-1">
+      <View className="h-4/5">
+        <View className=" bg-white ">
+          <FlatList
+            horizontal={true}
+            data={dataWithAllOption}
+            keyExtractor={(item) => item.id.toString()}
+            renderItem={({ item }) => (
+              <TouchableOpacity
+                className={`items-center justify-center m-2 bg-white shadow-neu ${item.id === selectedServiceId || (item.id === -1 && selectedServiceId == null) ? "border-b border-[#082f49]" : ""}`}
+                onPress={() => setSelectedServiceId(item.id === -1 ? null : item.id)}
+              >
+                <Text className="text-[#082f49] p-2">{item.name}</Text>
+              </TouchableOpacity>
+            )}
+          />
+        </View>
         <FlatList
           className="flex-grow mt-5"
           data={filteredSubServices}

@@ -2,6 +2,7 @@ import { View, Text, TouchableOpacity, SafeAreaView, FlatList } from 'react-nati
 import { Ionicons, Feather } from '@expo/vector-icons';
 import api from '../../../services/api';
 import { useEffect, useState } from 'react';
+import OpenDrawerButton from '../../../components/opendrawer';
 
 
 export function Plano({ navigation }) {
@@ -30,7 +31,12 @@ export function Plano({ navigation }) {
         <SafeAreaView className="flex-1 items-center bg-[#082f49]">
 
             <View className="flex bg-white h-1/4 w-full  items-center justify-center rounded-b-3xl">
-                <Text className="text-[#082f49] text-xl font-extrabold">Cadastre planos</Text>
+                <View className="w-full flex-row items-center justify-center mb-5">
+                    <OpenDrawerButton cor={"#000"}/>
+                    <View className="flex-1 items-center">
+                        <Text className="text-[#082f49] text-xl font-extrabold">Cadastre planos</Text>
+                    </View>
+                </View>
                 <Text className="text-[#082f49] p-2 text-center">Os planos cadastrados aqui apareceram para os usuarios</Text>
                 <TouchableOpacity
                     onPress={() => navigation.navigate('PlanoCreate')}
@@ -38,9 +44,7 @@ export function Plano({ navigation }) {
                     <Text className="bg-green-500 text-white px-2 py-1 rounded mt-4 text-center">Cadastrar plano</Text>
                 </TouchableOpacity>
             </View>
-
-
-            <View className="flex w-full items-center justify-center">
+            <View className="flex h-3/4 w-full items-center justify-center">
                 <FlatList
                     className=" rounded-3xl w-[80%] mt-10"
                     data={plano}

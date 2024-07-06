@@ -3,19 +3,16 @@ import { TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 
-const OpenDrawerButton = () => {
-    const navigation = useNavigation();
+const OpenDrawerButton = ({cor}) => {
 
+    const navigation = useNavigation();
     return (
-        <TouchableOpacity 
-            // style={{ position: 'absolute', top: 40, left: 10, zIndex: 1 }}
-            className="absolute top-12 left-4 z-1 "
-            onPress={() => navigation.openDrawer()}
-        >
+        <TouchableOpacity className="z-1 left-4"
+            onPress={() => navigation.openDrawer()}>
             <Ionicons
                 name="menu"
                 size={30}
-                color="#ffffffff"
+                color={cor ? cor : "#fff"}
             />
         </TouchableOpacity>
     );

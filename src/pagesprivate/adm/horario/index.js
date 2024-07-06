@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { SafeAreaView, StyleSheet, View, Button, FlatList, Text, TextInput, TouchableOpacity, Alert, ScrollView } from 'react-native';
 import api from "../../../services/api"
 import { MaterialIcons } from '@expo/vector-icons';
+import OpenDrawerButton from '../../../components/opendrawer';
 
 
 
@@ -66,15 +67,16 @@ export function Horario({ navigation }) {
 
   return (
     <SafeAreaView className="flex-1 bg-[#082f49]">
-
-      <View className="flex h-1/4 justify-center items-center rounded-bl-xl shadow-neu-inset">
-        <Text className="text-white text-2xl font-extrabold text-center">
-          Horários de atendimento
-        </Text>
+      <View className="h-1/5 w-full  justify-end items-center">
+        <View className="w-full flex-row items-center justify-center mb-5">
+          <OpenDrawerButton />
+          <View className="flex-1 items-center">
+            <Text className="text-white font-bold text-xl">Horários de atendimento</Text>
+          </View>
+        </View>
       </View>
 
-      <View className="p-5 flex-1">
-
+      <View className="p-5 h-4/5">
         <FlatList
           className="flex-grow mt-5"
           data={times}

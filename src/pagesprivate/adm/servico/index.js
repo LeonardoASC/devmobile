@@ -4,6 +4,7 @@ import api from "../../../services/api"
 import { MaterialIcons } from '@expo/vector-icons';
 import Animated, { Easing, withSpring, useSharedValue, useAnimatedStyle, withTiming } from 'react-native-reanimated';
 import { useIsFocused } from '@react-navigation/native';
+import OpenDrawerButton from '../../../components/opendrawer';
 
 
 export function Servico({ navigation }) {
@@ -119,13 +120,16 @@ export function Servico({ navigation }) {
 
   return (
     <SafeAreaView className="flex-1 bg-[#082f49]">
-      <View className=" flex h-1/4 justify-center items-center rounded-bl-xl shadow-neu-inset">
-        <Text className="text-white text-2xl font-extrabold text-center">
-          Serviços do Barbeiro
-        </Text>
+      <View className="h-1/5 w-full  justify-center items-center">
+        <View className="w-full flex-row items-center justify-center mb-5">
+          <OpenDrawerButton />
+          <View className="flex-1 items-center">
+            <Text className="text-white font-bold text-xl">Serviços</Text>
+          </View>
+        </View>
       </View>
 
-      <View className="p-5 flex-1">
+      <View className="p-5 h-4/5">
         <FlatList
           data={name}
           keyExtractor={(item) => item.id}
