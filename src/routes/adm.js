@@ -8,6 +8,8 @@ import { Horario } from "../pagesprivate/adm/horario"
 import { HorarioCreate } from "../pagesprivate/adm/horario/create"
 import { HorarioEdit } from "../pagesprivate/adm/horario/edit"
 
+import { Dia } from "../pagesprivate/adm/dia"
+
 import { Servico } from "../pagesprivate/adm/servico"
 import { ServicoCreate } from "../pagesprivate/adm/servico/create";
 import { ServicoEdit } from "../pagesprivate/adm/servico/edit"
@@ -21,7 +23,8 @@ import { PlanoCreate } from "../pagesprivate/adm/plano/create";
 
 import { CustomDrawerContent } from "./CustomDrawerContent";
 import { Ionicons } from '@expo/vector-icons';
-
+import { Fontisto } from '@expo/vector-icons';
+import { MaterialIcons } from '@expo/vector-icons';
 
 
 const Stack = createStackNavigator();
@@ -44,6 +47,8 @@ function HomeStack() {
             <Stack.Screen name="Horario" component={Horario} />
             <Stack.Screen name="HorarioCreate" component={HorarioCreate} />
             <Stack.Screen name="HorarioEdit" component={HorarioEdit} />
+
+            <Stack.Screen name="Dia" component={Dia} />
 
             <Stack.Screen name="Servico" component={Servico} />
             <Stack.Screen name="ServicoCreate" component={ServicoCreate} />
@@ -70,7 +75,7 @@ export function Adm() {
                 drawerActiveBackgroundColor: 'white',
                 drawerActiveTintColor: 'black',
                 drawerStyle: {
-                    backgroundColor: 'white', // Cor de fundo que você deseja
+                    backgroundColor: 'white', 
                 }
             }}
             drawerContent={props => <CustomDrawerContent {...props} />}
@@ -116,6 +121,20 @@ export function Adm() {
                     )
                 }}
             />
+
+            <Drawer.Screen
+                name="Dia"
+                component={Dia}
+                options={{
+                    drawerIcon: ({ focused, size }) => (
+                        <Fontisto 
+                            name="day-sunny"  
+                            size={size} 
+                            color={focused ? 'black' : 'white'} 
+                        />
+                    )
+                }}
+            />
             <Drawer.Screen
                 name="Servico"
                 component={Servico}
@@ -147,10 +166,10 @@ export function Adm() {
                 component={Plano}
                 options={{
                     drawerIcon: ({ focused, size }) => (
-                        <Ionicons
-                            name={focused ? 'settings' : 'settings-outline'}
-                            size={size}
-                            color={focused ? 'black' : 'white'}
+                        <MaterialIcons 
+                            name="payment" 
+                            size={size} 
+                            color={focused ? 'black' : 'white'} 
                         />
                     )
                 }}
