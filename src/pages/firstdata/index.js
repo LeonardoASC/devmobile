@@ -13,6 +13,7 @@ export function FirstData({ route, navigation }) {
   const [dates, setDates] = useState([]);
   const [availableHours, setAvailableHours] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [inactiveDays, setInactiveDays] = useState([]);
 
   const serviceName = route.params?.serviceName;
   const subServiceName = route.params?.subServiceName;
@@ -56,7 +57,7 @@ export function FirstData({ route, navigation }) {
             },
             {
               text: 'Confirmar',
-              onPress: () => navigation.navigate('Agendado', { 
+              onPress: () => navigation.navigate('Agendado', {
                 nameProp: name,
                 dateProp: date,
                 timeProp: time,
@@ -64,7 +65,7 @@ export function FirstData({ route, navigation }) {
                 subServiceName: subServiceName,
                 // subServiceId: subServiceId,
                 precoService: precoService
-             })
+              })
             },
           ]
         );
@@ -74,9 +75,22 @@ export function FirstData({ route, navigation }) {
     }
   };
 
+  const fetchInactiveDays = async () => {
+    try {
+      const response = await api.get('/dia');
+      const days = response.data;
+
+      const inactive = days.filter(day => day.status === 'inativo').map(day => parseInt(day.id_dia));
+      setInactiveDays(inactive);
+    } catch (error) {
+      console.error('Error fetching days:', error);
+    }
+  };
+
+
   const isDisabled = (date) => {
     const day = date.getDay();
-    return day === 0 || day === 1; // 0 é domingo e 1 é segunda-feira
+    return inactiveDays.includes(day)
   };
 
   const selectHour = (selectedDate) => {
@@ -106,6 +120,8 @@ export function FirstData({ route, navigation }) {
   }
 
   useEffect(() => {
+    fetchInactiveDays();
+
     const generateDates = () => {
       const result = [];
       const today = new Date();
@@ -145,7 +161,7 @@ export function FirstData({ route, navigation }) {
         </View>
 
         {/* Lista de datas */}
-        <View className=" flex flex-row items-center mt-4 w-full ">
+        {/* <View className=" flex flex-row items-center mt-4 w-full ">
           <Ionicons name="today-outline" size={24} color="white" />
           <FlatList
             className="flex"
@@ -167,6 +183,48 @@ export function FirstData({ route, navigation }) {
                   <Text className={` ${item.toISOString().split('T')[0] === date ? ' text-cyan-500 ' : 'text-cyan-500 '} ${isDisabled(item) ? 'text-gray-400' : 'opacity-100'}`}>
                     {item.toLocaleDateString('pt-BR', { weekday: 'long' })}
                   </Text>
+                </View>
+              </TouchableOpacity>
+            )}
+          />
+        </View> */}
+        {/* Lista de datas */}
+        <View className=" flex flex-row items-center mt-4 w-full ">
+          <Ionicons name="today-outline" size={24} color="white" />
+          <FlatList
+            className="flex"
+            horizontal={true}
+            data={dates}
+            keyExtractor={(item, index) => index.toString()}
+            renderItem={({ item }) => (
+              <TouchableOpacity
+                className="justify-center items-center"
+                disabled={isDisabled(item)}
+                onPress={() => { selectHour(item) }}
+              >
+                <View className={`m-4 p-8 rounded-lg 
+                    ${item.toISOString().split('T')[0] === date ?
+                      'bg-white shadow-md shadow-black justify-center items-center w-36' :
+                      'w-36 bg-gray-300 justify-center items-center text-center border rounded-lg p-4 border-gray-300 my-3 '
+                    }`}>
+
+                            <Text className={`p-2 
+                              ${item.toISOString().split('T')[0] === date ?
+                                ' text-cyan-500 text-4xl' : 'text-lg text-cyan-500  '} 
+                                ${isDisabled(item) ? 'text-gray-400 ' :
+                                'opacity-100'
+                              }`}>
+                              {item.toLocaleDateString('pt-BR', { day: 'numeric' })}
+                            </Text>
+
+                            <Text className={`w-[120%] text-center
+                              ${item.toISOString().split('T')[0] === date ?
+                                'text-cyan-500' :
+                                'text-cyan-500'} 
+                                ${isDisabled(item) ? 'text-gray-400' : 'opacity-100'}`}>
+                              {item.toLocaleDateString('pt-BR', { weekday: 'long' })}
+                            </Text>
+
                 </View>
               </TouchableOpacity>
             )}

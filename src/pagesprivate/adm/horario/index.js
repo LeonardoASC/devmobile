@@ -64,7 +64,6 @@ export function Horario({ navigation }) {
     }
   };
 
-
   return (
     <SafeAreaView className="flex-1 bg-[#082f49]">
       <View className="h-1/5 w-full  justify-end items-center">
@@ -80,7 +79,7 @@ export function Horario({ navigation }) {
         <FlatList
           className="flex-grow mt-5"
           data={times}
-          keyExtractor={(item) => item.id}
+          keyExtractor={(item) => item.id.toString()}
           renderItem={({ item }) => (
             <View className="flex-row justify-between items-center mb-4 py-2 px-4  rounded-xl shadow-neu">
               <Text className="text-white text-lg">{item.hora}</Text>

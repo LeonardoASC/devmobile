@@ -4,11 +4,15 @@ import { createDrawerNavigator } from '@react-navigation/drawer';
 import { Agendamento } from "../pagesprivate/adm/agendamento"
 import { Home } from "../pagesprivate/adm/home";
 
+import { Dia } from "../pagesprivate/adm/dia"
+// import { DiaCreate } from "../pagesprivate/adm/dia/create"
+// import { DiaEdit } from "../pagesprivate/adm/dia/edit"
+
 import { Horario } from "../pagesprivate/adm/horario"
 import { HorarioCreate } from "../pagesprivate/adm/horario/create"
 import { HorarioEdit } from "../pagesprivate/adm/horario/edit"
 
-import { Dia } from "../pagesprivate/adm/dia"
+import { AusenciaProgramada } from "../pagesprivate/adm/ausenciaprogramada"
 
 import { Servico } from "../pagesprivate/adm/servico"
 import { ServicoCreate } from "../pagesprivate/adm/servico/create";
@@ -25,6 +29,7 @@ import { CustomDrawerContent } from "./CustomDrawerContent";
 import { Ionicons } from '@expo/vector-icons';
 import { Fontisto } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
+import { Octicons } from '@expo/vector-icons';
 
 
 const Stack = createStackNavigator();
@@ -49,6 +54,10 @@ function HomeStack() {
             <Stack.Screen name="HorarioEdit" component={HorarioEdit} />
 
             <Stack.Screen name="Dia" component={Dia} />
+            {/* <Stack.Screen name="DiaCreate" component={DiaCreate} />
+            <Stack.Screen name="DiaEdit" component={DiaEdit} /> */}
+
+
 
             <Stack.Screen name="Servico" component={Servico} />
             <Stack.Screen name="ServicoCreate" component={ServicoCreate} />
@@ -75,7 +84,7 @@ export function Adm() {
                 drawerActiveBackgroundColor: 'white',
                 drawerActiveTintColor: 'black',
                 drawerStyle: {
-                    backgroundColor: 'white', 
+                    backgroundColor: 'white',
                 }
             }}
             drawerContent={props => <CustomDrawerContent {...props} />}
@@ -92,7 +101,7 @@ export function Adm() {
                             color={focused ? 'black' : 'white'}
                         />
                     )
-                    
+
                 }}
             />
             <Drawer.Screen
@@ -127,10 +136,23 @@ export function Adm() {
                 component={Dia}
                 options={{
                     drawerIcon: ({ focused, size }) => (
-                        <Fontisto 
-                            name="day-sunny"  
-                            size={size} 
-                            color={focused ? 'black' : 'white'} 
+                        <Fontisto
+                            name="day-sunny"
+                            size={size}
+                            color={focused ? 'black' : 'white'}
+                        />
+                    )
+                }}
+            />
+            <Drawer.Screen
+                name="Ausencia Programada"
+                component={AusenciaProgramada}
+                options={{
+                    drawerIcon: ({ focused, size }) => (
+                        <Octicons
+                            name="stopwatch"
+                            size={size}
+                            color={focused ? 'black' : 'white'}
                         />
                     )
                 }}
@@ -166,10 +188,10 @@ export function Adm() {
                 component={Plano}
                 options={{
                     drawerIcon: ({ focused, size }) => (
-                        <MaterialIcons 
-                            name="payment" 
-                            size={size} 
-                            color={focused ? 'black' : 'white'} 
+                        <MaterialIcons
+                            name="payment"
+                            size={size}
+                            color={focused ? 'black' : 'white'}
                         />
                     )
                 }}

@@ -31,49 +31,73 @@ export function Home({ navigation }) {
     try {
       setLoading(true);
       const totalRes = await api.get('/total');
+      // console.log('Total Response:', totalRes);
 
-      if (totalRes.data && totalRes.data.total) {
+      if (totalRes.data && totalRes.data.total !== undefined) {
         setTotalAgendamentos(totalRes.data.total);
 
         const receitaRes = await api.get('/receita-total');
-        setReceitaTotal(parseFloat(receitaRes.data.receita_total));
+        // console.log('Receita Total Response:', receitaRes);
+        if (receitaRes.data && receitaRes.data.receita_total !== undefined) {
+          setReceitaTotal(parseFloat(receitaRes.data.receita_total));
+        }
 
         const responseUltimoCliente = await api.get('/ultimo-cliente');
-        setUltimoCliente(responseUltimoCliente.data);
+        // console.log('Último Cliente Response:', responseUltimoCliente);
+        if (responseUltimoCliente.data) {
+          setUltimoCliente(responseUltimoCliente.data);
+        }
 
         const responseReceitaMensal = await api.get('/receita-mensal');
-        setReceitaMensal(responseReceitaMensal.data.receita_mensal);
+        // console.log('Receita Mensal Response:', responseReceitaMensal);
+        if (responseReceitaMensal.data && responseReceitaMensal.data.receita_mensal !== undefined) {
+          setReceitaMensal(responseReceitaMensal.data.receita_mensal);
+        }
 
         const responseReceitaSemanal = await api.get('/receita-semanal');
-        setReceitaSemanal(responseReceitaSemanal.data.receita_semanal);
+        // console.log('Receita Semanal Response:', responseReceitaSemanal);
+        if (responseReceitaSemanal.data && responseReceitaSemanal.data.receita_semanal !== undefined) {
+          setReceitaSemanal(responseReceitaSemanal.data.receita_semanal);
+        }
 
         const responseReceitaDiaria = await api.get('/receita-diaria');
-        setReceitaDiaria(responseReceitaDiaria.data.receita_diaria);
+        // console.log('Receita Diaria Response:', responseReceitaDiaria);
+        if (responseReceitaDiaria.data && responseReceitaDiaria.data.receita_diaria !== undefined) {
+          setReceitaDiaria(responseReceitaDiaria.data.receita_diaria);
+        }
 
         const responseServicoMaisSelecionado = await api.get('/servico-mais-selecionado');
-        setTipoServicoMaisSelecionado(responseServicoMaisSelecionado.data.tipo_servico);
+        // console.log('Serviço Mais Selecionado Response:', responseServicoMaisSelecionado);
+        if (responseServicoMaisSelecionado.data && responseServicoMaisSelecionado.data.tipo_servico !== undefined) {
+          setTipoServicoMaisSelecionado(responseServicoMaisSelecionado.data.tipo_servico);
+        }
 
         const responseAgendamentosDia = await api.get('/agendamentos-dia');
-        setAgendamentosDia(responseAgendamentosDia.data.quantidade_agendamentos_dia)
-        //console.log(responseAgendamentosDia.data);
+        // console.log('Agendamentos Dia Response:', responseAgendamentosDia);
+        if (responseAgendamentosDia.data && responseAgendamentosDia.data.quantidade_agendamentos_dia !== undefined) {
+          setAgendamentosDia(responseAgendamentosDia.data.quantidade_agendamentos_dia);
+        }
 
         const responseAgendamentosSemana = await api.get('/agendamentos-semana');
-        //console.log(responseAgendamentosSemana.data);
-        setAgendamentosSemana(responseAgendamentosSemana.data.quantidade_agendamentos_semana)
+        // console.log('Agendamentos Semana Response:', responseAgendamentosSemana);
+        if (responseAgendamentosSemana.data && responseAgendamentosSemana.data.quantidade_agendamentos_semana !== undefined) {
+          setAgendamentosSemana(responseAgendamentosSemana.data.quantidade_agendamentos_semana);
+        }
 
         const responseAgendamentosMes = await api.get('/agendamentos-mes');
-        //console.log(responseAgendamentosMes.data);
-        setAgendamentosMes(responseAgendamentosMes.data.quantidade_agendamentos_mes)
+        // console.log('Agendamentos Mes Response:', responseAgendamentosMes);
+        if (responseAgendamentosMes.data && responseAgendamentosMes.data.quantidade_agendamentos_mes !== undefined) {
+          setAgendamentosMes(responseAgendamentosMes.data.quantidade_agendamentos_mes);
+        }
       } else {
         setMessage('Nenhum agendamento encontrado.');
-        return;  // Se não há registros, não prossegue para as demais chamadas
       }
 
     } catch (error) {
-      console.error("Erro ao buscar dados do dashboard:", error);
+      // console.error("Erro ao buscar dados do dashboard:", error);
       setMessage('Erro ao buscar dados. Por favor, tente novamente.');
     } finally {
-      setLoading(false); // Exemplo de código para executar no finally
+      setLoading(false);
     }
   };
 
@@ -157,12 +181,22 @@ export function Home({ navigation }) {
               </View>
 
             </View>
+            {tipoServicoMaisSelecionado ? (
 
-            <Card
-              icon={<FontAwesome5 name="tools" size={18} color="gray" />}
-              title="Serviço mais selecionado"
-              data={tipoServicoMaisSelecionado}
-            />
+              <Card
+                icon={<FontAwesome5 name="tools" size={18} color="gray" />}
+                title="Serviço mais selecionado"
+                data={tipoServicoMaisSelecionado}
+              />
+            ) : (
+              <Card icon={
+                <FontAwesome5
+                  name="tools" size={18}
+                  color="gray" />}
+                  title="Serviço mais selecionado"
+                  data="Nenhum serviço encontrado." 
+                />
+            )}
           </ScrollView>
         )}
       </View>
