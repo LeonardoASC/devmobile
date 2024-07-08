@@ -65,62 +65,51 @@ export function SubServicoCreate({ navigation }) {
 
   const handleSubmit = () => {
     const formData = new FormData();
-
-    // Formatando o tempo de duração
     const formattedTime = `${tempo.getHours()}:${tempo.getMinutes()}:00`;
-
-    // Adicionando os campos de texto
+  
     formData.append('name', name);
     formData.append('preco', preco);
     formData.append('tempo_de_duracao', formattedTime);
     formData.append('servico_id', servicoid);
-
-    // Adicionando a imagem
+  
     if (imagem) {
-      // Supondo que `imagem` seja um objeto com as propriedades `uri` e `type` (ajuste conforme necessário)
       formData.append('imagem', {
-        uri: imagem.uri,
-        type: imagem.type, // e.g., 'image/jpeg'
-        name: 'upload.jpg' // o nome que você quer que o arquivo tenha no servidor
+        uri: imagem,
+        type: 'image/jpeg', // Ajuste conforme o tipo real da imagem
+        name: 'imagem.jpg'
       });
     }
-
+  
     api.post('/subservico', formData, {
       headers: {
-        'Content-Type': 'multipart/form-data', // Importante para uploads de arquivo
+        'Content-Type': 'multipart/form-data'
       }
     })
-      .then(response => {
-        console.log(response.data);
-        if (response.data && response.data.success) {
-          Alert.alert('Sucesso', 'Sub-Serviço foi cadastrado!');
-          navigation.navigate('Home');
+    .then(response => {
+      if (response.status === 201) { 
+        Alert.alert('Sucesso', response.data.message || 'Sub-serviço criado com sucesso!');
+        navigation.navigate('Home'); 
+      } else {
+        Alert.alert('Erro ao registrar', response.data.message || 'Erro desconhecido.');
+      }
+    })
+    .catch(error => {
+      if (!error.response) {
+        Alert.alert('Erro', 'Problema de conexão. Verifique sua internet e tente novamente.');
+      } else {
+        if (error.response.status === 422) {
+          let errorMessage = 'Ocorreram erros de validação:\n';
+          Object.values(error.response.data.errors).forEach(msgs => {
+            msgs.forEach(msg => errorMessage += msg + '\n');
+          });
+          Alert.alert('Erro de Validação', errorMessage);
         } else {
-          Alert.alert('Erro ao registrar', response.data.message || 'Erro desconhecido.');
+          Alert.alert('Erro', error.response.data.message || 'Ocorreu um erro. Tente novamente mais tarde.');
         }
-      })
-      .catch(error => {
-        if (!error.response) {
-          console.error('Erro na conexão:', error);
-          Alert.alert('Erro', 'Problema de conexão. Verifique sua internet e tente novamente.');
-        } else {
-          if (error.response.status === 422) {
-            let errorMessage = 'Ocorreram erros de validação:\n';
-
-            for (let field in error.response.data.errors) {
-              errorMessage += error.response.data.errors[field].join('\n') + '\n';
-            }
-
-            Alert.alert('Erro de Validação', errorMessage);
-          } else {
-            console.error('Erro na requisição:', error.response);
-            Alert.alert('Erro', 'Ocorreu um erro. Tente novamente mais tarde.');
-          }
-        }
-      });
+      }
+    });
   };
-
-
+  
   useEffect(() => {
     // Buscar a lista de serviços ao montar o componente
     api.get('/servico')
@@ -284,7 +273,5 @@ export function SubServicoCreate({ navigation }) {
       </View>
 
     </SafeAreaView>
-
-
   );
 }

@@ -30,12 +30,14 @@ export function SubServico({ navigation }) {
 
   const fetchTimes = async () => {
     try {
+      const baseURL = 'http://10.55.0.220:8000/storage/'; // URL base do servidor
       const response = await api.get('/subservico');
-      // console.log(response);
+      console.log(response.data);
       if (response.data && response.data.length) {
         const formattedTimes = response.data.map(item => ({
           ...item,
-          tempo_de_duracao: item.tempo_de_duracao.slice(0, 5)
+          tempo_de_duracao: item.tempo_de_duracao.slice(0, 5),
+          imagem: baseURL + item.imagem // Concatena a baseURL com o caminho da imagem
         }));
         setServices(formattedTimes);
       }
@@ -43,6 +45,7 @@ export function SubServico({ navigation }) {
       console.error("Erro ao buscar horários:", error);
     }
   };
+
 
   const fetchServices = async () => {
     try {
