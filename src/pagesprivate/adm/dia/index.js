@@ -33,7 +33,7 @@ export function Dia({ navigation }) {
       const day = days.find(item => item.id === id);
       const newStatus = currentStatus === 'ativo' ? 'inativo' : 'ativo';
       const response = await api.put(`/dia/${id}`, {
-        id_dia: day.id_dia,
+        codigo_dia: day.codigo_dia,
         dia: day.dia,
         status: newStatus
       });

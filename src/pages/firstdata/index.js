@@ -80,7 +80,7 @@ export function FirstData({ route, navigation }) {
       const response = await api.get('/dia');
       const days = response.data;
 
-      const inactive = days.filter(day => day.status === 'inativo').map(day => parseInt(day.id_dia));
+      const inactive = days.filter(day => day.status === 'inativo').map(day => parseInt(day.codigo_dia));
       setInactiveDays(inactive);
     } catch (error) {
       console.error('Error fetching days:', error);

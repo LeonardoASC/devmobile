@@ -23,20 +23,77 @@ export function SubServicoCreate({ navigation }) {
 
 
 
-  const handleSubmit = () => {
-    const formattedTime = `${tempo.getHours()}:${tempo.getMinutes()}:00`;
-    api.post('/subservico', {
-      name: name,
-      preco: preco,
-      tempo_de_duracao: formattedTime,
-      imagem: imagem,
-      servico_id: servicoid
+  // const handleSubmit = () => {
+  //   const formattedTime = `${tempo.getHours()}:${tempo.getMinutes()}:00`;
+  //   api.post('/subservico', {
+  //     name: name,
+  //     preco: preco,
+  //     tempo_de_duracao: formattedTime,
+  //     imagem: imagem,
+  //     servico_id: servicoid
 
+  //   })
+  //     .then(response => {
+  //       console.log(response.data);
+  //       if (response.data && response.data.success) {
+  //         Alert.alert('Sucesso', 'Sub-Servico foi cadastrado!');
+  //         navigation.navigate('Home');
+  //       } else {
+  //         Alert.alert('Erro ao registrar', response.data.message || 'Erro desconhecido.');
+  //       }
+  //     })
+  //     .catch(error => {
+  //       if (!error.response) {
+  //         console.error('Erro na conexão:', error);
+  //         Alert.alert('Erro', 'Problema de conexão. Verifique sua internet e tente novamente.');
+  //       } else {
+  //         if (error.response.status === 422) {
+  //           let errorMessage = 'Ocorreram erros de validação:\n';
+
+  //           for (let field in error.response.data.errors) {
+  //             errorMessage += error.response.data.errors[field].join('\n') + '\n';
+  //           }
+
+  //           Alert.alert('Erro de Validação', errorMessage);
+  //         } else {
+  //           console.error('Erro na requisição:', error.response);
+  //           Alert.alert('Erro', 'Ocorreu um erro. Tente novamente mais tarde.');
+  //         }
+  //       }
+  //     });
+  // };
+
+  const handleSubmit = () => {
+    const formData = new FormData();
+
+    // Formatando o tempo de duração
+    const formattedTime = `${tempo.getHours()}:${tempo.getMinutes()}:00`;
+
+    // Adicionando os campos de texto
+    formData.append('name', name);
+    formData.append('preco', preco);
+    formData.append('tempo_de_duracao', formattedTime);
+    formData.append('servico_id', servicoid);
+
+    // Adicionando a imagem
+    if (imagem) {
+      // Supondo que `imagem` seja um objeto com as propriedades `uri` e `type` (ajuste conforme necessário)
+      formData.append('imagem', {
+        uri: imagem.uri,
+        type: imagem.type, // e.g., 'image/jpeg'
+        name: 'upload.jpg' // o nome que você quer que o arquivo tenha no servidor
+      });
+    }
+
+    api.post('/subservico', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data', // Importante para uploads de arquivo
+      }
     })
       .then(response => {
         console.log(response.data);
         if (response.data && response.data.success) {
-          Alert.alert('Sucesso', 'Sub-Servico foi cadastrado!');
+          Alert.alert('Sucesso', 'Sub-Serviço foi cadastrado!');
           navigation.navigate('Home');
         } else {
           Alert.alert('Erro ao registrar', response.data.message || 'Erro desconhecido.');
@@ -62,6 +119,7 @@ export function SubServicoCreate({ navigation }) {
         }
       });
   };
+
 
   useEffect(() => {
     // Buscar a lista de serviços ao montar o componente
