@@ -15,7 +15,7 @@ export function SubServico({ navigation }) {
   const [selectedImage, setSelectedImage] = useState(null);
   const [selectedServiceId, setSelectedServiceId] = useState(null);
   const [uniqueServices, setUniqueServices] = useState([]);
-
+  
   const dataWithAllOption = [
     { id: -1, name: 'Todos' },
     ...uniqueServices
@@ -30,19 +30,19 @@ export function SubServico({ navigation }) {
 
   const fetchTimes = async () => {
     try {
-      // const baseURL = API_BASE_URL; // URL base do servidor
+      const baseURL = API_BASE_URL + '/storage/'; // URL base do servidor para acessar as imagens
       const response = await api.get('/subservico');
       // console.log(response.data);
       if (response.data && response.data.length) {
         const formattedTimes = response.data.map(item => ({
           ...item,
           tempo_de_duracao: item.tempo_de_duracao.slice(0, 5),
-          imagem: API_BASE_URL + item.imagem // Concatena a baseURL com o caminho da imagem
+          imagem: baseURL + item.imagem 
         }));
         setServices(formattedTimes);
       }
     } catch (error) {
-      console.error("Erro ao buscar horários:", error);
+      console.error("Erro ao buscar subserviço:", error);
     }
   };
 

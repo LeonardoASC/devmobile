@@ -26,7 +26,7 @@ export function Servico({ navigation }) {
         setName(response.data);
       }
     } catch (error) {
-      console.error("Erro ao buscar horários:", error);
+      console.error("Erro ao buscar serviço:", error);
     }
   };
 

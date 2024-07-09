@@ -20,11 +20,11 @@ export function CustomDrawerContent(props) {
 
         <View className="mb-4 mx-6">
           <TouchableOpacity
-            className="bg-white rounded-lg p-2 shadow-lg gap-x-2 items-center justify-center flex-row mb-5"
+            className="bg-white rounded-lg p-2 shadow-lg gap-x-2 items-center justify-center flex-row mb-[15%]"
             onPress={logout}
           >
-            <MaterialCommunityIcons name="exit-run" size={16} color="gray" />
-            <Text className="text-center text-zinc-500 font-bold">Sair</Text>
+            <MaterialCommunityIcons name="exit-run" size={16} color="black" />
+            <Text className="text-center text-black font-bold">Sair</Text>
           </TouchableOpacity>
         </View>
       </View>

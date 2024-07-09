@@ -78,10 +78,12 @@ function HomeStack() {
 export function Adm() {
     return (
         <Drawer.Navigator
+            
             initialRouteName="HomeStack"
             screenOptions={{
                 headerShown: false,
                 drawerActiveBackgroundColor: 'white',
+                drawerInactiveTintColor: '#f0f8ff',
                 drawerActiveTintColor: 'black',
                 drawerStyle: {
                     backgroundColor: 'white',

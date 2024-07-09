@@ -19,7 +19,7 @@ export function Dia({ navigation }) {
         setDays(response.data);
       }
     } catch (error) {
-      console.error("Erro ao buscar horários:", error);
+      console.error("Erro ao buscar dias:", error);
     }
   };
 
@@ -73,8 +73,8 @@ export function Dia({ navigation }) {
               </View>
               <View className="flex-row">
                 <Switch
-                  trackColor={{ false: "#767577", true: "#767577" }}
-                  thumbColor={item.status ? "#f4f3f4" : "#000"}
+                  trackColor={{ false: "#5e5d5e", true: "#afaeb0" }}
+                  thumbColor={item.status === 'ativo' ? "#f4f3f4" : "#afaeb0"}
                   ios_backgroundColor="#3e3e3e"
                   value={item.status === 'ativo'}
                   onValueChange={() => toggleSwitch(item.id, item.status)}

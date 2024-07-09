@@ -23,7 +23,7 @@ export function Plano({ navigation }) {
                 setPlano(response.data);
             }
         } catch (error) {
-            console.error("Erro ao buscar horários:", error);
+            console.error("Erro ao buscar planos:", error);
         }
     };
 

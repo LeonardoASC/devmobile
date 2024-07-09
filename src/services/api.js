@@ -4,7 +4,6 @@ import { API_BASE_URL } from './baseURL'
 // Função assíncrona para obter o token do AsyncStorage
 async function getToken() {
     try {
-        // return await AsyncStorage.getItem('token');
         return await AsyncStorage.getItem('userToken');
     } catch (error) {
         console.error('Erro ao obter token:', error);
@@ -13,8 +12,7 @@ async function getToken() {
 
 // Criando a instância Axios
 const api = axios.create({
-    baseURL: API_BASE_URL,
-    // baseURL: 'http://192.168.15.6:8000/api/',
+    baseURL: API_BASE_URL + '/api',
     // timeout: 1000,
     headers: {
         'Content-Type': 'Application/json',
