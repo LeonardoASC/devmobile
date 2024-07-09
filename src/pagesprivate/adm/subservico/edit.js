@@ -31,45 +31,104 @@ export function SubServicoEdit({ route, navigation }) {
   const { id } = route.params;
 
 
-  const handleSubmit = () => {
+  // const handleSubmit = () => {
+  //   if (!id) {
+  //     Alert.alert('Erro', 'ID não definido!');
+  //     return;
+  //   }
+  //   const formattedTime = `${tempo.getHours()}:${tempo.getMinutes()}:00`;
+  //   api.put(`/subservico/${id}`, {
+  //     name: name,
+  //     preco: preco,
+  //     tempo_de_duracao: formattedTime,
+  //     imagem: imagem,
+  //     servico_id: servicoid
+  //   })
+  //     .then(response => {
+  //       if (response.data && response.data.success) {
+  //         Alert.alert('Sucesso', 'SubServiço foi atualizado!');
+  //         navigation.navigate('Home');
+  //       } else {
+  //         Alert.alert('Erro ao registrar', response.data.message || 'Erro desconhecido.');
+  //       }
+  //     })
+  //     .catch(error => {
+  //       if (!error.response) {
+  //         console.error('Erro na conexão:', error);
+  //         Alert.alert('Erro', 'Problema de conexão. Verifique sua internet e tente novamente.');
+  //       } else {
+  //         if (error.response.status === 422) {
+  //           let errorMessage = 'Ocorreram erros de validação:\n';
+  //           for (let field in error.response.data.errors) {
+  //             errorMessage += error.response.data.errors[field].join('\n') + '\n';
+  //           }
+  //           Alert.alert('Erro de Validação', errorMessage);
+  //         } else {
+  //           console.error('Erro na requisição:', error.response);
+  //           Alert.alert('Erro', 'Ocorreu um erro. Tente novamente mais tarde.');
+  //         }
+  //       }
+  //     });
+  // };
+
+  const handleSubmit = async () => {
     if (!id) {
       Alert.alert('Erro', 'ID não definido!');
       return;
     }
     const formattedTime = `${tempo.getHours()}:${tempo.getMinutes()}:00`;
-    api.put(`/subservico/${id}`, {
-      name: name,
-      preco: preco,
-      tempo_de_duracao: formattedTime,
-      imagem: imagem,
-      servico_id: servicoid
-    })
-      .then(response => {
-        if (response.data && response.data.success) {
-          Alert.alert('Sucesso', 'SubServiço foi atualizado!');
-          navigation.navigate('Home');
-        } else {
-          Alert.alert('Erro ao registrar', response.data.message || 'Erro desconhecido.');
-        }
-      })
-      .catch(error => {
-        if (!error.response) {
-          console.error('Erro na conexão:', error);
-          Alert.alert('Erro', 'Problema de conexão. Verifique sua internet e tente novamente.');
-        } else {
-          if (error.response.status === 422) {
-            let errorMessage = 'Ocorreram erros de validação:\n';
-            for (let field in error.response.data.errors) {
-              errorMessage += error.response.data.errors[field].join('\n') + '\n';
-            }
-            Alert.alert('Erro de Validação', errorMessage);
-          } else {
-            console.error('Erro na requisição:', error.response);
-            Alert.alert('Erro', 'Ocorreu um erro. Tente novamente mais tarde.');
-          }
-        }
+
+    const formData = new FormData();
+    formData.append('name', name);
+    formData.append('preco', preco);
+    formData.append('tempo_de_duracao', formattedTime);
+    formData.append('servico_id', servicoid);
+    formData.append('_method', 'PUT');
+
+    if (imagem) {
+      const filename = imagem.split('/').pop();
+      const match = /\.(\w+)$/.exec(filename);
+      const type = match ? `image/${match[1]}` : `image`;
+
+      formData.append('imagem', {
+        uri: imagem,
+        name: filename,
+        type,
       });
+    }
+
+    try {
+      const response = await api.post(`/subservico/${id}`, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+
+      if (response.data && response.data.success) {
+        Alert.alert('Sucesso', 'SubServiço foi atualizado!');
+        navigation.navigate('Home');
+      } else {
+        Alert.alert('Erro ao registrar', response.data.message || 'Erro desconhecido.');
+      }
+    } catch (error) {
+      if (!error.response) {
+        console.error('Erro na conexão:', error);
+        Alert.alert('Erro', 'Problema de conexão. Verifique sua internet e tente novamente.');
+      } else {
+        if (error.response.status === 422) {
+          let errorMessage = 'Ocorreram erros de validação:\n';
+          for (let field in error.response.data.errors) {
+            errorMessage += error.response.data.errors[field].join('\n') + '\n';
+          }
+          Alert.alert('Erro de Validação', errorMessage);
+        } else {
+          console.error('Erro na requisição:', error.response);
+          Alert.alert('Erro', 'Ocorreu um erro. Tente novamente mais tarde.');
+        }
+      }
+    }
   };
+
 
   useEffect(() => {
     api.get('/servico')
@@ -96,6 +155,18 @@ export function SubServicoEdit({ route, navigation }) {
     return `${hours}:${minutes}`;
   };
 
+  // const pickImage = async () => {
+  //   let result = await ImagePicker.launchImageLibraryAsync({
+  //     mediaTypes: ImagePicker.MediaTypeOptions.All,
+  //     allowsEditing: true,
+  //     aspect: [4, 3],
+  //     quality: 1,
+  //   });
+
+  //   if (!result.canceled && result.assets && result.assets.length > 0) {
+  //     setImage(result.assets[0].uri);
+  //   }
+  // };
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
@@ -108,6 +179,7 @@ export function SubServicoEdit({ route, navigation }) {
       setImage(result.assets[0].uri);
     }
   };
+
 
   return (
     <SafeAreaView className="flex-1 bg-[#082f49]">
