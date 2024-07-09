@@ -30,9 +30,10 @@ export function SubServico({ navigation }) {
 
   const fetchTimes = async () => {
     try {
-      const baseURL = 'http://10.55.0.220:8000/storage/'; // URL base do servidor
+      const baseURL = 'http://192.168.15.6:8000/storage/'; // URL base do servidor
+      // const baseURL = 'http://10.55.0.220:8000/storage/'; // URL base do servidor
       const response = await api.get('/subservico');
-      console.log(response.data);
+      // console.log(response.data);
       if (response.data && response.data.length) {
         const formattedTimes = response.data.map(item => ({
           ...item,

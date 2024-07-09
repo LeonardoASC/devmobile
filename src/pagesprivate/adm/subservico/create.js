@@ -86,8 +86,8 @@ export function SubServicoCreate({ navigation }) {
       }
     })
     .then(response => {
-      if (response.status === 201) { 
-        Alert.alert('Sucesso', response.data.message || 'Sub-serviço criado com sucesso!');
+      if (response.data && response.data.success) { 
+        Alert.alert('Sucesso', 'Sub-serviço criado com sucesso!');
         navigation.navigate('Home'); 
       } else {
         Alert.alert('Erro ao registrar', response.data.message || 'Erro desconhecido.');
@@ -95,20 +95,27 @@ export function SubServicoCreate({ navigation }) {
     })
     .catch(error => {
       if (!error.response) {
+        console.error('Erro na conexão:', error);
         Alert.alert('Erro', 'Problema de conexão. Verifique sua internet e tente novamente.');
       } else {
         if (error.response.status === 422) {
           let errorMessage = 'Ocorreram erros de validação:\n';
-          Object.values(error.response.data.errors).forEach(msgs => {
+          
+          const errors = error.response.data?.errors || {}; // Adicione uma verificação aqui
+  
+          Object.values(errors).forEach(msgs => {
             msgs.forEach(msg => errorMessage += msg + '\n');
           });
+  
           Alert.alert('Erro de Validação', errorMessage);
         } else {
-          Alert.alert('Erro', error.response.data.message || 'Ocorreu um erro. Tente novamente mais tarde.');
+          console.error('Erro na requisição:', error.response);
+          Alert.alert('Erro', error.response.data?.message || 'Ocorreu um erro. Tente novamente mais tarde.');
         }
       }
     });
   };
+  
   
   useEffect(() => {
     // Buscar a lista de serviços ao montar o componente
@@ -143,11 +150,12 @@ export function SubServicoCreate({ navigation }) {
       aspect: [4, 3],
       quality: 1,
     });
-
+  
     if (!result.canceled && result.assets && result.assets.length > 0) {
       setImage(result.assets[0].uri);  // Pega o uri do primeiro item do array 'assets'
     }
   };
+  
 
   return (
     <SafeAreaView className="flex-1 bg-[#082f49]">
