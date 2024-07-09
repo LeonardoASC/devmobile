@@ -1,6 +1,6 @@
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
+import { API_BASE_URL } from './baseURL'
 // Função assíncrona para obter o token do AsyncStorage
 async function getToken() {
     try {
@@ -13,7 +13,7 @@ async function getToken() {
 
 // Criando a instância Axios
 const api = axios.create({
-    baseURL: 'http://192.168.15.6:8000/api/',
+    baseURL: API_BASE_URL,
     // baseURL: 'http://192.168.15.6:8000/api/',
     // timeout: 1000,
     headers: {
