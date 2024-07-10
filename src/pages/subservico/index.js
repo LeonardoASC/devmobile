@@ -3,25 +3,52 @@ import { View, Text, FlatList, SafeAreaView, TouchableOpacity, Alert, Image } fr
 import api from '../../services/api';
 import { MaterialIcons, Feather, MaterialCommunityIcons } from '@expo/vector-icons';
 import LoadingComponent from "../../components/loadingcomponent";
+import { API_BASE_URL } from "../../services/baseURL";
+import { useIsFocused } from '@react-navigation/native';
+
 export function SubServico({ route, navigation }) {
-  // const nameProp = route.params?.nameProp;
-  // const dateProp = route.params?.dateProp;
-  // const timeProp = route.params?.timeProp;
-  
+
   const serviceId = route.params?.serviceId; //utilizado apenas para filtrar os subserviços
   const serviceName = route.params?.serviceName;
-
+  const isFocused = useIsFocused();
   const [subServices, setSubServices] = useState([]);
   const [selectedSubService, setSelectedSubService] = useState(null);
   const [loading, setLoading] = useState(false);
 
+  // useEffect(() => {
+  //   const fetchSubServicos = async () => {
+  //     try {
+  //       setLoading(true);
+  //       const baseURL = API_BASE_URL + '/storage/';
+  //       const response = await api.get('/subservico');
+  //       if (response.data && response.data.length) {
+  //         const filteredSubServices = response.data.filter(
+  //           subService => subService.servico_id === serviceId);
+  //         setSubServices(filteredSubServices);
+  //       }
+  //     } catch (error) {
+  //       console.error("Erro ao buscar subserviços:", error);
+  //     } finally {
+  //       setLoading(false);
+  //     }
+  //   };
+
+  //   fetchSubServicos();
+  // }, [serviceId]);
+  
   useEffect(() => {
     const fetchSubServicos = async () => {
       try {
         setLoading(true);
+        const baseURL = API_BASE_URL + '/storage/';
         const response = await api.get('/subservico');
         if (response.data && response.data.length) {
-          const filteredSubServices = response.data.filter(subService => subService.servico_id === serviceId);
+          const filteredSubServices = response.data
+            .filter(subService => subService.servico_id === serviceId)
+            .map(subService => ({
+              ...subService,
+              imagem: baseURL + subService.imagem
+            }));
           setSubServices(filteredSubServices);
         }
       } catch (error) {
@@ -30,9 +57,11 @@ export function SubServico({ route, navigation }) {
         setLoading(false);
       }
     };
-
+  
     fetchSubServicos();
   }, [serviceId]);
+  
+
 
 
   const formatDuration = (duration) => {

@@ -3,6 +3,7 @@ import { SafeAreaView, StyleSheet, View, Button, FlatList, Text, TextInput, Touc
 import api from "../../../services/api"
 import { MaterialIcons } from '@expo/vector-icons';
 import OpenDrawerButton from '../../../components/opendrawer';
+import { Feather } from '@expo/vector-icons';
 
 
 
@@ -66,8 +67,8 @@ export function Horario({ navigation }) {
 
   return (
     <SafeAreaView className="flex-1 bg-[#082f49]">
-      <View className="h-1/5 w-full  justify-end items-center">
-        <View className="w-full flex-row items-center justify-center mb-5">
+      <View className="h-1/6 w-full justify-center items-center">
+        <View className="w-full flex-row items-center justify-center">
           <OpenDrawerButton />
           <View className="flex-1 items-center">
             <Text className="text-white font-bold text-xl">Horários de atendimento</Text>
@@ -76,6 +77,12 @@ export function Horario({ navigation }) {
       </View>
 
       <View className="p-5 h-4/5">
+        <View className="bg-gray-200 flex flex-row gap-2 items-center justify-center rounded-xl mx-3 px-4 py-2">
+          <View className="pb-2">
+            <Feather name="alert-octagon" size={16} color="black" />
+          </View>
+          <Text className="text-xs pb-2 ">Certifique-se de revisar os horarios de trabalho ativos antes de confirmar as alterações. Alterar frequentemente os horarios de trabalho pode confundir seus clientes e impactar seus agendamentos.</Text>
+        </View>
         <FlatList
           className="flex-grow mt-5"
           data={times}

@@ -83,7 +83,7 @@ export function MeusAgendamentos({ navigation }) {
                                     <View className="mt-8 items-center">
                                         <TouchableOpacity
                                             className="bg-white rounded p-3 shadow-md mb-4"
-                                            onPress={() => navigation.navigate("FirstDataPrivate")}
+                                            onPress={() => navigation.navigate("ServicoPrivate")}
                                         >
                                             <Text className="text-cyan-500 font-bold text-center px-14 mt">Primeiro Agendamento</Text>
                                         </TouchableOpacity>
