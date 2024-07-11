@@ -1,23 +1,29 @@
-import { View, Text, SafeAreaView, TouchableOpacity } from 'react-native'
-import OpenDrawerButton from '../../../components/opendrawer'
-import api from '../../../services/api'
-import { FlatList } from 'react-native-gesture-handler'
+import { View, Text, SafeAreaView, TouchableOpacity, Modal, TextInput, Button } from 'react-native';
+import OpenDrawerButton from '../../../components/opendrawer';
+import api from '../../../services/api';
+import { FlatList } from 'react-native-gesture-handler';
 import { useEffect, useState } from 'react';
 import { Calendar } from 'react-native-calendars';
 
 export function AusenciaProgramada() {
     const [dayOff, setDayOff] = useState([]);
+    const [selectedDate, setSelectedDate] = useState('');
+    const [attendanceInfo, setAttendanceInfo] = useState({});
+    const [modalVisible, setModalVisible] = useState(false);
+    const [initialDate, setInitialDate] = useState('');
+    const [finalDate, setFinalDate] = useState('');
+    const [initialHour, setInitialHour] = useState('');
+    const [finalHour, setFinalHour] = useState('');
 
     useEffect(() => {
-
         fetchTimes();
-
     }, []);
 
     const fetchTimes = async () => {
         try {
             const response = await api.get('/horario-personalizado');
             if (response.data && response.data.length) {
+                console.log(response.data);
                 setDayOff(response.data);
             }
         } catch (error) {
@@ -37,31 +43,35 @@ export function AusenciaProgramada() {
         );
     }
 
-    const [selectedDate, setSelectedDate] = useState('');
-    const [attendanceInfo, setAttendanceInfo] = useState({});
-
-
-    const attendanceData = {
-        '2024-01-01': { entry: '08:00', exit: '09:00' },
-        '2024-01-03': { entry: '09:00', exit: '10:00' },
-        '2024-01-04': { entry: '09:00', exit: '10:00' },
-    };
-
     const onDayPress = (day) => {
         setSelectedDate(day.dateString);
-        if (attendanceData[day.dateString]) {
-            setAttendanceInfo(attendanceData[day.dateString]);
+        const dayData = dayOff.find(
+            item => item.data_inicial <= day.dateString && item.data_final >= day.dateString
+        );
+        if (dayData) {
+            setAttendanceInfo({
+                entry: dayData.hora_inicial,
+                exit: dayData.hora_final
+            });
         } else {
             setAttendanceInfo({});
         }
     };
 
-    const markedDates = Object.keys(attendanceData).reduce((acc, date) => {
-        acc[date] = {
-            marked: true,
-            dotColor: '#e91e63',
-            ...(selectedDate === date && { selected: true, selectedColor: '#e91e63', selectedTextColor: '#fff' })
-        };
+    const markedDates = dayOff.reduce((acc, item) => {
+        const startDate = new Date(item.data_inicial);
+        const endDate = new Date(item.data_final);
+
+        for (let d = new Date(startDate); d <= endDate; d.setDate(d.getDate() + 1)) {
+            const dateStr = d.toISOString().split('T')[0];
+            if (d.getTime() === startDate.getTime()) {
+                acc[dateStr] = { startingDay: true, color: 'green' };
+            } else if (d.getTime() === endDate.getTime()) {
+                acc[dateStr] = { endingDay: true, color: 'green', textColor: 'gray' };
+            } else {
+                acc[dateStr] = { color: 'green' };
+            }
+        }
         return acc;
     }, {});
 
@@ -74,6 +84,10 @@ export function AusenciaProgramada() {
         };
     }
 
+    const handleAddAbsence = () => {
+        // Adicionar lógica para salvar a ausência programada
+        setModalVisible(false);
+    };
 
     return (
         <SafeAreaView className="flex-1 bg-[#082f49]">
@@ -87,59 +101,98 @@ export function AusenciaProgramada() {
             </View>
 
             <View className="p-5 h-4/5 w-full">
-
                 <Calendar
-                    // Marque a data atual
                     current={new Date().toISOString().split('T')[0]}
-                    // Chame uma função quando uma data é pressionada
                     onDayPress={onDayPress}
-                    // Personalize o estilo do calendário
                     markedDates={markedDates}
-
+                    markingType={'period'}
                     theme={{
-                        backgroundColor: '#000',
-                        calendarBackground: '#fff',
+                        backgroundColor: '#ffffff',
+                        calendarBackground: '#ffffff',
                         textSectionTitleColor: '#b6c1cd',
+                        textSectionTitleDisabledColor: '#d9e1e8',
                         selectedDayBackgroundColor: '#00adf5',
                         selectedDayTextColor: '#ffffff',
-                        todayTextColor: '#e91e63',
+                        todayTextColor: '#00adf5',
                         dayTextColor: '#2d4150',
                         textDisabledColor: '#d9e1e8',
                         dotColor: '#00adf5',
                         selectedDotColor: '#ffffff',
-                        arrowColor: '#FFA500',
-                        monthTextColor: '#0000ff',
+                        arrowColor: 'orange',
+                        disabledArrowColor: '#d9e1e8',
+                        monthTextColor: 'blue',
+                        indicatorColor: 'blue',
                         textDayFontFamily: 'monospace',
                         textMonthFontFamily: 'monospace',
                         textDayHeaderFontFamily: 'monospace',
-                        textDayFontWeight: '100',
-                        monthTextColor: '#000',
-                        // textMonthFontWeight: 'bold',
+                        textDayFontWeight: '300',
+                        textMonthFontWeight: 'bold',
                         textDayHeaderFontWeight: '300',
                         textDayFontSize: 16,
                         textMonthFontSize: 16,
                         textDayHeaderFontSize: 16
-                    }}
+                      }}
                 />
 
-                {/* <TouchableOpacity className="bg-blue-500 p-2 rounded-md">
-                    <Text>Adicionar Ausencia Programada</Text>
+                <TouchableOpacity className="bg-blue-500 p-2 rounded-md mt-4" onPress={() => setModalVisible(true)}>
+                    <Text className="text-white text-center">Adicionar Ausencia Programada</Text>
                 </TouchableOpacity>
 
-                <TouchableOpacity className="bg-blue-500 p-2 rounded-md">
-                    <Text>Editar Ausencia Programada</Text>
-                </TouchableOpacity> */}
-
-                <Text className="text-center font-bold text-white"> Dias Registrados</Text>
+                <Text className="text-center font-bold text-white mt-4">Dias Registrados</Text>
 
                 <FlatList
                     data={dayOff}
-                    keyExtractor={item => item.id}
+                    keyExtractor={item => item.id.toString()}
                     renderItem={renderItem}
                 />
 
+                <Modal
+                    animationType="slide"
+                    transparent={true}
+                    visible={modalVisible}
+                    onRequestClose={() => {
+                        setModalVisible(!modalVisible);
+                    }}>
+                    <View className="flex-1 justify-center items-center bg-gray-500 bg-opacity-50">
+                        <View className="bg-white p-5 rounded-lg w-4/5">
+                            <Text className="text-xl font-bold mb-4">Adicionar Ausencia Programada</Text>
+                            <TextInput
+                                className="border p-2"
+                                placeholder="Data Inicial"
+                                value={initialDate}
+                                onChangeText={setInitialDate}
+                            />
+                            <Text className="text-sm mb-4">Ex: '24/06/2024'</Text>
+                            <TextInput
+                                className="border p-2"
+                                placeholder="Data Final"
+                                value={finalDate}
+                                onChangeText={setFinalDate}
+                            />
+                            <Text className="text-sm mb-4">Ex: '26/06/2024 (valor maior que a data inicial)'</Text>
+                            <TextInput
+                                className="border p-2"
+                                placeholder="Hora Inicial"
+                                value={initialHour}
+                                onChangeText={setInitialHour}
+                            />
+                            <Text className="text-sm mb-4">Ex: '08:00'</Text>
+                            <TextInput
+                                className="border p-2"
+                                placeholder="Hora Final"
+                                value={finalHour}
+                                onChangeText={setFinalHour}
+                            />
+                            <Text className="text-sm mb-4">Ex: '09:00 (valor maior que o horario inicial)'</Text>
+                            <View className="flex-row justify-between">
+                                <Button title="Cancelar" onPress={() => setModalVisible(false)} />
+                                <Button title="Salvar" onPress={handleAddAbsence} />
+                            </View>
+                        </View>
+                    </View>
+                </Modal>
+
             </View>
         </SafeAreaView>
-    )
+    );
 }
-
