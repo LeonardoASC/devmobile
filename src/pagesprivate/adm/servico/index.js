@@ -5,6 +5,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 import Animated, { Easing, withSpring, useSharedValue, useAnimatedStyle, withTiming } from 'react-native-reanimated';
 import { useIsFocused } from '@react-navigation/native';
 import OpenDrawerButton from '../../../components/opendrawer';
+import { Feather } from '@expo/vector-icons';
 
 
 export function Servico({ navigation }) {
@@ -130,6 +131,12 @@ export function Servico({ navigation }) {
       </View>
 
       <View className="p-5 h-4/5">
+        <View className="bg-gray-200  flex flex-row gap-2 items-center justify-center rounded-xl mx-3 px-4 py-2">
+          <View className="pb-2">
+            <Feather name="alert-octagon" size={16} color="black" />
+          </View>
+          <Text className="text-xs pb-2 ">Certifique-se de revisar os serviços que serão disponibilizados ao cliente. Alterar frequentemente os serviços pode confundir seus clientes e impactar seus agendamentos.</Text>
+        </View>
         <FlatList
           data={name}
           keyExtractor={(item) => item.id}
