@@ -1,15 +1,17 @@
-import { View, Text, SafeAreaView, TouchableOpacity, Modal, TextInput, Button } from 'react-native';
+import { View, Text, SafeAreaView, TouchableOpacity, Modal, TextInput, Button, Alert } from 'react-native';
 import OpenDrawerButton from '../../../components/opendrawer';
 import api from '../../../services/api';
 import { FlatList } from 'react-native-gesture-handler';
 import { useEffect, useState } from 'react';
 import { Calendar } from 'react-native-calendars';
+import {MaterialIcons} from '@expo/vector-icons';
 
 export function AusenciaProgramada() {
     const [dayOff, setDayOff] = useState([]);
     const [selectedDate, setSelectedDate] = useState('');
     const [attendanceInfo, setAttendanceInfo] = useState({});
     const [modalVisible, setModalVisible] = useState(false);
+    const [modalUpdateVisible, setModalUpdateVisible] = useState(false);
     const [initialDate, setInitialDate] = useState('');
     const [finalDate, setFinalDate] = useState('');
     const [initialHour, setInitialHour] = useState('');
@@ -33,12 +35,28 @@ export function AusenciaProgramada() {
 
     const renderItem = ({ item }) => {
         return (
-            <View className="border">
-                <Text className="text-white">{item.id}</Text>
-                <Text className="text-white">{item.data_inicial}</Text>
-                <Text className="text-white">{item.data_final}</Text>
-                <Text className="text-white">{item.hora_inicial}</Text>
-                <Text className="text-white">{item.hora_final}</Text>
+            <View className="flex-row justify-between my-2">
+                <View className="">
+                    <Text className="text-white">{item.id}</Text>
+                    <Text className="text-white">Data Inicial: {item.data_inicial}</Text>
+                    <Text className="text-white">Data Final: {item.data_final}</Text>
+                    <Text className="text-white">Horario Inicial: {item.hora_inicial}</Text>
+                    <Text className="text-white">Horario Final: {item.hora_final}</Text>
+                </View>
+                <View className="flex-row items-center">
+                    <TouchableOpacity
+                        className=" p-2 rounded-lg mr-2 shadow-neu-inset"
+                        onPress={() => setModalUpdateVisible(true)}
+                    >
+                        <MaterialIcons name="edit" size={24} color="white" />
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                        className=" p-2 rounded-lg shadow-neu-inset"
+                        onPress={() => confirmDelete(item.id)}
+                    >
+                        <MaterialIcons name="delete" size={24} color="white" />
+                    </TouchableOpacity>
+                </View>
             </View>
         );
     }
@@ -84,10 +102,91 @@ export function AusenciaProgramada() {
         };
     }
 
-    const handleAddAbsence = () => {
-        // Adicionar lógica para salvar a ausência programada
-        setModalVisible(false);
+    const handleAddAbsence = async () => {
+        try {
+            const postData = {
+                data_inicial: initialDate,
+                data_final: finalDate,
+                hora_inicial: initialHour,
+                hora_final: finalHour
+            };
+            const response = await api.post('/horario-personalizado', postData);
+            if (response.status === 200 || response.status === 201) {
+                Alert.alert('Sucesso!', 'Ausência programada adicionada com sucesso.');
+                fetchTimes(); // Atualizar a lista após adicionar um novo horário
+                setModalVisible(false);
+                resetModalInputs();
+            } else {
+                Alert.alert('Erro!', 'Não foi possível adicionar a ausência programada.');
+            }
+        } catch (error) {
+            console.error("Erro ao adicionar ausência programada:", error);
+            Alert.alert('Erro!', 'Erro ao adicionar ausência programada.');
+        }
     };
+    
+    const resetModalInputs = () => {
+        setInitialDate('');
+        setFinalDate('');
+        setInitialHour('');
+        setFinalHour('');
+    };
+    
+    const deleteServico = async (id) => {
+        try {
+          const response = await api.delete(`/horario-personalizado/${id}`);
+          if (response.status === 200) {
+            Alert.alert('Sucesso!', 'Horário deletado com sucesso.');
+            fetchTimes(); // Atualizar a lista após deletar o horário
+          } else {
+            Alert.alert('Erro!', 'Erro ao deletar horário.');
+          }
+        } catch (error) {
+          console.error("Erro ao deletar horário:", error);
+          Alert.alert('Erro!', 'Erro ao deletar horário.');
+        }
+    };
+
+    const confirmDelete = (id) => {
+        Alert.alert(
+          'Confirmação',
+          'Tem certeza que deseja excluir este registro?',
+          [
+            {
+              text: 'Cancelar',
+              style: 'cancel'
+            },
+            {
+              text: 'Confirmar',
+              onPress: () => deleteServico(id)
+            }
+          ]
+        );
+    };
+
+    const handleUpdateAbsence = async (id) => {
+        try {
+            const updatedAbsence = {
+                data_inicial: initialDate,
+                data_final: finalDate,
+                hora_inicial: initialHour,
+                hora_final: finalHour
+            };
+    
+            const response = await api.put(`/horario-personalizado/${id}`, updatedAbsence);
+            if (response.status === 200) {
+                Alert.alert('Sucesso!', 'Ausência atualizada com sucesso.');
+                setModalUpdateVisible(false);
+                fetchTimes(); // Atualizar a lista após a atualização da ausência
+            } else {
+                Alert.alert('Erro!', 'Falha ao atualizar ausência.');
+            }
+        } catch (error) {
+            console.error("Erro ao atualizar ausência:", error);
+            Alert.alert('Erro!', 'Erro ao atualizar ausência.');
+        }
+    };
+    
 
     return (
         <SafeAreaView className="flex-1 bg-[#082f49]">
@@ -131,7 +230,7 @@ export function AusenciaProgramada() {
                         textDayFontSize: 16,
                         textMonthFontSize: 16,
                         textDayHeaderFontSize: 16
-                      }}
+                    }}
                 />
 
                 <TouchableOpacity className="bg-blue-500 p-2 rounded-md mt-4" onPress={() => setModalVisible(true)}>
@@ -152,6 +251,7 @@ export function AusenciaProgramada() {
                     visible={modalVisible}
                     onRequestClose={() => {
                         setModalVisible(!modalVisible);
+                        resetModalInputs();
                     }}>
                     <View className="flex-1 justify-center items-center bg-gray-500 bg-opacity-50">
                         <View className="bg-white p-5 rounded-lg w-4/5">
@@ -187,6 +287,53 @@ export function AusenciaProgramada() {
                             <View className="flex-row justify-between">
                                 <Button title="Cancelar" onPress={() => setModalVisible(false)} />
                                 <Button title="Salvar" onPress={handleAddAbsence} />
+                            </View>
+                        </View>
+                    </View>
+                </Modal>
+
+                <Modal
+                    animationType="slide"
+                    transparent={true}
+                    visible={modalUpdateVisible}
+                    onRequestClose={() => {
+                        setModalUpdateVisible(!modalVisible);
+                        resetModalInputs();
+                    }}>
+                    <View className="flex-1 justify-center items-center bg-gray-500 bg-opacity-50">
+                        <View className="bg-white p-5 rounded-lg w-4/5">
+                            <Text className="text-xl font-bold mb-4">Editar Ausencia Programada</Text>
+                            <TextInput
+                                className="border p-2"
+                                placeholder="Data Inicial"
+                                value={initialDate}
+                                onChangeText={setInitialDate}
+                            />
+                            <Text className="text-sm mb-4">Ex: '24/06/2024'</Text>
+                            <TextInput
+                                className="border p-2"
+                                placeholder="Data Final"
+                                value={finalDate}
+                                onChangeText={setFinalDate}
+                            />
+                            <Text className="text-sm mb-4">Ex: '26/06/2024 (valor maior que a data inicial)'</Text>
+                            <TextInput
+                                className="border p-2"
+                                placeholder="Hora Inicial"
+                                value={initialHour}
+                                onChangeText={setInitialHour}
+                            />
+                            <Text className="text-sm mb-4">Ex: '08:00'</Text>
+                            <TextInput
+                                className="border p-2"
+                                placeholder="Hora Final"
+                                value={finalHour}
+                                onChangeText={setFinalHour}
+                            />
+                            <Text className="text-sm mb-4">Ex: '09:00 (valor maior que o horario inicial)'</Text>
+                            <View className="flex-row justify-between">
+                                <Button title="Cancelar" onPress={() => setModalUpdateVisible(false)} />
+                                <Button title="Salvar" onPress={handleUpdateAbsence} />
                             </View>
                         </View>
                     </View>
