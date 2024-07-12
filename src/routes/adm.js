@@ -13,6 +13,8 @@ import { HorarioCreate } from "../pagesprivate/adm/horario/create"
 import { HorarioEdit } from "../pagesprivate/adm/horario/edit"
 
 import { AusenciaProgramada } from "../pagesprivate/adm/ausenciaprogramada"
+import { AusenciaProgramadaCreate } from "../pagesprivate/adm/ausenciaprogramada/create" 
+import { AusenciaProgramadaEdit } from "../pagesprivate/adm/ausenciaprogramada/edit"
 
 import { Servico } from "../pagesprivate/adm/servico"
 import { ServicoCreate } from "../pagesprivate/adm/servico/create";
@@ -57,6 +59,9 @@ function HomeStack() {
             {/* <Stack.Screen name="DiaCreate" component={DiaCreate} />
             <Stack.Screen name="DiaEdit" component={DiaEdit} /> */}
 
+            <Stack.Screen name="Ausencia Programada" component={AusenciaProgramada} />
+            <Stack.Screen name="AusenciaProgramadaCreate" component={AusenciaProgramadaCreate} />
+            <Stack.Screen name="AusenciaProgramadaEdit" component={AusenciaProgramadaEdit} />
 
 
             <Stack.Screen name="Servico" component={Servico} />
