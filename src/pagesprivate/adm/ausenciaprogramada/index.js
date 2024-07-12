@@ -96,14 +96,20 @@ export function AusenciaProgramada({ navigation }) {
                 <TouchableOpacity className="bg-white p-2 rounded-md mt-4" onPress={() => navigation.navigate('AusenciaProgramadaCreate')}>
                     <Text className="text-black text-center">Adicionar Ausencia Programada</Text>
                 </TouchableOpacity>
-
-                <Text className="text-center font-bold text-white mt-4">Dias Registrados</Text>
-
-                <FlatList
-                    data={dayOff}
-                    keyExtractor={item => item.id.toString()}
-                    renderItem={renderItem}
-                />
+                <View className="flex-row w-full justify-center items-center mt-4">
+                    <View className="bg-white h-0.5 w-[40%] "></View>
+                    <Text className="text-center font-bold text-white mx-4">Dias Registrados</Text>
+                    <View className="bg-white h-0.5 w-[40%] "></View>
+                </View>
+                {dayOff.length === 0 ? (
+                    <Text className="text-white text-center mt-10">Nenhum registro encontrado</Text>
+                ) : (
+                    <FlatList
+                        data={dayOff}
+                        keyExtractor={item => item.id.toString()}
+                        renderItem={renderItem}
+                    />
+                )}
             </View>
         </SafeAreaView>
     );

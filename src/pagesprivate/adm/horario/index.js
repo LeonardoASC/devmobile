@@ -83,31 +83,38 @@ export function Horario({ navigation }) {
           </View>
           <Text className="text-xs pb-2 ">Certifique-se de revisar os horarios de trabalho ativos antes de confirmar as alterações. Alterar frequentemente os horarios de trabalho pode confundir seus clientes e impactar seus agendamentos.</Text>
         </View>
-        <FlatList
-          className="flex-grow mt-5"
-          data={times}
-          keyExtractor={(item) => item.id.toString()}
-          renderItem={({ item }) => (
-            <View className="flex-row justify-between items-center mb-4 py-2 px-4  rounded-xl shadow-neu">
-              <Text className="text-white text-lg">{item.hora}</Text>
-              <View className="flex-row">
-                <TouchableOpacity
-                  className=" p-2 rounded-lg mr-2 shadow-neu-inset"
-                  onPress={() => navigation.navigate('HorarioEdit', { id: item.id })}
-                >
-                  <MaterialIcons name="edit" size={24} color="white" />
-                </TouchableOpacity>
-                <TouchableOpacity
-                  className=" p-2 rounded-lg shadow-neu-inset"
-                  onPress={() => confirmDelete(item.id)}
-                >
-                  <MaterialIcons name="delete" size={24} color="white" />
-                </TouchableOpacity>
+        {times.length === 0 ? (
+          <View className="h-4/5">
+            <Text className="text-white text-center mt-10">Nenhum horario encontrado</Text>
+          </View>
+        ) : (
+          <FlatList
+            className="flex-grow mt-5"
+            data={times}
+            keyExtractor={(item) => item.id.toString()}
+            renderItem={({ item }) => (
+              <View className="flex-row justify-between items-center mb-4 py-2 px-4  rounded-xl shadow-neu">
+                <Text className="text-white text-lg">{item.hora}</Text>
+                <View className="flex-row">
+                  <TouchableOpacity
+                    className=" p-2 rounded-lg mr-2 shadow-neu-inset"
+                    onPress={() => navigation.navigate('HorarioEdit', { id: item.id })}
+                  >
+                    <MaterialIcons name="edit" size={24} color="white" />
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    className=" p-2 rounded-lg shadow-neu-inset"
+                    onPress={() => confirmDelete(item.id)}
+                  >
+                    <MaterialIcons name="delete" size={24} color="white" />
+                  </TouchableOpacity>
+                </View>
               </View>
-            </View>
-          )}
-          contentContainerStyle={{ paddingBottom: 20 }}
-        />
+            )}
+            contentContainerStyle={{ paddingBottom: 20 }}
+          />
+        )}
+
 
         <TouchableOpacity
           className=" bg-white w-11/12 rounded-xl p-3 shadow-neu py-4 self-center mt-5"

@@ -67,29 +67,34 @@ export function Dia({ navigation }) {
           </View>
           <Text className="text-xs pb-2 ">Certifique-se de revisar os dias de trabalho ativos antes de confirmar as alterações. Alterar frequentemente os dias de trabalho pode confundir seus clientes e impactar seus agendamentos.</Text>
         </View>
-        <FlatList
-          className="flex-grow mt-5"
-          data={days}
-          keyExtractor={(item) => item.id.toString()}
-          renderItem={({ item }) => (
-            <View className="flex-row justify-between items-center mb-4 py-2 px-4 rounded-xl">
-              <View>
-                <Text className="text-white text-lg">{item.dia}</Text>
-                <Text className="text-white text-lg">{item.status}</Text>
+        {days.length === 0 ? (
+          <Text className="text-white text-center mt-10">Nenhum dia encontrado</Text>
+        ) : (
+          <FlatList
+            className="flex-grow mt-5"
+            data={days}
+            keyExtractor={(item) => item.id.toString()}
+            renderItem={({ item }) => (
+              <View className="flex-row justify-between items-center mb-4 py-2 px-4 rounded-xl">
+                <View>
+                  <Text className="text-white text-lg">{item.dia}</Text>
+                  <Text className="text-white text-lg">{item.status}</Text>
+                </View>
+                <View className="flex-row">
+                  <Switch
+                    trackColor={{ false: "#5e5d5e", true: "#afaeb0" }}
+                    thumbColor={item.status === 'ativo' ? "#f4f3f4" : "#afaeb0"}
+                    ios_backgroundColor="#3e3e3e"
+                    value={item.status === 'ativo'}
+                    onValueChange={() => toggleSwitch(item.id, item.status)}
+                  />
+                </View>
               </View>
-              <View className="flex-row">
-                <Switch
-                  trackColor={{ false: "#5e5d5e", true: "#afaeb0" }}
-                  thumbColor={item.status === 'ativo' ? "#f4f3f4" : "#afaeb0"}
-                  ios_backgroundColor="#3e3e3e"
-                  value={item.status === 'ativo'}
-                  onValueChange={() => toggleSwitch(item.id, item.status)}
-                />
-              </View>
-            </View>
-          )}
-          contentContainerStyle={{ paddingBottom: 20 }}
-        />
+            )}
+            contentContainerStyle={{ paddingBottom: 20 }}
+          />
+        )}
+
       </View>
     </SafeAreaView>
   );

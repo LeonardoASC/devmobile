@@ -16,11 +16,11 @@ const CalendarPersonalizado = ({ dayOff, onDaySelect }) => {
         for (let d = new Date(startDate); d <= endDate; d.setDate(d.getDate() + 1)) {
             const dateStr = d.toISOString().split('T')[0];
             if (d.getTime() === startDate.getTime()) {
-                acc[dateStr] = { startingDay: true, color: 'green' };
+                acc[dateStr] = { startingDay: true, color: '#e61919', textColor: 'white' };
             } else if (d.getTime() === endDate.getTime()) {
-                acc[dateStr] = { endingDay: true, color: 'green', textColor: 'gray' };
+                acc[dateStr] = { endingDay: true, color: '#e61919', textColor: 'white' };
             } else {
-                acc[dateStr] = { color: 'green' };
+                acc[dateStr] = { color: '#e61919', textColor: 'white' };
             }
         }
         return acc;
@@ -55,8 +55,8 @@ const CalendarPersonalizado = ({ dayOff, onDaySelect }) => {
                 selectedDotColor: '#ffffff',
                 arrowColor: 'orange',
                 disabledArrowColor: '#d9e1e8',
-                monthTextColor: 'blue',
-                indicatorColor: 'blue',
+                monthTextColor: '#1658c0',
+                indicatorColor: '#1658c0',
                 textDayFontFamily: 'monospace',
                 textMonthFontFamily: 'monospace',
                 textDayHeaderFontFamily: 'monospace',
