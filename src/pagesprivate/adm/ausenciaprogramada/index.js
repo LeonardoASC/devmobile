@@ -4,7 +4,7 @@ import api from '../../../services/api';
 import { FlatList } from 'react-native-gesture-handler';
 import { useEffect, useState } from 'react';
 import { Calendar } from 'react-native-calendars';
-import {MaterialIcons} from '@expo/vector-icons';
+import { MaterialIcons } from '@expo/vector-icons';
 
 export function AusenciaProgramada() {
     const [dayOff, setDayOff] = useState([]);
@@ -16,6 +16,7 @@ export function AusenciaProgramada() {
     const [finalDate, setFinalDate] = useState('');
     const [initialHour, setInitialHour] = useState('');
     const [finalHour, setFinalHour] = useState('');
+    const [selectedId, setSelectedId] = useState(null);
 
     useEffect(() => {
         fetchTimes();
@@ -25,7 +26,7 @@ export function AusenciaProgramada() {
         try {
             const response = await api.get('/horario-personalizado');
             if (response.data && response.data.length) {
-                console.log(response.data);
+                // console.log(response.data);
                 setDayOff(response.data);
             }
         } catch (error) {
@@ -45,13 +46,13 @@ export function AusenciaProgramada() {
                 </View>
                 <View className="flex-row items-center">
                     <TouchableOpacity
-                        className=" p-2 rounded-lg mr-2 shadow-neu-inset"
-                        onPress={() => setModalUpdateVisible(true)}
+                        className="p-2 rounded-lg mr-2 shadow-neu-inset"
+                        onPress={() => openUpdateModal(item)}
                     >
                         <MaterialIcons name="edit" size={24} color="white" />
                     </TouchableOpacity>
                     <TouchableOpacity
-                        className=" p-2 rounded-lg shadow-neu-inset"
+                        className="p-2 rounded-lg shadow-neu-inset"
                         onPress={() => confirmDelete(item.id)}
                     >
                         <MaterialIcons name="delete" size={24} color="white" />
@@ -59,7 +60,7 @@ export function AusenciaProgramada() {
                 </View>
             </View>
         );
-    }
+    };
 
     const onDayPress = (day) => {
         setSelectedDate(day.dateString);
@@ -124,56 +125,64 @@ export function AusenciaProgramada() {
             Alert.alert('Erro!', 'Erro ao adicionar ausência programada.');
         }
     };
-    
+
     const resetModalInputs = () => {
         setInitialDate('');
         setFinalDate('');
         setInitialHour('');
         setFinalHour('');
     };
-    
+
     const deleteServico = async (id) => {
         try {
-          const response = await api.delete(`/horario-personalizado/${id}`);
-          if (response.status === 200) {
-            Alert.alert('Sucesso!', 'Horário deletado com sucesso.');
-            fetchTimes(); // Atualizar a lista após deletar o horário
-          } else {
-            Alert.alert('Erro!', 'Erro ao deletar horário.');
-          }
+            const response = await api.delete(`/horario-personalizado/${id}`);
+            if (response.status === 200) {
+                Alert.alert('Sucesso!', 'Horário deletado com sucesso.');
+                fetchTimes(); // Atualizar a lista após deletar o horário
+            } else {
+                Alert.alert('Erro!', 'Erro ao deletar horário.');
+            }
         } catch (error) {
-          console.error("Erro ao deletar horário:", error);
-          Alert.alert('Erro!', 'Erro ao deletar horário.');
+            console.error("Erro ao deletar horário:", error);
+            Alert.alert('Erro!', 'Erro ao deletar horário.');
         }
     };
 
     const confirmDelete = (id) => {
         Alert.alert(
-          'Confirmação',
-          'Tem certeza que deseja excluir este registro?',
-          [
-            {
-              text: 'Cancelar',
-              style: 'cancel'
-            },
-            {
-              text: 'Confirmar',
-              onPress: () => deleteServico(id)
-            }
-          ]
+            'Confirmação',
+            'Tem certeza que deseja excluir este registro?',
+            [
+                {
+                    text: 'Cancelar',
+                    style: 'cancel'
+                },
+                {
+                    text: 'Confirmar',
+                    onPress: () => deleteServico(id)
+                }
+            ]
         );
     };
+    const openUpdateModal = (item) => {
+        setSelectedId(item.id);
+        setInitialDate(item.data_inicial);
+        setFinalDate(item.data_final);
+        setInitialHour(item.hora_inicial);
+        setFinalHour(item.hora_final);
+        setModalUpdateVisible(true);
+    };
 
-    const handleUpdateAbsence = async (id) => {
+    const handleUpdateAbsence = async () => {
         try {
             const updatedAbsence = {
                 data_inicial: initialDate,
                 data_final: finalDate,
                 hora_inicial: initialHour,
-                hora_final: finalHour
+                hora_final: finalHour,
+                _method: 'PUT'
             };
-    
-            const response = await api.put(`/horario-personalizado/${id}`, updatedAbsence);
+            const response = await api.put(`/horario-personalizado/${selectedId}`, updatedAbsence);
             if (response.status === 200) {
                 Alert.alert('Sucesso!', 'Ausência atualizada com sucesso.');
                 setModalUpdateVisible(false);
@@ -182,11 +191,19 @@ export function AusenciaProgramada() {
                 Alert.alert('Erro!', 'Falha ao atualizar ausência.');
             }
         } catch (error) {
-            console.error("Erro ao atualizar ausência:", error);
-            Alert.alert('Erro!', 'Erro ao atualizar ausência.');
+            if (error.response && error.response.status === 422) {
+                let errorMessage = 'Erros de validação:\n';
+                for (let field in error.response.data.errors) {
+                    errorMessage += error.response.data.errors[field].join('\n');
+                }
+                alert(errorMessage);
+            } else {
+                console.error("Erro na requisição:", error);
+                alert('Ocorreu um erro. Tente novamente mais tarde.');
+            }
         }
     };
-    
+
 
     return (
         <SafeAreaView className="flex-1 bg-[#082f49]">
@@ -299,7 +316,8 @@ export function AusenciaProgramada() {
                     onRequestClose={() => {
                         setModalUpdateVisible(!modalVisible);
                         resetModalInputs();
-                    }}>
+                    }}
+                >
                     <View className="flex-1 justify-center items-center bg-gray-500 bg-opacity-50">
                         <View className="bg-white p-5 rounded-lg w-4/5">
                             <Text className="text-xl font-bold mb-4">Editar Ausencia Programada</Text>
