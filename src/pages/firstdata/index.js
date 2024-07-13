@@ -307,7 +307,8 @@ export function FirstData({ route, navigation }) {
         </View>
         {/* Botão de confirmação */}
         <TouchableOpacity
-          onPress={handleSubmit}
+          // onPress={handleSubmit}
+          onPress={() => handleSubmit()} 
           className="flex flex-row items-center mt-4 bg-white w-3/5 p-3 rounded-lg shadow-black justify-between"
         >
           <Text className="text-black">Agendar</Text>
