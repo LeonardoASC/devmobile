@@ -28,7 +28,6 @@ export function MeusAgendamentos({ navigation }) {
             }
         };
 
-        // Só busca os agendamentos se tivermos um userInfo definido
         if (userInfo && userInfo.id) {
             fetchAgendamentos();
         }
@@ -63,10 +62,16 @@ export function MeusAgendamentos({ navigation }) {
 
     return (
         <SafeAreaView className="flex-1 bg-[#082f49]">
-            <OpenDrawerButton />
             <View className="h-screen items-center justify-center">
                 <View className="mt-20 items-center justify-center">
-                    <Text className="font-bold text-xl text-white">Meus Agendamentos</Text>
+                    <View className="flex-row">
+                        <View className="right-4">
+                            <OpenDrawerButton />
+                        </View>
+
+                        <Text className="font-bold text-xl text-white">Meus Agendamentos</Text>
+                    </View>
+
                     {loading ? (
                         <LoadingComponent width={100} height={100} />
                     ) : (
