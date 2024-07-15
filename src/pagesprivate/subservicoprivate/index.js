@@ -3,6 +3,7 @@ import { View, Text, FlatList, SafeAreaView, TouchableOpacity, Alert, Image } fr
 import api from '../../services/api';
 import { MaterialIcons, Feather, MaterialCommunityIcons } from '@expo/vector-icons';
 import LoadingComponent from "../../components/loadingcomponent";
+import { API_BASE_URL } from "../../services/baseURL";
 
 export function SubServicoPrivate({ route, navigation }) {
   
@@ -17,9 +18,15 @@ export function SubServicoPrivate({ route, navigation }) {
     const fetchSubServicos = async () => {
       try {
         setLoading(true);
+        const baseURL = API_BASE_URL + '/storage/';
         const response = await api.get('/subservico');
         if (response.data && response.data.length) {
-          const filteredSubServices = response.data.filter(subService => subService.servico_id === serviceId);
+          const filteredSubServices = response.data
+          .filter(subService => subService.servico_id === serviceId)
+          .map(subService => ({
+            ...subService,
+            imagem: baseURL + subService.imagem
+          }));
           setSubServices(filteredSubServices);
         }
       } catch (error) {
