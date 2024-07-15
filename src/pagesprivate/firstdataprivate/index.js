@@ -108,8 +108,8 @@ export function FirstDataPrivate({ route, navigation }) {
       // Set the unique inactive dates
       inactiveDates = Array.from(new Set(inactiveDates));
 
-      console.log('Inactive day codes:', inactiveDayCodes);
-      console.log('Inactive dates:', inactiveDates);
+      // console.log('Inactive day codes:', inactiveDayCodes);
+      // console.log('Inactive dates:', inactiveDates);
 
       // Here you would set the state for inactive days and dates separately if needed
       setInactiveDays({ dayCodes: inactiveDayCodes, dates: inactiveDates });

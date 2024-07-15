@@ -13,20 +13,16 @@ import { AuthContext } from '../context/AuthContext';
 export function Routes() {
   const { userToken } = useContext(AuthContext);
   const { userInfo } = useContext(AuthContext);
- 
+
 
   return (
     <NavigationContainer>
       <StatusBar />
       {
-        userToken ? (userInfo && userInfo.email === 'admin@adm.com' ? <Adm />
-          :
-          <Private />
-        )
-          :
-          (
-            <Public />
-          )
+        userToken ?
+          (userInfo && userInfo.email === 'admin@adm.com' ? <Adm /> : <Private />)
+            :
+          (<Public />)
       }
 
     </NavigationContainer>

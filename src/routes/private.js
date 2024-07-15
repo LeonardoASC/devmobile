@@ -44,9 +44,10 @@ export function Private() {
       screenOptions={{
         headerShown: false,
         drawerActiveBackgroundColor: 'white',
+        drawerInactiveTintColor: '#f0f8ff',
         drawerActiveTintColor: 'black',
         drawerStyle: {
-          backgroundColor: 'white', // Cor de fundo que você deseja
+          backgroundColor: 'white',
         }
       }}
       drawerContent={props => <CustomDrawerContent {...props} />}
